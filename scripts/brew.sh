@@ -71,7 +71,7 @@ formulae=(
 # Install formulae
 for formula in $formulae ; do
 	echo $formula
-	# brew install $formula
+	brew install $formula
 done
 
 typeset -U casks
@@ -101,7 +101,7 @@ casks=(
 # Install casks
 for cask in $casks; do
 	echo $cask
-	# brew cask install $cask
+	brew cask install $cask
 done
 
 # Install useful taps
