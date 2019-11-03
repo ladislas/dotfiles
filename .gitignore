@@ -35,3 +35,4 @@ Temporary Items
 .zcompdump*
 .zcompcache
 .zhistory
+.zsh_history
