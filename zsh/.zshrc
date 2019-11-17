@@ -34,6 +34,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
 
 	# Ruby
 	lpath+="/usr/local/opt/ruby/bin"
+	lpath+="/usr/local/lib/ruby/gems/2.6.0/bin"
 
 	# Python
 	lpath+="/usr/local/opt/python/libexec/bin"
@@ -142,6 +143,11 @@ alias gst='git status'
 
 # Git flow
 alias gf='git-flow'
+
+# Gem
+alias gi='gem install --no-document'
+alias gu='gem update --no-document'
+alias gem-update='gu'
 
 # Miscs
 alias qq='exit'
