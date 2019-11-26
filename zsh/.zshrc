@@ -26,7 +26,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
 		alias ls="${aliases[ls]:-ls} --group-directories-first --color=auto"
 	fi
 
-  	# GNU Tar
+	# GNU Tar
 	lpath+="/usr/local/opt/gnu-tar/libexec/gnubin"
 
 	# GNU Find
@@ -92,11 +92,11 @@ fi
 # https://github.com/ladislas/prezto/blob/master/runcoms/zlogin
 # Execute code that does not affect the current session in the background.
 {
-  # Compile the completion dump to increase startup speed.
-  zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
-  if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
-    zcompile "$zcompdump"
-  fi
+	# Compile the completion dump to increase startup speed.
+	zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
+	if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
+		zcompile "$zcompdump"
+	fi
 } &!
 
 #
