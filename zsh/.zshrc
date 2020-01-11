@@ -68,7 +68,6 @@ fi
 . $ZMODULESDIR/history-substring-search.zsh
 . $ZMODULESDIR/prompt.zsh
 
-
 #
 # Completions, zcompdump & compinit
 #
@@ -172,7 +171,6 @@ function deep-profile {
 #
 # Plugins - late installs
 #
-
 
 # ️⚠️ Uncomment to profile
 # might need that later https://github.com/benvan/sandboxd

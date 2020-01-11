@@ -14,6 +14,11 @@ if [ -d /usr/local/share/zsh-completions ] ; then
 	fpath=(/usr/local/share/zsh-completions $fpath)
 fi
 
+# Add local completions to $fpath
+if [ -d $ZDOTDIR/completions ] ; then
+	fpath=($ZDOTDIR/completions $fpath)
+fi
+
 #
 # Options
 #
