@@ -13,9 +13,16 @@
 # Helpers
 #
 
-function echo_and_run {
-	echo "$@"
+function try {
+	cmd="$@"
+	echo ""
+	echo "Running \"$cmd\" ..."
 	$@
+	if [ $? -eq 0 ]; then
+		echo "Running \"$cmd\" ... ✅"
+	else
+		echo "Running \"$cmd\" ... ❌"
+	fi
 }
 
 function run_script {
@@ -32,7 +39,7 @@ function run_script {
 #
 
 arg_array=($@)
-available_args=("--hello" "--macos" "--brew" "--zsh" "--git" "--symlink")
+available_args=("--hello" "--macos" "--brew" "--zsh" "--git" "--symlink" "--nvim" "--dev")
 
 #
 # Check if arguments have been passed
@@ -112,7 +119,9 @@ fi
 
 if [[ "$@" =~ "--zsh" ]]; then
 	echo "Running zsh configuration script"
-	ln -s $PWD/symlink/.zshenv $HOME/.zshenv
+	ln -sf $PWD/symlink/.zshenv $HOME/.zshenv
+	mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}
+	ln -sf $PWD/zsh ${XDG_CONFIG_HOME:-$HOME/.config}/
 fi
 
 #
@@ -122,4 +131,15 @@ fi
 if [[ "$@" =~ "--git" ]]; then
 	echo "Running git configuration script"
 	ln -s $PWD/git ${XDG_CONFIG_HOME:-$HOME/.config}/
+fi
+
+#
+# neovim
+#
+
+if [[ "$@" =~ "--nvim" ]]; then
+	echo "Running neovim configuration"
+	git clone --recursive https://github.com/ladislas/nvim ~/.config/nvim
+	# try ls -a -l ~/.config
+	# try falsecommand
 fi
