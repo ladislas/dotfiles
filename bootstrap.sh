@@ -30,7 +30,7 @@ function try {
 #
 
 arg_array=($@)
-available_args=("--hello" "--macos" "--brew" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data")
+available_args=("--hello" "--macos" "--brew" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--gem-pip")
 
 #
 # Check if arguments have been passed
@@ -159,3 +159,13 @@ if [[ "$@" =~ "--dev" ]]; then
 	try mkdir -p $HOME/dev/{ladislas,leka,osx-cross,tmp}
 fi
 
+#
+# Install gems and pip packages
+#
+
+if [[ "$@" =~ "--gem-pip" ]]; then
+	echo "Install useful gems and pip packages"
+	try gem install --no-document cocoapods fastlane neovim
+	try pip install -U --user mbed-cli pyserial neovim
+	try npm install -g neovim
+fi
