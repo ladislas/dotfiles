@@ -30,7 +30,9 @@ function try {
 #
 
 arg_array=($@)
-available_args=("--hello" "--macos" "--brew" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--gem-pip")
+command_args=("--all" "--force")
+script_args=("--hello" "--macos" "--brew" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--gem-pip")
+available_args=( ${command_args[*]} ${script_args[*]} )
 
 #
 # Check if arguments have been passed
@@ -41,6 +43,26 @@ if [ ${#arg_array[@]} -eq 0 ]; then
 	echo "Please try again with one of those: $available_args"
 	return 1
 fi
+
+#
+# Check if --all argument has been passed
+#
+
+if [[ "$@" =~ "--all" ]]; then
+	echo "⚠️  You are about to run all the scripts. Please confirm that you have read\nthe source files and are okay with that. Unexepected behaviors can occur!"
+	echo ""
+	if [[ ! "$@" =~ "--force" ]]; then
+		read "?Are you sure you want to continue? "
+		if [[ ! $REPLY =~ ^[Yy]$ ]]
+		then
+			[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
+		fi
+	fi
+
+	arg_array=$available_args
+fi
+
+
 
 #
 # Check if all arguments exist, if not exit
@@ -70,7 +92,14 @@ fi
 #
 
 if [[ "$@" =~ "--hello" ]]; then
-	try echo "Hello, World!"
+	echo "Hello, World!"
+	if [[ ! "$@" =~ "--force" ]]; then
+		read "?Are you sure you want to continue? "
+		if [[ ! $REPLY =~ ^[Yy]$ ]]
+		then
+			[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
+		fi
+	fi
 	try ls -al $HOME
 	try ls -al $HOME/null
 fi
