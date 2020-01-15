@@ -30,7 +30,7 @@ function try {
 #
 
 arg_array=($@)
-available_args=("--hello" "--macos" "--brew" "--zsh" "--git" "--symlink" "--nvim" "--dev")
+available_args=("--hello" "--macos" "--brew" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data")
 
 #
 # Check if arguments have been passed
@@ -138,4 +138,14 @@ fi
 if [[ "$@" =~ "--nvim" ]]; then
 	echo "Running neovim configuration"
 	git clone --recursive https://github.com/ladislas/nvim ~/.config/nvim
+fi
+
+#
+# data
+#
+
+if [[ "$@" =~ "--data" ]]; then
+	echo "Running XGD Data configuration"
+	try mkdir -p ${XDG_DATA_HOME:-$HOME/.local/share}
+	try ln -sr ./data/* ${XDG_DATA_HOME:-$HOME/.local/share}
 fi
