@@ -49,9 +49,9 @@ fi
 #
 
 if [[ "$arg_array" =~ "--all" ]]; then
-	echo "⚠️  You are about to run all the scripts. Please confirm that you have read\nthe source files and are okay with that. Unexepected behaviors can occur!"
 	echo ""
 	if [[ ! "$arg_array" =~ "--force" ]]; then
+		echo "⚠️  You are about to run all the scripts. Please confirm that you have read\nthe source files and are okay with that. Unexepected behaviors can occur!"
 		read "?Are you sure you want to continue? "
 		if [[ ! $REPLY =~ ^[Yy]$ ]]
 		then
@@ -59,6 +59,7 @@ if [[ "$arg_array" =~ "--all" ]]; then
 		fi
 	fi
 
+	echo "⚠️  Running all install scripts!"
 	arg_array=($script_args)
 fi
 
@@ -93,15 +94,15 @@ fi
 
 if [[ "$arg_array" =~ "--hello" ]]; then
 	echo "Hello, World!"
-	if [[ ! "$arg_array" =~ "--force" ]]; then
-		read "?Are you sure you want to continue? "
-		if [[ ! $REPLY =~ ^[Yy]$ ]]
-		then
-			[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
-		fi
-	fi
-	try ls -al $HOME
-	try ls -al $HOME/null
+	# if [[ ! "$arg_array" =~ "--force" ]]; then
+	# 	read "?Are you sure you want to continue? "
+	# 	if [[ ! $REPLY =~ ^[Yy]$ ]]
+	# 	then
+	# 		[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
+	# 	fi
+	# fi
+	# try ls -al $HOME
+	# try ls -al $HOME/null
 fi
 
 #
