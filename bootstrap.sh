@@ -25,15 +25,6 @@ function try {
 	fi
 }
 
-function run_script {
-	if [[ "$arg_array" =~ "--$1" ]]; then
-	shift
-	echo $1
-	shift
-	echo_and_run $@
-	fi
-}
-
 #
 # Arguments
 #
@@ -78,12 +69,11 @@ fi
 # Hello, World! -- test argument
 #
 
-# if [[ "$@" =~ "--hello" ]]; then
-# 	echo "Hello, World!"
-# 	echo_and_run ls -al $HOME
-# fi
-
-run_script "hello" "Hello, World!" ls -al $HOME
+if [[ "$@" =~ "--hello" ]]; then
+	try echo "Hello, World!"
+	try ls -al $HOME
+	try ls -al $HOME/null
+fi
 
 #
 # macOS
@@ -140,6 +130,4 @@ fi
 if [[ "$@" =~ "--nvim" ]]; then
 	echo "Running neovim configuration"
 	git clone --recursive https://github.com/ladislas/nvim ~/.config/nvim
-	# try ls -a -l ~/.config
-	# try falsecommand
 fi
