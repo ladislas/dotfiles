@@ -30,9 +30,10 @@ function try {
 #
 
 arg_array=($@)
-command_args=("--all" "--force")
-script_args=("--hello" "--macos" "--brew" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--gem-pip")
-available_args=( ${command_args[*]} ${script_args[*]} )
+main_commands=("--all" "--force" "--test")
+script_commands=("--hello" "--macos" "--brew" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--gem-pip")
+available_args=( ${main_commands[*]} ${script_commands[*]} )
+test_commands=("--hello" "--macos"  "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--gem-pip")
 
 #
 # Check if arguments have been passed
@@ -45,7 +46,7 @@ if [ ${#arg_array[@]} -eq 0 ]; then
 fi
 
 #
-# Check if --all argument has been passed
+# Run everything with --all
 #
 
 if [[ "$arg_array" =~ "--all" ]]; then
@@ -60,10 +61,18 @@ if [[ "$arg_array" =~ "--all" ]]; then
 	fi
 
 	echo "⚠️  Running all install scripts!"
-	arg_array=($script_args)
+	arg_array=($script_commands)
 fi
 
 
+#
+# Test scripts
+#
+
+if [[ "$arg_array" =~ "--test" ]]; then
+	echo "⚠️  Running all scripts except --brew for testing!"
+	arg_array=($test_commands)
+fi
 
 #
 # Check if all arguments exist, if not exit
