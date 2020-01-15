@@ -174,7 +174,7 @@ fi
 if [[ "$arg_array" =~ "--git" ]]; then
 	echo ""
 	echo "👷 Running git configuration script 🚧"
-	ln -sr ./git ${XDG_CONFIG_HOME:-$HOME/.config}/
+	try ln -sr ./git ${XDG_CONFIG_HOME:-$HOME/.config}/
 fi
 
 #
@@ -184,7 +184,7 @@ fi
 if [[ "$arg_array" =~ "--nvim" ]]; then
 	echo ""
 	echo "👷 Running neovim configuration script 🚧"
-	git clone --recursive https://github.com/ladislas/nvim ~/.config/nvim
+	try git clone --recursive https://github.com/ladislas/nvim ~/.config/nvim
 fi
 
 #
