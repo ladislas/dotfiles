@@ -117,9 +117,9 @@ if [[ "$@" =~ "--zsh" ]]; then
 
 	try chmod go-w '/usr/local/share'
 
-	try ln -sf $PWD/symlink/.zshenv $HOME/.zshenv
+	try ln -sr ./symlink/.zshenv $HOME/.zshenv
 	try mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}
-	try ln -sf $PWD/zsh ${XDG_CONFIG_HOME:-$HOME/.config}/
+	try ln -sr ./zsh ${XDG_CONFIG_HOME:-$HOME/.config}/
 fi
 
 #
@@ -128,7 +128,7 @@ fi
 
 if [[ "$@" =~ "--git" ]]; then
 	echo "Running git configuration script"
-	ln -s $PWD/git ${XDG_CONFIG_HOME:-$HOME/.config}/
+	ln -sr ./git ${XDG_CONFIG_HOME:-$HOME/.config}/
 fi
 
 #
@@ -149,3 +149,13 @@ if [[ "$@" =~ "--data" ]]; then
 	try mkdir -p ${XDG_DATA_HOME:-$HOME/.local/share}
 	try ln -sr ./data/* ${XDG_DATA_HOME:-$HOME/.local/share}
 fi
+
+#
+# dev directory structure
+#
+
+if [[ "$@" =~ "--dev" ]]; then
+	echo "Running dev directory structure configuration"
+	try mkdir -p $HOME/dev/{ladislas,leka,osx-cross,tmp}
+fi
+
