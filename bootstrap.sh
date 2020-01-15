@@ -19,9 +19,9 @@ function try {
 	echo "Running \"$cmd\" ..."
 	$@
 	if [ $? -eq 0 ]; then
-		echo "Running \"$cmd\" ... ✅\n"
+		echo "Running \"$cmd\" ... ✅"
 	else
-		echo "Running \"$cmd\" ... ❌\n"
+		echo "Running \"$cmd\" ... ❌"
 	fi
 }
 
@@ -35,7 +35,7 @@ arg_array=($@)
 main_commands=("--all" "--force" "--test")
 script_commands=("--hello" "--macos" "--brew" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--gem-pip")
 available_args=( ${main_commands[*]} ${script_commands[*]} )
-test_commands=("--hello" "--macos"  "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--gem-pip")
+test_commands=("--macos"  "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data")
 
 #
 # Check if arguments have been passed
@@ -72,7 +72,7 @@ fi
 #
 
 if [[ "$arg_array" =~ "--test" ]]; then
-	echo "⚠️  Running all scripts except --brew for testing!"
+	echo "⚠️  Running all scripts except --brew, --gem-pip for testing!"
 	arg_array=($test_commands)
 fi
 
@@ -82,7 +82,7 @@ fi
 
 for arg in $arg_array; do
 	if [[ ! " ${available_args[@]} " =~ " ${arg} " ]]; then
-		echo "⚠️  Unrecognized argument: $arg"
+		echo "💥  Unrecognized argument: $arg"
 		echo "Please try again with one of those: $available_args"
 		return 1
 	fi
@@ -123,7 +123,7 @@ fi
 
 if [[ "$arg_array" =~ "--macos" ]]; then
 	echo ""
-	echo "Running macOS configuration script"
+	echo "👷 Running macOS configuration script 🚧"
 
 	# Set macOS defaults
 	zsh ./scripts/macos.sh
@@ -135,7 +135,7 @@ fi
 
 if [[ "$arg_array" =~ "--brew" ]]; then
 	echo ""
-	echo "Running brew configuration script"
+	echo "👷 Running brew configuration script 🚧"
 
 	zsh ./scripts/brew.sh
 fi
@@ -146,7 +146,7 @@ fi
 
 if [[ "$arg_array" =~ "--zsh" ]]; then
 	echo ""
-	echo "Running zsh configuration script"
+	echo "👷 Running zsh configuration script 🚧"
 
 	# Switch to using brew-installed zsh as default shell
 	if ! fgrep -q "${BREW_PREFIX}/bin/zsh" /etc/shells; then
@@ -173,7 +173,7 @@ fi
 
 if [[ "$arg_array" =~ "--git" ]]; then
 	echo ""
-	echo "Running git configuration script"
+	echo "👷 Running git configuration script 🚧"
 	ln -sr ./git ${XDG_CONFIG_HOME:-$HOME/.config}/
 fi
 
@@ -183,7 +183,7 @@ fi
 
 if [[ "$arg_array" =~ "--nvim" ]]; then
 	echo ""
-	echo "Running neovim configuration"
+	echo "👷 Running neovim configuration script 🚧"
 	git clone --recursive https://github.com/ladislas/nvim ~/.config/nvim
 fi
 
@@ -193,7 +193,7 @@ fi
 
 if [[ "$arg_array" =~ "--data" ]]; then
 	echo ""
-	echo "Running XGD Data configuration"
+	echo "👷 Running XGD Data configuration script 🚧"
 	try mkdir -p ${XDG_DATA_HOME:-$HOME/.local/share}
 	try ln -sr ./data/* ${XDG_DATA_HOME:-$HOME/.local/share}
 fi
@@ -204,7 +204,7 @@ fi
 
 if [[ "$arg_array" =~ "--dev" ]]; then
 	echo ""
-	echo "Running dev directory structure configuration"
+	echo "👷 Running dev directory structure configuration script 🚧"
 	try mkdir -p $HOME/dev/{ladislas,leka,osx-cross,tmp}
 fi
 
@@ -214,7 +214,7 @@ fi
 
 if [[ "$arg_array" =~ "--gem-pip" ]]; then
 	echo ""
-	echo "Install useful gems and pip packages"
+	echo "👷 Installing useful gems, pip & node packages 🚧"
 	try gem install --no-document cocoapods fastlane neovim
 	try pip install -U --user mbed-cli pyserial neovim
 	try npm install -g neovim
