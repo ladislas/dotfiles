@@ -33,17 +33,23 @@ formulae=(
 	zsh-syntax-highlighting
 	zsh-history-substring-search
 
+	# Brew
+	brew-cask-completion
+
 	# Install git & co.
 	git
 	hub
 	git-lfs
 	git-flow-avh
+	mercurial
 
-	# Install wget
+	# Install wget & curl
 	wget
+	curl
 
 	# Install GnuPG to enable PGP-signing commits.
-	gnupg
+	# gnupg
+	# pinentry
 
 	# Install scripting languagues
 	node
@@ -56,15 +62,20 @@ formulae=(
 	make
 	cmake
 	screen
-	openssh
+	epenssh
 
 	# Install other useful binaries.
 	ack
+	mint
 	tree
-	mackup
+	# mackup
 	neovim
 	pandoc
 	rename
+	stlink
+	swiftlint
+	imagemagick
+	youtube-dl
 	the_silver_searcher
 )
 
