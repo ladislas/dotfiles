@@ -19,9 +19,9 @@ function try {
 	echo "Running \"$cmd\" ..."
 	$@
 	if [ $? -eq 0 ]; then
-		echo "Running \"$cmd\" ... ✅"
+		echo "Running \"$cmd\" ... ✅\n"
 	else
-		echo "Running \"$cmd\" ... ❌"
+		echo "Running \"$cmd\" ... ❌\n"
 	fi
 }
 
@@ -102,6 +102,7 @@ fi
 #
 
 if [[ "$arg_array" =~ "--hello" ]]; then
+	echo ""
 	echo "Hello, World!"
 	# if [[ ! "$arg_array" =~ "--force" ]]; then
 	# 	read "?Are you sure you want to continue? "
@@ -119,6 +120,7 @@ fi
 #
 
 if [[ "$arg_array" =~ "--macos" ]]; then
+	echo ""
 	echo "Running macOS configuration script"
 
 	# Set macOS defaults
@@ -130,6 +132,7 @@ fi
 #
 
 if [[ "$arg_array" =~ "--brew" ]]; then
+	echo ""
 	echo "Running brew configuration script"
 
 	zsh ./scripts/brew.sh
@@ -140,6 +143,7 @@ fi
 #
 
 if [[ "$arg_array" =~ "--zsh" ]]; then
+	echo ""
 	echo "Running zsh configuration script"
 
 	# Switch to using brew-installed zsh as default shell
@@ -166,6 +170,7 @@ fi
 #
 
 if [[ "$arg_array" =~ "--git" ]]; then
+	echo ""
 	echo "Running git configuration script"
 	ln -sr ./git ${XDG_CONFIG_HOME:-$HOME/.config}/
 fi
@@ -175,6 +180,7 @@ fi
 #
 
 if [[ "$arg_array" =~ "--nvim" ]]; then
+	echo ""
 	echo "Running neovim configuration"
 	git clone --recursive https://github.com/ladislas/nvim ~/.config/nvim
 fi
@@ -184,6 +190,7 @@ fi
 #
 
 if [[ "$arg_array" =~ "--data" ]]; then
+	echo ""
 	echo "Running XGD Data configuration"
 	try mkdir -p ${XDG_DATA_HOME:-$HOME/.local/share}
 	try ln -sr ./data/* ${XDG_DATA_HOME:-$HOME/.local/share}
@@ -194,6 +201,7 @@ fi
 #
 
 if [[ "$arg_array" =~ "--dev" ]]; then
+	echo ""
 	echo "Running dev directory structure configuration"
 	try mkdir -p $HOME/dev/{ladislas,leka,osx-cross,tmp}
 fi
@@ -203,6 +211,7 @@ fi
 #
 
 if [[ "$arg_array" =~ "--gem-pip" ]]; then
+	echo ""
 	echo "Install useful gems and pip packages"
 	try gem install --no-document cocoapods fastlane neovim
 	try pip install -U --user mbed-cli pyserial neovim
