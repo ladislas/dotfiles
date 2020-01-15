@@ -93,14 +93,7 @@ fi
 if [[ "$@" =~ "--brew" ]]; then
 	echo "Running brew configuration script"
 
-	# Install formulae & casks
 	zsh ./scripts/brew.sh
-
-	# Switch to using brew-installed zsh as default shell
-	# if ! fgrep -q "${BREW_PREFIX}/bin/zsh" /etc/shells; then
-	#   echo "${BREW_PREFIX}/bin/zsh" | sudo tee -a /etc/shells;
-	#   chsh -s "${BREW_PREFIX}/bin/zsh";
-	# fi;
 fi
 
 #
@@ -109,9 +102,24 @@ fi
 
 if [[ "$@" =~ "--zsh" ]]; then
 	echo "Running zsh configuration script"
-	ln -sf $PWD/symlink/.zshenv $HOME/.zshenv
-	mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}
-	ln -sf $PWD/zsh ${XDG_CONFIG_HOME:-$HOME/.config}/
+
+	# Switch to using brew-installed zsh as default shell
+	if ! fgrep -q "${BREW_PREFIX}/bin/zsh" /etc/shells; then
+		echo ""
+		echo "Setting brew zsh as default shell"
+		try echo "${BREW_PREFIX}/bin/zsh" | sudo tee -a /etc/shells;
+		try chsh -s "${BREW_PREFIX}/bin/zsh";
+	fi;
+
+	try rm -f ~/.zcompdump
+	try rm -f ./zsh/.zcompdump
+	try rm -f ./zsh/.zcompdump.zwc
+
+	try chmod go-w '/usr/local/share'
+
+	try ln -sf $PWD/symlink/.zshenv $HOME/.zshenv
+	try mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}
+	try ln -sf $PWD/zsh ${XDG_CONFIG_HOME:-$HOME/.config}/
 fi
 
 #

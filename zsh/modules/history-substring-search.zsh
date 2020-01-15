@@ -8,6 +8,11 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
+# Load module files.
+if [ -f /usr/local/share/zsh-history-substring-search/zsh-history-substring-search.zsh ] ; then
+	source /usr/local/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+fi
+
 #
 # Search
 #
