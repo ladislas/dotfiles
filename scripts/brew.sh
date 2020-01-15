@@ -106,11 +106,11 @@ for cask in $casks; do
 done
 
 # Install useful taps
-# brew tap ArmMbed/homebrew-formulae
-# brew install arm-none-eabi-gcc
-# brew tap osx-cross/avr
-# brew install avr-gcc
-# brew install avrdude
+brew tap osx-cross/arm
+brew install arm-gcc-bin
+brew tap osx-cross/avr
+brew install avr-gcc
+brew install avrdude
 
 # Remove outdated versions from the cellar.
 brew cleanup
