@@ -59,7 +59,7 @@ if [[ "$@" =~ "--all" ]]; then
 		fi
 	fi
 
-	arg_array=$available_args
+	arg_array=($script_args)
 fi
 
 
