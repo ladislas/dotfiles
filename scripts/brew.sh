@@ -80,17 +80,18 @@ casks=(
 	alfred
 	appcleaner
 	arduino
-	basictexbrew
 	brave-browser
 	coolterm
 	dropbox
 	fantastical
 	google-chrome
-	gpg-suite
+	gpg-suite-no-mail
 	iterm2
 	macdown
+	mactex-no-gui
 	slack
-	spectacle
+	rectangle
+	spotify
 	sublime-text
 	the-unarchiver
 	visual-studio-code
