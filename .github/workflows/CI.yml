@@ -10,8 +10,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2.0.0
-    - name: Run a one-line script
-      run: echo Hello, world!
+    - name: Install coreutils
+      run: |
+        export HOMEBREW_NO_AUTO_UPDATE=1
+        brew install coreutils
+        export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
     - name: Run a multi-line script
       run: |
         zsh ./bootstrap.sh --test
