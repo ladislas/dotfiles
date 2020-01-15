@@ -48,10 +48,10 @@ fi
 # Check if --all argument has been passed
 #
 
-if [[ "$@" =~ "--all" ]]; then
+if [[ "$arg_array" =~ "--all" ]]; then
 	echo "⚠️  You are about to run all the scripts. Please confirm that you have read\nthe source files and are okay with that. Unexepected behaviors can occur!"
 	echo ""
-	if [[ ! "$@" =~ "--force" ]]; then
+	if [[ ! "$arg_array" =~ "--force" ]]; then
 		read "?Are you sure you want to continue? "
 		if [[ ! $REPLY =~ ^[Yy]$ ]]
 		then
@@ -80,7 +80,7 @@ done
 # Sudo power
 #
 
-if [[ "$@" =~ "--macos" || "$@" =~ "--brew" ]]; then
+if [[ "$arg_array" =~ "--macos" || "$arg_array" =~ "--brew" ]]; then
 	if ! sudo -n true 2>/dev/null; then
 		echo "⚠️  Please enter your password as some scripts require sudo access."
 		sudo -v
@@ -91,9 +91,9 @@ fi
 # Hello, World! -- test argument
 #
 
-if [[ "$@" =~ "--hello" ]]; then
+if [[ "$arg_array" =~ "--hello" ]]; then
 	echo "Hello, World!"
-	if [[ ! "$@" =~ "--force" ]]; then
+	if [[ ! "$arg_array" =~ "--force" ]]; then
 		read "?Are you sure you want to continue? "
 		if [[ ! $REPLY =~ ^[Yy]$ ]]
 		then
@@ -108,7 +108,7 @@ fi
 # macOS
 #
 
-if [[ "$@" =~ "--macos" ]]; then
+if [[ "$arg_array" =~ "--macos" ]]; then
 	echo "Running macOS configuration script"
 
 	# Set macOS defaults
@@ -119,7 +119,7 @@ fi
 # Brew
 #
 
-if [[ "$@" =~ "--brew" ]]; then
+if [[ "$arg_array" =~ "--brew" ]]; then
 	echo "Running brew configuration script"
 
 	zsh ./scripts/brew.sh
@@ -129,7 +129,7 @@ fi
 # Zsh
 #
 
-if [[ "$@" =~ "--zsh" ]]; then
+if [[ "$arg_array" =~ "--zsh" ]]; then
 	echo "Running zsh configuration script"
 
 	# Switch to using brew-installed zsh as default shell
@@ -155,7 +155,7 @@ fi
 # Git
 #
 
-if [[ "$@" =~ "--git" ]]; then
+if [[ "$arg_array" =~ "--git" ]]; then
 	echo "Running git configuration script"
 	ln -sr ./git ${XDG_CONFIG_HOME:-$HOME/.config}/
 fi
@@ -164,7 +164,7 @@ fi
 # neovim
 #
 
-if [[ "$@" =~ "--nvim" ]]; then
+if [[ "$arg_array" =~ "--nvim" ]]; then
 	echo "Running neovim configuration"
 	git clone --recursive https://github.com/ladislas/nvim ~/.config/nvim
 fi
@@ -173,7 +173,7 @@ fi
 # data
 #
 
-if [[ "$@" =~ "--data" ]]; then
+if [[ "$arg_array" =~ "--data" ]]; then
 	echo "Running XGD Data configuration"
 	try mkdir -p ${XDG_DATA_HOME:-$HOME/.local/share}
 	try ln -sr ./data/* ${XDG_DATA_HOME:-$HOME/.local/share}
@@ -183,7 +183,7 @@ fi
 # dev directory structure
 #
 
-if [[ "$@" =~ "--dev" ]]; then
+if [[ "$arg_array" =~ "--dev" ]]; then
 	echo "Running dev directory structure configuration"
 	try mkdir -p $HOME/dev/{ladislas,leka,osx-cross,tmp}
 fi
@@ -192,7 +192,7 @@ fi
 # Install gems and pip packages
 #
 
-if [[ "$@" =~ "--gem-pip" ]]; then
+if [[ "$arg_array" =~ "--gem-pip" ]]; then
 	echo "Install useful gems and pip packages"
 	try gem install --no-document cocoapods fastlane neovim
 	try pip install -U --user mbed-cli pyserial neovim
