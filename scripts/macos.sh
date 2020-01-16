@@ -1,34 +1,10 @@
 #!/usr/bin/env zsh
 
 #
-# Helpers
+# Source helper functions
 #
 
-function try {
-	if [[ "$@" =~ "sudo -v" ]]; then
-		return 0
-	fi 
-
-	tmp_file=$(mktemp)
-
-	echo -ne "Running $@ ... "
-
-	script -q $tmp_file $@ > /dev/null 2>&1
-
-	result=$?
-
-	if [ $result -eq 0 ]; then
-		echo "✅"
-		#cat $tmp_file
-	else
-		echo "❌"
-		cat $tmp_file
-		echo ""
-	fi
-	
-	rm -rf $tmp_file
-}
-
+source ./scripts/helpers.sh
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
