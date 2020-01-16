@@ -34,7 +34,7 @@ test_commands=("--macos" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data")
 #
 
 if [ ${#arg_array[@]} -eq 0 ]; then
-	echo "⚠️  No arguments have been passed."
+	echo "⚠️ No arguments have been passed."
 	echo "Please try again with one of those: $available_args"
 	return 1
 fi
@@ -56,11 +56,12 @@ done
 #
 
 if [[ $(command -v brew) == "" ]]; then
-    echo "Installing Hombrew"
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    brew install coreutils
+    echo "\n👷 Installing brew & coreutils 🚧\n"
+    try /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    try brew install coreutils
 elif [[ $(command -v gls) == "" ]]; then
-	brew install coreutils
+	echo "\n👷 Installing coreutils 🚧\n"
+	try brew install coreutils
 fi
 
 if [ ! $? -eq 0 ]; then
