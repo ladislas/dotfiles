@@ -8,6 +8,8 @@ typeset -U failed_commands=()
 
 function try {
 
+	start=0
+	end=0
 	verbose=false
 	super_verbose=false
 
@@ -35,7 +37,7 @@ function try {
 	end=$(date +%S.%N)
 
 	# calculate duration
-	runtime=$(echo -ne $(printf %.2f $(echo "$end - $start" | bc -l)))
+	runtime=$(echo -ne $(printf %.2f $(echo "$end-$start" | bc -l)))
 
 	# output result
 	if [ $cmd_result -eq 0 ]; then
