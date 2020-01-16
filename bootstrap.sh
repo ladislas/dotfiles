@@ -48,7 +48,7 @@ arg_array=($@)
 main_commands=("--all" "--force" "--test")
 script_commands=("--hello" "--macos" "--brew" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--gem-pip")
 available_args=( ${main_commands[*]} ${script_commands[*]} )
-test_commands=("--macos"  "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data")
+test_commands=("--brew" "--gem-pip" "--macos" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data")
 
 #
 # Check if arguments have been passed
