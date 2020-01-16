@@ -41,7 +41,7 @@ function try {
 
 	# output result
 	if [ $cmd_result -eq 0 ]; then
-		echo "✅ ($runtime)"
+		echo "✅ ($end - $start = $runtime)"
 		if [ $super_verbose = true ]; then
 			cat $tmp_file
 		fi
