@@ -27,14 +27,14 @@ function try {
 		shift
 	fi
 
-	start=$(date +%S.%N)
+	start=$(date +%s.%N)
 
 	# execute command
 	echo -ne "Running $@ ... "
 	script -q $tmp_file $@ > /dev/null 2>&1
 	cmd_result=$?
 
-	end=$(date +%S.%N)
+	end=$(date +%s.%N)
 
 	# calculate duration
 	runtime=$(echo -ne $(printf %.2f $(echo "$end-$start" | bc -l)))
