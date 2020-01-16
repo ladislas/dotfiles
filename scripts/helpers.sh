@@ -4,7 +4,7 @@
 # Helpers
 #
 
-typeset -U failed_commands=()
+typeset -Ux failed_commands=()
 
 function try {
 

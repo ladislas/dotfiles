@@ -96,6 +96,7 @@ fi
 if [[ $arg_array =~ "--test" ]]; then
 	echo "\n⚠️ Running bootstrap with all args except for testing!"
 	arg_array=($test_commands)
+	try false
 fi
 
 #
