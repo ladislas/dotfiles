@@ -108,7 +108,6 @@ formulae=(
 
 # Install formulae
 for formula in $formulae ; do
-	echo $formula
 	try brew install $formula
 done
 
@@ -139,7 +138,6 @@ casks=(
 
 # Install casks
 for cask in $casks; do
-	echo $cask
 	try brew cask install $cask
 done
 
