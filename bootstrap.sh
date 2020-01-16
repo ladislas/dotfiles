@@ -56,11 +56,11 @@ done
 #
 
 if [[ $(command -v brew) == "" ]]; then
-    echo "\n👷 Installing brew & coreutils 🚧\n"
+    echo "⚠️ Installing brew & coreutils"
     try /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     try brew install coreutils
 elif [[ $(command -v gls) == "" ]]; then
-	echo "\n👷 Installing coreutils 🚧\n"
+	echo "⚠️ Installing coreutils"
 	try brew install coreutils
 fi
 
@@ -94,7 +94,7 @@ fi
 #
 
 if [[ $arg_array =~ "--test" ]]; then
-	echo "⚠️ Running bootstrap with all args except for testing!"
+	echo "\n⚠️ Running bootstrap with all args except for testing!"
 	arg_array=($test_commands)
 fi
 
