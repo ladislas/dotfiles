@@ -58,9 +58,12 @@ function try {
 
 function list_failed_commands {
 	echo ""
-	echo "⚠️ The following commands have failed:"
-
-	for cmd in $failed_commands; do
-		echo "\t- $cmd"
-	done
+	if [ ${#failed_commands[@]} -eq 0 ]; then
+		echo "🎉 The bootstrap process completed successfully! 💪"
+	else
+		echo "⚠️ The following commands have failed:"
+		for cmd in $failed_commands; do
+			echo "\t- $cmd"
+		done
+	fi
 }
