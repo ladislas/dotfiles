@@ -8,7 +8,6 @@ set +e
 function try {
 	tmp_file=$(mktemp)
 
-	echo ""
 	echo -ne "Running $@ ... "
 
 	script -q $tmp_file $@ > /dev/null 2>&1
@@ -21,6 +20,7 @@ function try {
 	else
 		echo "❌"
 		cat $tmp_file
+		echo ""
 	fi
 	rm -rf $tmp_file
 }
