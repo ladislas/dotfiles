@@ -26,7 +26,7 @@ arg_array=($@)
 main_commands=("--all" "--force" "--test")
 script_commands=("--hello" "--macos" "--brew" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--gem-pip")
 available_args=( ${main_commands[*]} ${script_commands[*]} )
-test_commands=("--brew" "--gem-pip" "--macos" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data")
+test_commands=("--macos" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data")
 
 
 #
@@ -84,7 +84,7 @@ if [[ $arg_array =~ "--all" ]]; then
 		fi
 	fi
 
-	echo "\n⚠️ Running all install scripts!"
+	echo "\n⚠️ Running bootstrap with all args!"
 	arg_array=($script_commands)
 fi
 
@@ -93,7 +93,7 @@ fi
 #
 
 if [[ $arg_array =~ "--test" ]]; then
-	echo "⚠️ Running all scripts except --brew, --gem-pip for testing!"
+	echo "⚠️ Running bootstrap with all args except for testing!"
 	arg_array=($test_commands)
 fi
 
