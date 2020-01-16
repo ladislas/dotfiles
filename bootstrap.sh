@@ -65,7 +65,6 @@ fi
 #
 
 if [[ "$arg_array" =~ "--all" ]]; then
-	echo ""
 	if [[ ! "$arg_array" =~ "--force" ]]; then
 		echo "⚠️  You are about to run all the scripts. Please confirm that you have read\nthe source files and are okay with that. Unexepected behaviors can occur!"
 		read "?Are you sure you want to continue? "
@@ -75,7 +74,7 @@ if [[ "$arg_array" =~ "--all" ]]; then
 		fi
 	fi
 
-	echo "⚠️  Running all install scripts!"
+	echo "\n⚠️  Running all install scripts!"
 	arg_array=($script_commands)
 fi
 
@@ -117,7 +116,6 @@ fi
 #
 
 if [[ "$arg_array" =~ "--hello" ]]; then
-	echo ""
 	echo "Hello, World!"
 	# if [[ ! "$arg_array" =~ "--force" ]]; then
 	# 	read "?Are you sure you want to continue? "
@@ -135,7 +133,6 @@ fi
 #
 
 if [[ "$arg_array" =~ "--macos" ]]; then
-	echo ""
 	echo "\n👷 Running macOS configuration script 🚧\n"
 
 	# Set macOS defaults
@@ -147,7 +144,6 @@ fi
 #
 
 if [[ "$arg_array" =~ "--brew" ]]; then
-	echo ""
 	echo "\n👷 Running brew configuration script 🚧\n"
 
 	zsh ./scripts/brew.sh
@@ -158,7 +154,6 @@ fi
 #
 
 if [[ "$arg_array" =~ "--zsh" ]]; then
-	echo ""
 	echo "\n👷 Running zsh configuration script 🚧\n"
 
 	# Switch to using brew-installed zsh as default shell
@@ -185,7 +180,6 @@ fi
 #
 
 if [[ "$arg_array" =~ "--git" ]]; then
-	echo ""
 	echo "\n👷 Running git configuration script 🚧\n"
 	try ln -sr ./git ${XDG_CONFIG_HOME:-$HOME/.config}/
 fi
@@ -195,7 +189,6 @@ fi
 #
 
 if [[ "$arg_array" =~ "--nvim" ]]; then
-	echo ""
 	echo "\n👷 Running neovim configuration script 🚧\n"
 	try git clone --recursive https://github.com/ladislas/nvim ~/.config/nvim
 fi
@@ -205,7 +198,6 @@ fi
 #
 
 if [[ "$arg_array" =~ "--data" ]]; then
-	echo ""
 	echo "\n👷 Running XGD Data configuration script 🚧\n"
 	try mkdir -p ${XDG_DATA_HOME:-$HOME/.local/share}
 	try ln -sr ./data/* ${XDG_DATA_HOME:-$HOME/.local/share}
@@ -216,7 +208,6 @@ fi
 #
 
 if [[ "$arg_array" =~ "--dev" ]]; then
-	echo ""
 	echo "\n👷 Running dev directory structure configuration script 🚧\n"
 	try mkdir -p $HOME/dev/{ladislas,leka,osx-cross,tmp}
 fi
@@ -226,7 +217,6 @@ fi
 #
 
 if [[ "$arg_array" =~ "--gem-pip" ]]; then
-	echo ""
 	echo "\n👷 Installing useful gems, pip & node packages 🚧\n"
 	try gem install --no-document cocoapods fastlane neovim
 	try pip install -U --user mbed-cli pyserial neovim

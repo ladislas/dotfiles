@@ -6,6 +6,10 @@ set +e
 # Helpers
 
 function try {
+	if [[ "$@" =~ "sudo -v" ]]; then
+		return 0
+	fi 
+
 	tmp_file=$(mktemp)
 
 	echo -ne "Running $@ ... "
@@ -22,6 +26,7 @@ function try {
 		cat $tmp_file
 		echo ""
 	fi
+	
 	rm -rf $tmp_file
 }
 
