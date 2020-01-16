@@ -3,32 +3,11 @@
 # Continue on error
 set +e
 
-# Helpers
+#
+# Source helper functions
+#
 
-function try {
-	if [[ "$@" =~ "sudo -v" ]]; then
-		return 0
-	fi 
-
-	tmp_file=$(mktemp)
-
-	echo -ne "Running $@ ... "
-
-	script -q $tmp_file $@ > /dev/null 2>&1
-
-	result=$?
-
-	if [ $result -eq 0 ]; then
-		echo "✅"
-		#cat $tmp_file
-	else
-		echo "❌"
-		cat $tmp_file
-		echo ""
-	fi
-	
-	rm -rf $tmp_file
-}
+source ./scripts/helpers.sh
 
 # Install command-line tools using Homebrew.
 
