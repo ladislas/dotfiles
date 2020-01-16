@@ -89,7 +89,7 @@ formulae=(
 	make
 	cmake
 	screen
-	epenssh
+	openssh
 
 	# Install other useful binaries.
 	ack
@@ -142,11 +142,12 @@ for cask in $casks; do
 done
 
 # Install useful taps
-brew tap osx-cross/arm
-brew install arm-gcc-bin
-brew tap osx-cross/avr
-brew install avr-gcc
-brew install avrdude
+try brew tap osx-cross/arm
+try brew install arm-gcc-bin
+try brew tap osx-cross/avr
+try brew install avr-gcc
+try brew install avrdude
 
 # Remove outdated versions from the cellar.
-brew cleanup
+try brew cleanup -s
+try rm -rf "$(brew --cache)"
