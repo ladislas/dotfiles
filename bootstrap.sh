@@ -56,11 +56,11 @@ done
 #
 
 if [[ $(command -v brew) == "" ]]; then
-    echo "⚠️ Installing brew & coreutils"
+    echo "👷 Installing brew & coreutils 🚧"
     try /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     try brew install coreutils
 elif [[ $(command -v gls) == "" ]]; then
-	echo "⚠️ Installing coreutils"
+	echo "👷 Installing coreutils 🚧"
 	try brew install coreutils
 fi
 
