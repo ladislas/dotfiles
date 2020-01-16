@@ -12,10 +12,10 @@ source ./scripts/helpers.sh
 # Install command-line tools using Homebrew.
 
 # Make sure we’re using the latest Homebrew.
-brew update
+try brew update
 
 # Upgrade any already-installed formulae.
-brew upgrade
+try brew upgrade
 
 typeset -U formulae
 formulae=(
