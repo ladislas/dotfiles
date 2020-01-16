@@ -5,16 +5,25 @@
 #
 
 function try {
-	cmd="$@"
+	tmp_file=$(mktemp)
+
 	echo ""
-	echo "Running \"$cmd\" ..."
-	$@
-	if [ $? -eq 0 ]; then
-		echo "Running \"$cmd\" ... ✅"
+	echo -ne "Running $@ ... "
+
+	script -q $tmp_file $@ > /dev/null 2>&1
+
+	result=$?
+
+	if [ $result -eq 0 ]; then
+		echo "✅"
+		cat $tmp_file
 	else
-		echo "Running \"$cmd\" ... ❌"
+		echo "❌"
+		cat $tmp_file
 	fi
+	rm -rf $tmp_file
 }
+
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change

@@ -3,6 +3,28 @@
 # Continue on error
 set +e
 
+# Helpers
+
+function try {
+	tmp_file=$(mktemp)
+
+	echo ""
+	echo -ne "Running $@ ... "
+
+	script -q $tmp_file $@ > /dev/null 2>&1
+
+	result=$?
+
+	if [ $result -eq 0 ]; then
+		echo "✅"
+		#cat $tmp_file
+	else
+		echo "❌"
+		cat $tmp_file
+	fi
+	rm -rf $tmp_file
+}
+
 # Install command-line tools using Homebrew.
 
 # Make sure we’re using the latest Homebrew.
@@ -82,7 +104,7 @@ formulae=(
 # Install formulae
 for formula in $formulae ; do
 	echo $formula
-	brew install $formula
+	try brew install $formula
 done
 
 typeset -U casks
@@ -113,7 +135,7 @@ casks=(
 # Install casks
 for cask in $casks; do
 	echo $cask
-	brew cask install $cask
+	try brew cask install $cask
 done
 
 # Install useful taps
