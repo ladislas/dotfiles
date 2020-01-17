@@ -8,8 +8,10 @@ echo "I'm running from helpers.sh after source."
 
 function try {
 
-	start=0
-	end=0
+	if [[ "$@" =~ "sudo -v" ]]; then
+		return 0
+	fi
+
 	verbose=false
 	super_verbose=false
 
@@ -42,15 +44,14 @@ function try {
 	# output result
 	if [ $cmd_result -eq 0 ]; then
 		echo "✅ ($runtime)"
-		if [ $super_verbose = true ]; then
+		if [[ $super_verbose -eq true ]]; then
 			cat $tmp_file
 		fi
 	else
 		echo "❌ ($runtime)"
 		failed_commands+=$@
-		if [ $verbose = true ]; then
+		if [[ $verbose -eq true ]]; then
 			cat $tmp_file
-			
 		fi
 	fi
 
