@@ -40,8 +40,9 @@ formulae=(
 	git
 	hub
 	git-lfs
-	git-flow-avh
 	mercurial
+	git-flow-avh
+	diff-so-fancy
 
 	# Install wget & curl
 	wget
