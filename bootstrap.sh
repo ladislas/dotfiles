@@ -4,6 +4,7 @@
 # Source helper functions
 #
 
+typeset -Ux failed_commands=()
 source ./scripts/helpers.sh
 
 #
