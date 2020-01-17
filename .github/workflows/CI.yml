@@ -3,18 +3,23 @@ name: CI
 on: [push]
 
 jobs:
-  build:
 
+  bootstrap_test:
+    name: Bootstrap --test
     runs-on: macos
-
     steps:
     - name: Checkout
       uses: actions/checkout@v2.0.0
-    - name: Install coreutils
-      run: |
-        export HOMEBREW_NO_AUTO_UPDATE=1
-        brew install coreutils
-        export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-    - name: Run a multi-line script
+    - name: Test script
       run: |
         zsh ./bootstrap.sh --test
+
+  bootstrap_all_verbose:
+    name: Bootstrap --all -v
+    runs-on: macos
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2.0.0
+    - name: Test script
+      run: |
+        zsh ./bootstrap.sh -v --all --force

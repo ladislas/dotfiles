@@ -6,10 +6,10 @@ set +e
 # Install command-line tools using Homebrew.
 
 # Make sure we’re using the latest Homebrew.
-brew update
+try brew update
 
 # Upgrade any already-installed formulae.
-brew upgrade
+try brew upgrade
 
 typeset -U formulae
 formulae=(
@@ -62,7 +62,7 @@ formulae=(
 	make
 	cmake
 	screen
-	epenssh
+	openssh
 
 	# Install other useful binaries.
 	ack
@@ -81,8 +81,7 @@ formulae=(
 
 # Install formulae
 for formula in $formulae ; do
-	echo $formula
-	brew install $formula
+	try brew install $formula
 done
 
 typeset -U casks
@@ -112,16 +111,16 @@ casks=(
 
 # Install casks
 for cask in $casks; do
-	echo $cask
-	brew cask install $cask
+	try brew cask install $cask
 done
 
 # Install useful taps
-brew tap osx-cross/arm
-brew install arm-gcc-bin
-brew tap osx-cross/avr
-brew install avr-gcc
-brew install avrdude
+try brew tap osx-cross/arm
+try brew install arm-gcc-bin
+try brew tap osx-cross/avr
+try brew install avr-gcc
+try brew install avrdude
 
 # Remove outdated versions from the cellar.
-brew cleanup
+try brew cleanup -s
+try rm -rf "$(brew --cache)"

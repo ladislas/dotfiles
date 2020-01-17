@@ -1,60 +1,83 @@
 #!/usr/bin/env zsh
 
-# # Symlink files in $HOME
-
-# # Install config
-# typeset -U config_dirs
-# config_dirs=(
-# 	git
-# 	zsh
-# )
-
 #
-# Helpers
+# Source helper functions
 #
 
-function try {
-	cmd="$@"
-	echo ""
-	echo "Running \"$cmd\" ..."
-	$@
-	if [ $? -eq 0 ]; then
-		echo "Running \"$cmd\" ... ✅"
-	else
-		echo "Running \"$cmd\" ... ❌"
-	fi
-}
-
-export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+source ./scripts/helpers.sh
 
 #
-# Arguments
+# Set output level (verbose / super_verbose)
+#
+
+if [[ "$1" =~ "-vv" ]]; then
+	alias try='try -vv'
+	shift
+elif [[ "$1" =~ "-v" || "$1" =~ "--verbose" ]]; then
+	alias try='try -v'
+	shift
+fi
+
+#
+# Set arguments
 #
 
 arg_array=($@)
 main_commands=("--all" "--force" "--test")
 script_commands=("--hello" "--macos" "--brew" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--gem-pip")
 available_args=( ${main_commands[*]} ${script_commands[*]} )
-test_commands=("--macos"  "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data")
+test_commands=("--macos" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data")
+
 
 #
-# Check if arguments have been passed
+# Check that arguments have been passed, if not exit 
 #
 
 if [ ${#arg_array[@]} -eq 0 ]; then
-	echo "⚠️  No arguments have been passed."
+	echo "⚠️ No arguments have been passed."
 	echo "Please try again with one of those: $available_args"
 	return 1
 fi
 
 #
-# Run everything with --all
+# Check that passed arguments are available, if not exit
 #
 
-if [[ "$arg_array" =~ "--all" ]]; then
-	echo ""
-	if [[ ! "$arg_array" =~ "--force" ]]; then
-		echo "⚠️  You are about to run all the scripts. Please confirm that you have read\nthe source files and are okay with that. Unexepected behaviors can occur!"
+for arg in $arg_array; do
+	if [[ ! " ${available_args[@]} " =~ " ${arg} " ]]; then
+		echo "💥 Unrecognized argument: $arg"
+		echo "Please try again with one of those: $available_args"
+		return 1
+	fi
+done
+
+#
+# Check for brew & coreutils, if not install
+#
+
+if [[ $(command -v brew) == "" ]]; then
+    echo "👷 Installing brew & coreutils 🚧"
+    try /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    try brew install coreutils
+elif [[ $(command -v gls) == "" ]]; then
+	echo "👷 Installing coreutils 🚧"
+	try brew install coreutils
+fi
+
+if [ ! $? -eq 0 ]; then
+	echo "💥 Could not install brew & coreutils, exiting with status code $?"
+	exit 1
+fi
+
+export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+
+#
+# Arg: --all
+#
+
+if [[ $arg_array =~ "--all" ]]; then
+	if [[ ! $arg_array =~ "--force" ]]; then
+		echo "⚠️ You are about to run all the scripts. Please confirm that you have read\nthe source files and are okay with that. Unexepected behaviors can occur!"
 		read "?Are you sure you want to continue? "
 		if [[ ! $REPLY =~ ^[Yy]$ ]]
 		then
@@ -62,91 +85,64 @@ if [[ "$arg_array" =~ "--all" ]]; then
 		fi
 	fi
 
-	echo "⚠️  Running all install scripts!"
+	echo "\n⚠️ Running bootstrap with all args!"
 	arg_array=($script_commands)
 fi
 
-
 #
-# Test scripts
+# Arg: --test
 #
 
-if [[ "$arg_array" =~ "--test" ]]; then
-	echo "⚠️  Running all scripts except --brew, --gem-pip for testing!"
+if [[ $arg_array =~ "--test" ]]; then
+	echo "\n⚠️ Running bootstrap with all args except for testing!"
 	arg_array=($test_commands)
+	try false
 fi
-
-#
-# Check if all arguments exist, if not exit
-#
-
-for arg in $arg_array; do
-	if [[ ! " ${available_args[@]} " =~ " ${arg} " ]]; then
-		echo "💥  Unrecognized argument: $arg"
-		echo "Please try again with one of those: $available_args"
-		return 1
-	fi
-done
 
 #
 # Sudo power
 #
 
-if [[ "$arg_array" =~ "--macos" || "$arg_array" =~ "--brew" ]]; then
+if [[ $arg_array =~ "--macos" || $arg_array =~ "--brew" ]]; then
 	if ! sudo -n true 2>/dev/null; then
-		echo "⚠️  Please enter your password as some scripts require sudo access."
+		echo "⚠️ Args --macos & --brew require sudo to run."
+		echo "Please enter your password."
 		sudo -v
 	fi
 fi
 
 #
-# Hello, World! -- test argument
+# Arg: --hello
 #
 
-if [[ "$arg_array" =~ "--hello" ]]; then
-	echo ""
+if [[ $arg_array =~ "--hello" ]]; then
 	echo "Hello, World!"
-	# if [[ ! "$arg_array" =~ "--force" ]]; then
-	# 	read "?Are you sure you want to continue? "
-	# 	if [[ ! $REPLY =~ ^[Yy]$ ]]
-	# 	then
-	# 		[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
-	# 	fi
-	# fi
-	# try ls -al $HOME
-	# try ls -al $HOME/null
 fi
 
 #
-# macOS
+# Arg: --brew
 #
 
-if [[ "$arg_array" =~ "--macos" ]]; then
-	echo ""
-	echo "👷 Running macOS configuration script 🚧"
-
-	# Set macOS defaults
-	zsh ./scripts/macos.sh
+if [[ $arg_array =~ "--brew" ]]; then
+	echo "\n👷 Running brew configuration script 🚧\n"
+	source ./scripts/brew.sh
 fi
 
 #
-# Brew
+# Arg: --macos
 #
 
-if [[ "$arg_array" =~ "--brew" ]]; then
-	echo ""
-	echo "👷 Running brew configuration script 🚧"
-
-	zsh ./scripts/brew.sh
+if [[ $arg_array =~ "--macos" ]]; then
+	echo "\n👷 Running macOS configuration script 🚧\n"
+	source ./scripts/macos.sh
 fi
 
 #
-# Zsh
+# Arg: --zsh
 #
 
-if [[ "$arg_array" =~ "--zsh" ]]; then
-	echo ""
-	echo "👷 Running zsh configuration script 🚧"
+if [[ $arg_array =~ "--zsh" ]]; then
+	echo "\n👷 Running zsh configuration script 🚧\n"
 
 	# Switch to using brew-installed zsh as default shell
 	if ! fgrep -q "${BREW_PREFIX}/bin/zsh" /etc/shells; then
@@ -168,54 +164,55 @@ if [[ "$arg_array" =~ "--zsh" ]]; then
 fi
 
 #
-# Git
+# Arg: --git
 #
 
-if [[ "$arg_array" =~ "--git" ]]; then
-	echo ""
-	echo "👷 Running git configuration script 🚧"
+if [[ $arg_array =~ "--git" ]]; then
+	echo "\n👷 Running git configuration script 🚧\n"
 	try ln -sr ./git ${XDG_CONFIG_HOME:-$HOME/.config}/
 fi
 
 #
-# neovim
+# Arg: --neovim
 #
 
-if [[ "$arg_array" =~ "--nvim" ]]; then
-	echo ""
-	echo "👷 Running neovim configuration script 🚧"
+if [[ $arg_array =~ "--nvim" ]]; then
+	echo "\n👷 Running neovim configuration script 🚧\n"
 	try git clone --recursive https://github.com/ladislas/nvim ~/.config/nvim
 fi
 
 #
-# data
+# Arg: --data
 #
 
-if [[ "$arg_array" =~ "--data" ]]; then
-	echo ""
-	echo "👷 Running XGD Data configuration script 🚧"
+if [[ $arg_array =~ "--data" ]]; then
+	echo "\n👷 Running XGD Data configuration script 🚧\n"
 	try mkdir -p ${XDG_DATA_HOME:-$HOME/.local/share}
 	try ln -sr ./data/* ${XDG_DATA_HOME:-$HOME/.local/share}
 fi
 
 #
-# dev directory structure
+# Arg: --dev
 #
 
-if [[ "$arg_array" =~ "--dev" ]]; then
-	echo ""
-	echo "👷 Running dev directory structure configuration script 🚧"
+if [[ $arg_array =~ "--dev" ]]; then
+	echo "\n👷 Running dev directory structure configuration script 🚧\n"
 	try mkdir -p $HOME/dev/{ladislas,leka,osx-cross,tmp}
 fi
 
 #
-# Install gems and pip packages
+# Arg: --gem-pip
 #
 
-if [[ "$arg_array" =~ "--gem-pip" ]]; then
-	echo ""
-	echo "👷 Installing useful gems, pip & node packages 🚧"
+if [[ $arg_array =~ "--gem-pip" ]]; then
+	echo "\n👷 Installing useful gems, pip & node packages 🚧\n"
 	try gem install --no-document cocoapods fastlane neovim
 	try pip install -U --user mbed-cli pyserial neovim
 	try npm install -g neovim
 fi
+
+#
+# List failed commands
+#
+
+list_failed_commands

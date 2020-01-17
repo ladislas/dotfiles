@@ -1,21 +1,5 @@
 #!/usr/bin/env zsh
 
-#
-# Helpers
-#
-
-function try {
-	cmd="$@"
-	echo ""
-	echo "Running \"$cmd\" ..."
-	$@
-	if [ $? -eq 0 ]; then
-		echo "Running \"$cmd\" ... ✅"
-	else
-		echo "Running \"$cmd\" ... ❌"
-	fi
-}
-
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
 try osascript -e 'tell application "System Preferences" to quit'
