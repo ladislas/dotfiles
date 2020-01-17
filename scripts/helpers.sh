@@ -44,13 +44,13 @@ function try {
 	# output result
 	if [ $cmd_result -eq 0 ]; then
 		echo "✅ ($runtime)"
-		if [[ $super_verbose -eq true ]]; then
+		if [[ $super_verbose == true ]]; then
 			cat $tmp_file
 		fi
 	else
 		echo "❌ ($runtime)"
 		failed_commands+=$@
-		if [[ $verbose -eq true ]]; then
+		if [[ $verbose == true ]]; then
 			cat $tmp_file
 		fi
 	fi
