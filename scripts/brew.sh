@@ -3,12 +3,6 @@
 # Continue on error
 set +e
 
-#
-# Source helper functions
-#
-
-source ./scripts/helpers.sh
-
 # Install command-line tools using Homebrew.
 
 # Make sure we’re using the latest Homebrew.

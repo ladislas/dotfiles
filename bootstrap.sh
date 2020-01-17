@@ -4,7 +4,6 @@
 # Source helper functions
 #
 
-typeset -Ux failed_commands=()
 source ./scripts/helpers.sh
 
 #
@@ -126,8 +125,7 @@ fi
 
 if [[ $arg_array =~ "--brew" ]]; then
 	echo "\n👷 Running brew configuration script 🚧\n"
-
-	zsh ./scripts/brew.sh
+	source ./scripts/brew.sh
 fi
 
 #
@@ -136,9 +134,7 @@ fi
 
 if [[ $arg_array =~ "--macos" ]]; then
 	echo "\n👷 Running macOS configuration script 🚧\n"
-
-	# Set macOS defaults
-	zsh ./scripts/macos.sh
+	source ./scripts/macos.sh
 fi
 
 #

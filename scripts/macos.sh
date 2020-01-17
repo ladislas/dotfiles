@@ -1,11 +1,5 @@
 #!/usr/bin/env zsh
 
-#
-# Source helper functions
-#
-
-source ./scripts/helpers.sh
-
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
 try osascript -e 'tell application "System Preferences" to quit'

@@ -4,7 +4,7 @@
 # Helpers
 #
 
-echo "I'm running from helpers.sh after source."
+typeset -Ux failed_commands=()
 
 function try {
 
