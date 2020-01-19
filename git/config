@@ -100,6 +100,8 @@
 		fi \
 	}; f"
 
+	patch = !git --no-pager diff --no-color
+
 [apply]
 
 	# Detect whitespace errors when applying a patch
@@ -130,6 +132,8 @@
 	# Speed up commands involving untracked files such as `git status`.
 	# https://git-scm.com/docs/git-update-index#_untracked_cache
 	untrackedCache = true
+
+	# Set pager for diff-so-fancy
 	pager = diff-so-fancy | less --tabs=4 -RFX
 
 [color]
@@ -148,9 +152,9 @@
 
 	meta = 11
 	frag = magenta bold
+	commit = yellow bold
 	old = red bold
 	new = green bold
-	commit = yellow bold
 	whitespace = red reverse
 
 [color "status"]
@@ -192,3 +196,7 @@
 	oldHighlight = red bold 52
 	newNormal = green bold
 	newHighlight = green bold 22
+
+[diff-so-fancy]
+
+	stripLeadingSymbols = false
