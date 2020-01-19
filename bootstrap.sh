@@ -30,7 +30,7 @@ test_commands=("--macos" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data")
 
 
 #
-# Check that arguments have been passed, if not exit 
+# Check that arguments have been passed, if not exit
 #
 
 if [ ${#arg_array[@]} -eq 0 ]; then
