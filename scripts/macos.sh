@@ -67,6 +67,7 @@ try defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool fals
 # General Power and Performance modifications
 ###############################################################################
 
+echo ""
 echo "›› General Power and Performance modifications"
 
 echo "› Disable Resume system-wide"
@@ -98,6 +99,7 @@ try sudo pmset -a lidwake 1
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input
 ###############################################################################
 
+echo ""
 echo "›› Trackpad, mouse, keyboard, Bluetooth accessories, and input"
 
 echo "› Increase sound quality for Bluetooth headphones/headsets"
@@ -124,6 +126,7 @@ defaults write com.apple.BezelServices kDimTime -int 300
 # Screen
 ###############################################################################
 
+echo ""
 echo "›› Screen"
 
 echo "› Require password immediately after sleep or screen saver begins"
@@ -144,6 +147,7 @@ try sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResol
 # Finder
 ###############################################################################
 
+echo ""
 echo "›› Finder"
 
 echo "› Disable window animations and Get Info animations"
@@ -220,6 +224,7 @@ try sudo chflags nohidden /Volumes
 # Dock, Dashboard & Mission Control
 ###############################################################################
 
+echo ""
 echo "›› Dock, Dashboard & Mission Control"
 
 echo "› Wipe all (default) app icons from the Dock" # This is only really useful when setting up a new Mac
@@ -265,6 +270,7 @@ try defaults write com.apple.dock mru-spaces -bool false
 # Hot corners
 ###############################################################################
 
+echo ""
 echo "›› Hot corners"
 
 echo "› Top left screen corner → Mission Control"
@@ -288,6 +294,7 @@ try defaults write com.apple.dock wvous-br-modifier -int 0
 # Terminal
 ###############################################################################
 
+echo ""
 echo "›› Terminal"
 
 echo "› Enable UTF-8 ONLY in Terminal.app and setting the Pro theme by default"
@@ -306,6 +313,7 @@ try defaults write com.apple.Terminal ShowLineMarks -int 0
 # Messages
 ###############################################################################
 
+echo ""
 echo "›› Messages"
 
 echo "› Disable smart quotes in Messages.app"
@@ -316,7 +324,8 @@ try defaults write com.apple.messageshelper.MessageController SOInputLineSetting
 # Transmission.app
 ###############################################################################
 
-echo "rr Transmission.app"
+echo ""
+echo "›› Transmission.app"
 
 try mkdir -p ~/Torrentz/Incomplete
 
@@ -324,35 +333,27 @@ echo "› Setting up an incomplete downloads folder in Downloads"
 try defaults write org.m0k.transmission UseIncompleteDownloadFolder -bool true
 try defaults write org.m0k.transmission IncompleteDownloadFolder -string "${HOME}/Torrentz/Incomplete"
 
-echo "› "
 echo "› Setting auto-add folder to be Downloads"
 try defaults write org.m0k.transmission AutoImportDirectory -string "${HOME}/Torrentz"
 
-echo "› "
 echo "› Don't prompt for confirmation before downloading"
 try defaults write org.m0k.transmission DownloadAsk -bool false
 
-echo "› "
 echo "› Trash original torrent files after adding them"
 try defaults write org.m0k.transmission DeleteOriginalTorrent -bool true
 
-echo "› "
 echo "› Hiding the donate message"
 try defaults write org.m0k.transmission WarningDonate -bool false
 
-echo "› "
 echo "› Hiding the legal disclaimer"
 try defaults write org.m0k.transmission WarningLegal -bool false
 
-echo "› "
 echo "› Auto-resizing the window to fit transfers"
 try defaults write org.m0k.transmission AutoSize -bool true
 
-echo "› "
 echo "› Auto updating to betas"
 try defaults write org.m0k.transmission AutoUpdateBeta -bool true
 
-echo "› "
 echo "› Setting up the best block list"
 try defaults write org.m0k.transmission EncryptionRequire -bool true
 try defaults write org.m0k.transmission BlocklistAutoUpdate -bool true
@@ -364,6 +365,7 @@ try defaults write org.m0k.transmission BlocklistURL -string "http://john.bitsur
 # Activity Monitor
 ###############################################################################
 
+echo ""
 echo "›› Activity Monitor"
 
 echo "› Show the main window when launching Activity Monitor"
@@ -381,6 +383,7 @@ try defaults write com.apple.ActivityMonitor SortDirection -int 0
 # TextEdit & Disk Utility
 ###############################################################################
 
+echo ""
 echo "›› TextEdit & Disk Utility"
 
 echo "› Use plain text mode for new TextEdit documents"
@@ -399,6 +402,7 @@ try defaults write com.apple.DiskUtility advanced-image-options -bool true
 # Mac App Store
 ###############################################################################
 
+echo ""
 echo "›› Mac App Store"
 
 echo "› Enable the automatic update check"
@@ -424,6 +428,7 @@ try defaults write com.apple.commerce AutoUpdateRestartRequired -bool true
 # Photos
 ###############################################################################
 
+echo ""
 echo "›› Photos"
 
 echo "› Prevent Photos from opening automatically when devices are plugged in"
