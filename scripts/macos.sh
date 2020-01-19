@@ -531,10 +531,23 @@ try defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 
 echo "☠️ Kill related apps"
 
-for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
-	"Dock" "Finder" "Mail" "Messages" "Safari" "SystemUIServer" \
-	"Terminal" "Transmission" "Photos" "Mac App Store" "Rectangle" ; do
-	try killall "$app" > /dev/null 2>&1
+for app in "Activity Monitor" \
+	"Address Book" \
+	"Calendar" \
+	"Contacts" \
+	"cfprefsd" \
+	"Dock" \
+	"Finder" \
+	"Mail" \
+	"Messages" \
+	"Safari" \
+	"SystemUIServer" \
+	"Terminal" \
+	"Transmission" \
+	"Photos" \
+	"App Store" \
+	"Rectangle" ; do
+	try killall "${app}" &> /dev/null
 done
 
 echo "🎉 Done! ✅ Note that some of these changes require a logout/restart to take effect"
