@@ -15,7 +15,8 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 # General UI/UX
 ###############################################################################
 
-echo "› General UI/UX"
+echo ""
+echo "›› General UI/UX"
 
 DATE=$(date +"%Y%m%d")
 COMPUTER_NAME="LadBookPro$DATE"
@@ -144,7 +145,7 @@ try defaults write NSGlobalDomain InitialKeyRepeat -int 10
 
 echo ""
 echo "› Turn off keyboard illumination when computer is not used for 5 minutes"
-defaults write com.apple.BezelServices kDimTime -int 300
+try defaults write com.apple.BezelServices kDimTime -int 300
 
 
 ###############################################################################

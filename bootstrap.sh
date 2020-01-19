@@ -141,6 +141,8 @@ if [[ $arg_array =~ "--macos" ]]; then
 		try open -a "$app"
 	done
 
+	echo ""
+
 	source ./scripts/macos.sh
 fi
 
