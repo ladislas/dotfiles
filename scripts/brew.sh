@@ -95,13 +95,21 @@ casks=(
 	coolterm
 	dropbox
 	fantastical
+	font-source-code-pro
 	google-chrome
 	gpg-suite-no-mail
 	iterm2
 	macdown
 	mactex-no-gui
-	slack
+	qlcolorcode
+	qlimagesize
+	qlmarkdown
+	qlprettypatch
+	qlstephen
+	quicklook-csv
+	quicklook-json
 	rectangle
+	slack
 	spotify
 	sublime-text
 	the-unarchiver
