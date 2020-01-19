@@ -134,6 +134,15 @@ fi
 
 if [[ $arg_array =~ "--macos" ]]; then
 	echo "\n👷 Running macOS configuration script 🚧\n"
+
+	echo "Opening apps before configuring"
+	for app in "Visual Studio Code" "Sublime Text" "iTerm" \
+	    "Transmission" "Fantastical\ 2" "Rectangle" ; do
+		try open -a "$app"
+	done
+
+	echo ""
+
 	source ./scripts/macos.sh
 fi
 

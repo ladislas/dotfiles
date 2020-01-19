@@ -95,7 +95,7 @@ casks=(
 	coolterm
 	dropbox
 	fantastical
-	font-source-code-pro
+	# font-source-code-pro
 	google-chrome
 	gpg-suite-no-mail
 	iterm2
