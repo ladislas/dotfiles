@@ -63,7 +63,7 @@ zstyle ':completion:*' verbose yes
 
 # partial completion suggestions
 zstyle ':completion:*' list-suffixes
-zstyle ':completion:*' expand prefix suffix
+zstyle ':completion:*' expand suffix
 
 # Fuzzy match mistyped completions.
 zstyle ':completion:*' completer _complete _match _approximate
