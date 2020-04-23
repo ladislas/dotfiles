@@ -28,7 +28,6 @@ script_commands=("--hello" "--macos" "--brew" "--zsh" "--git" "--symlink" "--nvi
 available_args=( ${main_commands[*]} ${script_commands[*]} )
 test_commands=("--macos" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data")
 
-
 #
 # Check that arguments have been passed, if not exit
 #
@@ -96,7 +95,7 @@ fi
 if [[ $arg_array =~ "--test" ]]; then
 	echo "\n⚠️ Running bootstrap with all args except for testing!"
 	arg_array=($test_commands)
-	try false
+	typeset -Ux CI_TEST=1
 fi
 
 #
@@ -137,7 +136,7 @@ if [[ $arg_array =~ "--macos" ]]; then
 
 	echo "Opening apps before configuring"
 	for app in "Visual Studio Code" "Sublime Text" "iTerm" \
-	    "Transmission" "Fantastical\ 2" "Rectangle" ; do
+	    "Transmission" "Fantastical 2" "Rectangle" ; do
 		try open -a "$app"
 	done
 
