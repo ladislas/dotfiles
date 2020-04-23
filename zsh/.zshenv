@@ -39,18 +39,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
 fi
 
 #
-# Editors
-#
-
-if which nvim >/dev/null 2>&1; then
-	export EDITOR="nvim"
-	export VISUAL='nvim'
-else
-	export EDITOR="vim"
-	export VISUAL='vim'
-fi
-
-#
 # Manpage
 #
 
@@ -82,6 +70,18 @@ path=(
 	/usr/local/{bin,sbin}
 	$path
 )
+
+#
+# Editors
+#
+
+if which nvim >/dev/null 2>&1; then
+	export EDITOR="nvim"
+	export VISUAL='nvim'
+else
+	export EDITOR="vim"
+	export VISUAL='vim'
+fi
 
 #
 # Misc
