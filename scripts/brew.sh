@@ -11,6 +11,10 @@ try brew update
 # Upgrade any already-installed formulae.
 try brew upgrade
 
+# List already available formulae & casks
+available_formulae=$(brew list)
+available_casks=$(brew cask list)
+
 typeset -U formulae
 formulae=(
 	# Install GNU core utilities (those that come with macOS are outdated).
@@ -82,7 +86,9 @@ formulae=(
 
 # Install formulae
 for formula in $formulae ; do
-	try brew install $formula
+	if [[ ! $available_formulae =~ $formula ]]; then
+		try brew install $formula
+	fi
 done
 
 typeset -U casks
@@ -100,7 +106,7 @@ casks=(
 	gpg-suite-no-mail
 	iterm2
 	macdown
-	mactex-no-gui
+	# mactex-no-gui
 	qlcolorcode
 	qlimagesize
 	qlmarkdown
@@ -112,7 +118,8 @@ casks=(
 	slack
 	spotify
 	sublime-text
-	the-unarchiver
+	transmission
+	# the-unarchiver
 	visual-studio-code
 	vlc
 	whatsapp
@@ -120,15 +127,17 @@ casks=(
 
 # Install casks
 for cask in $casks; do
-	try brew cask install $cask
+	if [[ ! $available_casks =~ $cask ]]; then
+		try brew cask install $cask
+	fi
 done
 
 # Install useful taps
-try brew tap osx-cross/arm
-try brew install arm-gcc-bin
-try brew tap osx-cross/avr
-try brew install avr-gcc
-try brew install avrdude
+# try brew tap osx-cross/arm
+# try brew install arm-gcc-bin
+# try brew tap osx-cross/avr
+# try brew install avr-gcc
+# try brew install avrdude
 
 # Remove outdated versions from the cellar.
 try brew cleanup -s
