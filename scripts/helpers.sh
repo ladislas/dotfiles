@@ -8,8 +8,10 @@ typeset -Ux failed_commands=()
 
 function try {
 
-	if [[ "$@" =~ "sudo -v" ]]; then
-		return 0
+	if [[ -n $CI ]]; then
+		if [[ "$@" =~ "sudo -v" ]]; then
+			return 0
+		fi
 	fi
 
 	verbose=false
@@ -24,7 +26,7 @@ function try {
 		verbose=true
 		if [[ $1 =~ "-vv" ]]; then
 			verbose=true
-			super_verbose=true	
+			super_verbose=true
 		fi
 		shift
 	fi
