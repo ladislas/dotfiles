@@ -135,6 +135,11 @@
 
 	# Set pager for diff-so-fancy
 	pager = diff-so-fancy | less --tabs=4 -RFX
+	# pager = delta --keep-plus-minus-markers --theme='Monokai Extended' --hunk-style plain --file-style plain
+
+[interactive]
+
+    diffFilter = delta --color-only
 
 [color]
 
