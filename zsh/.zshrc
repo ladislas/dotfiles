@@ -38,6 +38,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
 
 	# Python
 	# lpath+="/usr/local/opt/python/libexec/bin"
+	#
 	# lpath+="/Users/ladislas/Library/Python/3.7/bin/"
 
 	# Export $PATH
@@ -148,10 +149,25 @@ alias gi='gem install --no-document'
 alias gu='gem update --no-document'
 alias gem-update='gu'
 
+# Python
+function pip_update_all_user {
+	if [[ $(pip3 list --user --outdated) ]]; then
+		echo "pip will update the --user installed packages..."
+		pip3 list --user --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install --user -U
+	else
+		echo "pip did not find any --user installed packages to update."
+	fi
+}
+
+alias pipinstall='pip3 install --user'
+alias pipupdate='pip3 install --user -U'
+alias pipupdate=pip_update_all_user
+
 # Miscs
 alias qq='exit'
+
 # Clean up LaunchServices to remove duplicates in the “Open With” menu
-alias lscleanup="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
+alias launchservices_cleanup="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
 
 # chmod
 alias getchmod="stat --format '%a'"
