@@ -140,11 +140,11 @@ if [[ $arg_array =~ "--macos" ]]; then
 
 	echo "Opening apps before configuring"
 	for app in \
-		"Visual\ Studio\ Code" \
-		"Sublime\ Text" \
+		"Visual Studio Code" \
+		"Sublime Text" \
 		"iTerm" \
 	    "Transmission" \
-	    "Fantastical\ 2" \
+	    "Fantastical 2" \
 	    "Rectangle" ;
 	do
 		ls /Applications | grep $app
