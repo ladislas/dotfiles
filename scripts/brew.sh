@@ -73,17 +73,21 @@ formulae=(
 	neovim
 	pandoc
 	rename
-
 	imagemagick
 	youtube-dl
 	the_silver_searcher
 
 	# Install dev tools
+	avrdude
 	stlink
 	open-ocd
 	swiftlint
 	clang-format
 	cppcheck
+
+	# Install osx-cross formulae
+	osx-cross/arm/arm-gcc-bin
+	osx-cross/avr/avr-gcc
 )
 
 # Install formulae
@@ -133,13 +137,6 @@ for cask in $casks; do
 		try brew cask install $cask
 	fi
 done
-
-# Install useful taps
-# try brew tap osx-cross/arm
-# try brew install arm-gcc-bin
-# try brew tap osx-cross/avr
-# try brew install avr-gcc
-# try brew install avrdude
 
 # Remove outdated versions from the cellar
 try brew cleanup -s
