@@ -11,10 +11,10 @@ source ./scripts/helpers.sh
 #
 
 if [[ "$1" =~ "-vv" ]]; then
-	alias try='try -vv'
+	alias try="try -vv"
 	shift
 elif [[ "$1" =~ "-v" || "$1" =~ "--verbose" ]]; then
-	alias try='try -v'
+	alias try="try -v"
 	shift
 fi
 
@@ -57,10 +57,10 @@ done
 if [[ $(command -v brew) == "" ]]; then
     echo "👷 Installing brew & coreutils 🚧"
     try /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    try brew install coreutils
+    brew install coreutils
 elif [[ $(command -v gls) == "" ]]; then
 	echo "👷 Installing coreutils 🚧"
-	try brew install coreutils
+	brew install coreutils
 fi
 
 if [ ! $? -eq 0 ]; then
@@ -164,7 +164,7 @@ if [[ $arg_array =~ "--zsh" ]]; then
 	try rm -f ./zsh/.zcompdump
 	try rm -f ./zsh/.zcompdump.zwc
 
-	try chmod go-w '/usr/local/share'
+	try chmod go-w "/usr/local/share"
 
 	try ln -sr ./symlink/.zshenv $HOME/.zshenv
 	try mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}

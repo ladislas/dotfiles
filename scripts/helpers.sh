@@ -41,7 +41,7 @@ function try {
 	end=$(date +%s.%N)
 
 	# calculate duration
-	runtime=$(echo -ne $(printf %.2f $(echo "$end-$start" | bc -l)))
+	runtime="$(printf %.2f $(echo "$end-$start" | bc -l))"
 
 	# output result
 	if [ $cmd_result -eq 0 ]; then
