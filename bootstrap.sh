@@ -76,7 +76,8 @@ export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
 if [[ $arg_array =~ "--all" ]]; then
 	if [[ ! $arg_array =~ "--force" ]]; then
-		echo "⚠️ You are about to run all the scripts. Please confirm that you have read\nthe source files and are okay with that. Unexepected behaviors can occur!"
+		echo "⚠️ You are about to run all the scripts. Please confirm that you have read"
+		echo "the source files and are okay with that. Unexepected behaviors can occur!"
 		read "Are you sure you want to continue? (y/n)"
 		if [[ ! $REPLY =~ ^[Yy]$ ]]
 		then
@@ -138,9 +139,20 @@ if [[ $arg_array =~ "--macos" ]]; then
 	echo "\n👷 Running macOS configuration script 🚧\n"
 
 	echo "Opening apps before configuring"
-	for app in "Visual Studio Code" "Sublime Text" "iTerm" \
-	    "Transmission" "Fantastical 2" "Rectangle" ; do
-		try open -a "$app"
+	for app in \
+		"Visual\ Studio\ Code" \
+		"Sublime\ Text" \
+		"iTerm" \
+	    "Transmission" \
+	    "Fantastical\ 2" \
+	    "Rectangle" ;
+	do
+		ls /Applications | grep $app
+		if [ $? -eq 0 ]; then
+			try open -a "$app"
+		else
+			echo "$app not yet installed"
+		fi
 	done
 
 	echo ""
@@ -207,8 +219,8 @@ fi
 #
 
 if [[ $arg_array =~ "--dev" ]]; then
-	echo "\n👷 Running dev directory structure configuration script 🚧\n"
-	try mkdir -p $HOME/dev/{ladislas,leka,osx-cross,tmp}
+	echo "\n👷 Running personnal dev configuration script 🚧\n"
+	source ./scripts/dev.sh
 fi
 
 #
