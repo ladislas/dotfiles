@@ -3,11 +3,11 @@
 # Continue on error
 set +e
 
-# Make sure we’re using the latest Homebrew.
+echo ""
+echo "› Update brew"
 try brew update
-
-# Upgrade any already-installed formulae.
 try brew upgrade
+
 
 # List already available casks
 available_casks=$(brew cask list)
@@ -39,27 +39,26 @@ casks=(
 	whatsapp
 )
 
-# Install casks
+echo ""
+echo "› Install casks"
 for cask in $casks; do
 	if [[ ! $available_casks =~ $cask ]]; then
 		try brew cask install $cask
 	fi
 done
 
-# Remove outdated versions from the cellar
+
+echo ""
+echo "› Cleanup brew & remove cache"
 try brew cleanup -s
 try rm -rf "$(brew --cache)"
 
+
+apps=("Visual Studio Code" "Sublime Text" "iTerm" "Transmission" "MacDown" "Fantastical 2" "Rectangle")
+
 echo ""
 echo "› Open apps before configuration"
-for app in \
-	"Visual Studio Code" \
-	"Sublime Text" \
-	"iTerm" \
-    "Transmission" \
-    "Fantastical 2" \
-    "Rectangle" ;
-do
+for app in apps; do
 	ls /Applications | grep $app
 	if [ $? -eq 0 ]; then
 		try open -a "$app"
@@ -68,86 +67,39 @@ do
 	fi
 done
 
-echo ""
-
-###############################################################################
-# Transmission.app
-###############################################################################
 
 echo ""
-echo "›››"
-echo "››› Transmission.app"
-echo "›››"
-
-try mkdir -p $HOME/Torrentz/Incomplete
-
-echo ""
-echo "› Set incomplete downloads folder in Downloads"
-try defaults write org.m0k.transmission UseIncompleteDownloadFolder -bool true
-try defaults write org.m0k.transmission IncompleteDownloadFolder -string "${HOME}/Torrentz/Incomplete"
-
-echo ""
-echo "› Set auto-add folder to be Downloads"
-try defaults write org.m0k.transmission AutoImportDirectory -string "${HOME}/Downloads"
-
-echo ""
-echo "› Set download folder to be Torrentz"
-defaults read org.m0k.transmission DownloadFolder -string "${HOME}/Torrentz"
-
-echo ""
-echo "› Don't prompt for confirmation before downloading"
-try defaults write org.m0k.transmission DownloadAsk -bool false
-
-echo ""
-echo "› Trash original torrent files after adding them"
-try defaults write org.m0k.transmission DeleteOriginalTorrent -bool true
-
-echo ""
-echo "› Hide the donate message"
-try defaults write org.m0k.transmission WarningDonate -bool false
-
-echo ""
-echo "› Hide the legal disclaimer"
-try defaults write org.m0k.transmission WarningLegal -bool false
-
-echo ""
-echo "› Auto-resize the window to fit transfers"
-try defaults write org.m0k.transmission AutoSize -bool true
-
-echo ""
-echo "› Auto update to betas"
-try defaults write org.m0k.transmission AutoUpdateBeta -bool true
-
-echo ""
-echo "› Set up the best block list"
-try defaults write org.m0k.transmission EncryptionRequire -bool true
-try defaults write org.m0k.transmission BlocklistAutoUpdate -bool true
-try defaults write org.m0k.transmission BlocklistNew -bool true
-try defaults write org.m0k.transmission BlocklistURL -string "http://john.bitsurge.net/public/biglist.p2p.gz"
-
-
-echo ""
-echo "☠️ Kill related apps"
-
-for app in \
-	"Activity\ Monitor" \
-	"Address\ Book" \
-	"Calendar" \
-	"Contacts" \
-	"cfprefsd" \
-	"Dock" \
-	"Finder" \
-	"Mail" \
-	"Messages" \
-	"Safari" \
-	"SystemUIServer" \
-	"Terminal" \
-	"Transmission" \
-	"Photos" \
-	"App\ Store" \
-	"Rectangle" ; do
-	try killall "${app}" &> /dev/null
+echo "› Kill applications before copying preferences"
+for app in apps; do
+	try killall "${app}"
 done
 
+
 echo ""
-echo "🎉 Done! ✅ Note that some of these changes require a logout/restart to take effect"
+echo "› Copy apps settings & preferences"
+preferences_path="$HOME/Library/Preferences"
+
+app_preferences="org.m0k.transmission.plist"
+app_preferences_path="$preferences_path/$app_preferences"
+try rm -rf $app_preferences_path
+try cp -r ./preferences/$app_preferences $app_preferences_path
+
+app_preferences="com.uranusjr.macdown.plist"
+app_preferences_path="$preferences_path/$app_preferences"
+try rm -rf $app_preferences_path
+try cp -r ./preferences/$app_preferences $app_preferences_path
+
+app_preferences="CoolTerm_Prefs.plist"
+app_preferences_path="$preferences_path/$app_preferences"
+try rm -rf $app_preferences_path
+try cp -r ./preferences/$app_preferences $app_preferences_path
+
+app_preferences="com.knollsoft.Rectangle.plist"
+app_preferences_path="$preferences_path/$app_preferences"
+try rm -rf $app_preferences_path
+try cp -r ./preferences/$app_preferences $app_preferences_path
+
+app_preferences="com.googlecode.iterm2.plist"
+app_preferences_path="$preferences_path/$app_preferences"
+try rm -rf $app_preferences_path
+try cp -r ./preferences/$app_preferences $app_preferences_path

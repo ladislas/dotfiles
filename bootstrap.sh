@@ -229,6 +229,15 @@ fi
 if [[ $arg_array =~ "--dev" ]]; then
 	echo "\n"
 	echo "👷 Starting personnal dev configuration script 🚧\n"
+	echo ""
+	echo "⚠️ To run the script, git must be configured and you will need your Github password."
+	echo ""
+	read "Are you sure you want to continue? (y/n)"
+	if [[ ! $REPLY =~ ^[Yy]$ ]]
+	then
+		[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
+	fi
+
 	source ./scripts/dev.sh
 fi
 

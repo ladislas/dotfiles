@@ -5,6 +5,7 @@
 	],
 	"installed_packages":
 	[
+		"EditorConfig",
 		"Nord",
 		"Package Control"
 	]

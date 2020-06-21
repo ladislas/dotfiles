@@ -3,10 +3,9 @@
 # Continue on error
 set +e
 
-# Make sure we’re using the latest Homebrew.
+echo ""
+echo "› Update brew"
 try brew update
-
-# Upgrade any already-installed formulae.
 try brew upgrade
 
 # List already available formulae
@@ -87,13 +86,15 @@ formulae=(
 	osx-cross/avr/avr-gcc
 )
 
-# Install formulae
+echo ""
+echo "› Install formulae"
 for formula in $formulae ; do
 	if [[ ! $available_formulae =~ $formula ]]; then
 		try brew install $formula
 	fi
 done
 
-# Remove outdated versions from the cellar
+echo ""
+echo "› Cleanup brew & remove cache"
 try brew cleanup -s
 try rm -rf "$(brew --cache)"
