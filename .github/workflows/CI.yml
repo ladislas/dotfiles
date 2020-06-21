@@ -6,7 +6,7 @@ jobs:
 
   bootstrap_test:
     name: Bootstrap --test
-    runs-on: macos
+    runs-on: macos-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2.0.0
@@ -16,7 +16,7 @@ jobs:
 
   bootstrap_all_verbose:
     name: Bootstrap --all -v
-    runs-on: macos
+    runs-on: macos-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2.0.0
