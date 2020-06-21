@@ -16,8 +16,9 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 ###############################################################################
 
 echo ""
-echo ""
-echo "›› General UI/UX"
+echo "›››"
+echo "››› General UI/UX"
+echo "›››"
 
 DATE=$(date +"%Y%m%d")
 COMPUTER_NAME="LadBookPro$DATE"
@@ -40,9 +41,9 @@ try defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 try defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
 try defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
 
-echo ""
-echo "› Disable the over-the-top focus ring animation"
-try defaults write NSGlobalDomain NSUseAnimatedFocusRing -bool false
+# echo ""
+# echo "› Disable the over-the-top focus ring animation"
+# try defaults write NSGlobalDomain NSUseAnimatedFocusRing -bool false
 
 echo ""
 echo "› Save to disk (not to iCloud) by default"
@@ -82,24 +83,25 @@ try defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool fals
 ###############################################################################
 
 echo ""
-echo ""
-echo "›› General Power and Performance modifications"
+echo "›››"
+echo "››› General Power and Performance modifications"
+echo "›››"
 
 echo ""
 echo "› Disable Resume system-wide"
 try defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
 
 echo ""
-echo "› Disable automatic termination of inactive apps"echo " ›"
+echo "› Disable automatic termination of inactive apps"
 try defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
 
 echo ""
 echo "› Disable the sudden motion sensor?"
 sudo pmset -a sms 0
 
-echo ""
-echo "› Speed up wake from sleep to 24 hours from an hour"
-sudo pmset -a standbydelay 86400
+# echo ""
+# echo "› Speed up wake from sleep to 24 hours from an hour"
+# sudo pmset -a standbydelay 86400
 
 echo ""
 echo "› Sleep the display after 15 minutes"
@@ -123,8 +125,9 @@ sudo pmset -a lidwake 1
 ###############################################################################
 
 echo ""
-echo ""
-echo "›› Trackpad, mouse, keyboard, Bluetooth accessories, and input"
+echo "›››"
+echo "››› Trackpad, mouse, keyboard, Bluetooth accessories, and input"
+echo "›››"
 
 echo ""
 echo "› Increase sound quality for Bluetooth headphones/headsets"
@@ -156,8 +159,9 @@ try defaults write com.apple.BezelServices kDimTime -int 300
 ###############################################################################
 
 echo ""
-echo ""
-echo "›› Screen"
+echo "›››"
+echo "››› Screen"
+echo "›››"
 
 echo ""
 echo "› Require password immediately after sleep or screen saver begins"
@@ -182,8 +186,9 @@ sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutio
 ###############################################################################
 
 echo ""
-echo ""
-echo "›› Finder"
+echo "›››"
+echo "››› Finder"
+echo "›››"
 
 echo ""
 echo "› Disable window animations and Get Info animations"
@@ -228,11 +233,11 @@ echo ""
 echo "› Remove the spring loading delay for directories"
 try defaults write NSGlobalDomain com.apple.springing.delay -float 0
 
-echo "Allowing text selection in Quick Look/Preview in Finder by default"
-try defaults write com.apple.finder QLEnableTextSelection -bool true
+# echo "Allowing text selection in Quick Look/Preview in Finder by default"
+# try defaults write com.apple.finder QLEnableTextSelection -bool true
 
 echo ""
-echo "› Use colimn view in all Finder windows by default"
+echo "› Use column view in all Finder windows by default"
 try defaults write com.apple.finder FXPreferredViewStyle Clmv
 
 echo ""
@@ -260,9 +265,9 @@ try /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arran
 
 echo ""
 echo "› Increase grid spacing for icons on the desktop and in other icon views"
-try /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
-try /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
-try /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
+try /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 80" ~/Library/Preferences/com.apple.finder.plist
+try /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 80" ~/Library/Preferences/com.apple.finder.plist
+try /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 80" ~/Library/Preferences/com.apple.finder.plist
 
 echo ""
 echo "› Show the ~/Library folder"
@@ -278,8 +283,9 @@ sudo chflags nohidden /Volumes
 ###############################################################################
 
 echo ""
-echo ""
-echo "›› Dock, Dashboard & Mission Control"
+echo "›››"
+echo "››› Dock, Dashboard & Mission Control"
+echo "›››"
 
 echo ""
 echo "› Wipe all (default) app icons from the Dock" # This is only really useful when setting up a new Mac
@@ -309,9 +315,9 @@ echo ""
 echo "› Show indicator lights for open applications in the Dock"
 try defaults write com.apple.dock show-process-indicators -bool true
 
-echo ""
-echo "› Minimize windows into their application’s icon"
-try defaults write com.apple.dock minimize-to-application -bool true
+# echo ""
+# echo "› Minimize windows into their application’s icon"
+# try defaults write com.apple.dock minimize-to-application -bool true
 
 echo ""
 echo "› Remove the auto-hiding Dock delay"
@@ -337,8 +343,9 @@ try defaults write com.apple.dock mru-spaces -bool false
 ###############################################################################
 
 echo ""
-echo ""
-echo "›› Hot corners"
+echo "›››"
+echo "››› Hot corners"
+echo "›››"
 
 echo ""
 echo "› Top left screen corner → Mission Control"
@@ -366,8 +373,9 @@ try defaults write com.apple.dock wvous-br-modifier -int 0
 ###############################################################################
 
 echo ""
-echo ""
-echo "›› Terminal"
+echo "›››"
+echo "››› Terminal"
+echo "›››"
 
 echo ""
 echo "› Enable UTF-8 ONLY in Terminal.app and setting the Pro theme by default"
@@ -389,8 +397,9 @@ try defaults write com.apple.Terminal ShowLineMarks -int 0
 ###############################################################################
 
 echo ""
-echo ""
-echo "›› Messages"
+echo "›››"
+echo "››› Messages"
+echo "›››"
 
 echo ""
 echo "› Disable smart quotes in Messages.app"
@@ -398,63 +407,13 @@ try defaults write com.apple.messageshelper.MessageController SOInputLineSetting
 
 
 ###############################################################################
-# Transmission.app
-###############################################################################
-
-echo ""
-echo ""
-echo "›› Transmission.app"
-
-try mkdir -p ~/Torrentz/Incomplete
-
-echo ""
-echo "› Setting up an incomplete downloads folder in Downloads"
-try defaults write org.m0k.transmission UseIncompleteDownloadFolder -bool true
-try defaults write org.m0k.transmission IncompleteDownloadFolder -string "${HOME}/Torrentz/Incomplete"
-
-echo ""
-echo "› Setting auto-add folder to be Downloads"
-try defaults write org.m0k.transmission AutoImportDirectory -string "${HOME}/Torrentz"
-
-echo ""
-echo "› Don't prompt for confirmation before downloading"
-try defaults write org.m0k.transmission DownloadAsk -bool false
-
-echo ""
-echo "› Trash original torrent files after adding them"
-try defaults write org.m0k.transmission DeleteOriginalTorrent -bool true
-
-echo ""
-echo "› Hiding the donate message"
-try defaults write org.m0k.transmission WarningDonate -bool false
-
-echo ""
-echo "› Hiding the legal disclaimer"
-try defaults write org.m0k.transmission WarningLegal -bool false
-
-echo ""
-echo "› Auto-resizing the window to fit transfers"
-try defaults write org.m0k.transmission AutoSize -bool true
-
-echo ""
-echo "› Auto updating to betas"
-try defaults write org.m0k.transmission AutoUpdateBeta -bool true
-
-echo ""
-echo "› Setting up the best block list"
-try defaults write org.m0k.transmission EncryptionRequire -bool true
-try defaults write org.m0k.transmission BlocklistAutoUpdate -bool true
-try defaults write org.m0k.transmission BlocklistNew -bool true
-try defaults write org.m0k.transmission BlocklistURL -string "http://john.bitsurge.net/public/biglist.p2p.gz"
-
-
-###############################################################################
 # Activity Monitor
 ###############################################################################
 
 echo ""
-echo ""
-echo "›› Activity Monitor"
+echo "›››"
+echo "››› Activity Monitor"
+echo "›››"
 
 echo ""
 echo "› Show the main window when launching Activity Monitor"
@@ -475,8 +434,9 @@ try defaults write com.apple.ActivityMonitor SortDirection -int 0
 ###############################################################################
 
 echo ""
-echo ""
-echo "›› TextEdit & Disk Utility"
+echo "›››"
+echo "››› TextEdit & Disk Utility"
+echo "›››"
 
 echo ""
 echo "› Use plain text mode for new TextEdit documents"
@@ -498,8 +458,9 @@ try defaults write com.apple.DiskUtility advanced-image-options -bool true
 ###############################################################################
 
 echo ""
-echo ""
-echo "›› Mac App Store"
+echo "›››"
+echo "››› Mac App Store"
+echo "›››"
 
 echo ""
 echo "› Enable the automatic update check"
@@ -531,8 +492,9 @@ try defaults write com.apple.commerce AutoUpdateRestartRequired -bool true
 ###############################################################################
 
 echo ""
-echo ""
-echo "›› Photos"
+echo "›››"
+echo "››› Photos"
+echo "›››"
 
 echo ""
 echo "› Prevent Photos from opening automatically when devices are plugged in"
@@ -543,10 +505,12 @@ try defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 # Kill affected applications
 ###############################################################################
 
+echo ""
 echo "☠️ Kill related apps"
 
-for app in "Activity Monitor" \
-	"Address Book" \
+for app in \
+	"Activity\ Monitor" \
+	"Address\ Book" \
 	"Calendar" \
 	"Contacts" \
 	"cfprefsd" \
@@ -557,11 +521,11 @@ for app in "Activity Monitor" \
 	"Safari" \
 	"SystemUIServer" \
 	"Terminal" \
-	"Transmission" \
 	"Photos" \
-	"App Store" \
-	"Rectangle" ; do
+	"App\ Store" ;
+do
 	try killall "${app}" &> /dev/null
 done
 
+echo ""
 echo "🎉 Done! ✅ Note that some of these changes require a logout/restart to take effect"
