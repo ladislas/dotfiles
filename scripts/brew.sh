@@ -17,20 +17,20 @@ available_casks=$(brew cask list)
 
 typeset -U formulae
 formulae=(
-	# Install GNU core utilities (those that come with macOS are outdated).
-	# Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
+	# Install GNU core utilities (those that come with macOS are outdated)
+	# Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`
 	coreutils
-	# Install some other useful utilities like `sponge`.
+	# Install some other useful utilities like `sponge`
 	moreutils
-	# Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed.
+	# Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed
 	findutils
 	# Install macOS utils
 	osxutils
 
-	# Install a modern version of Bash.
+	# Install a modern version of Bash
 	bash
 
-	# Install a modern version of Zsh.
+	# Install a modern version of Zsh
 	zsh
 	zsh-completion
 	zsh-autosuggestions
@@ -40,28 +40,25 @@ formulae=(
 	# Brew
 	brew-cask-completion
 
-	# Install git & co.
-	git
+	# Install git & co
 	hub
+	git
 	git-lfs
-	mercurial
+	github/gh/gh
 	git-flow-avh
 	diff-so-fancy
+	mercurial
 
 	# Install wget & curl
 	wget
 	curl
-
-	# Install GnuPG to enable PGP-signing commits.
-	# gnupg
-	# pinentry
 
 	# Install scripting languagues
 	node
 	ruby
 	python
 
-	# Install more recent versions of some macOS tools.
+	# Install more recent versions of some macOS tools
 	vim
 	grep
 	make
@@ -69,19 +66,24 @@ formulae=(
 	screen
 	openssh
 
-	# Install other useful binaries.
+	# Install useful tools
 	ack
 	mint
 	tree
-	# mackup
 	neovim
 	pandoc
 	rename
-	stlink
-	swiftlint
+
 	imagemagick
 	youtube-dl
 	the_silver_searcher
+
+	# Install dev tools
+	stlink
+	open-ocd
+	swiftlint
+	clang-format
+	cppcheck
 )
 
 # Install formulae
@@ -139,6 +141,6 @@ done
 # try brew install avr-gcc
 # try brew install avrdude
 
-# Remove outdated versions from the cellar.
+# Remove outdated versions from the cellar
 try brew cleanup -s
 try rm -rf "$(brew --cache)"
