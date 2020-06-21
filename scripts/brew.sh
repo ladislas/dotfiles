@@ -3,17 +3,14 @@
 # Continue on error
 set +e
 
-# Install command-line tools using Homebrew.
-
 # Make sure we’re using the latest Homebrew.
 try brew update
 
 # Upgrade any already-installed formulae.
 try brew upgrade
 
-# List already available formulae & casks
+# List already available formulae
 available_formulae=$(brew list)
-available_casks=$(brew cask list)
 
 typeset -U formulae
 formulae=(
@@ -94,47 +91,6 @@ formulae=(
 for formula in $formulae ; do
 	if [[ ! $available_formulae =~ $formula ]]; then
 		try brew install $formula
-	fi
-done
-
-typeset -U casks
-casks=(
-	1password
-	alfred
-	appcleaner
-	arduino
-	brave-browser
-	coolterm
-	dropbox
-	fantastical
-	# font-source-code-pro
-	google-chrome
-	gpg-suite-no-mail
-	iterm2
-	macdown
-	# mactex-no-gui
-	qlcolorcode
-	qlimagesize
-	qlmarkdown
-	qlprettypatch
-	qlstephen
-	quicklook-csv
-	quicklook-json
-	rectangle
-	slack
-	spotify
-	sublime-text
-	transmission
-	# the-unarchiver
-	visual-studio-code
-	vlc
-	whatsapp
-)
-
-# Install casks
-for cask in $casks; do
-	if [[ ! $available_casks =~ $cask ]]; then
-		try brew cask install $cask
 	fi
 done
 

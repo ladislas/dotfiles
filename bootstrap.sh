@@ -22,11 +22,13 @@ fi
 # Set arguments
 #
 
-arg_array=($@)
 main_commands=("--all" "--force" "--test")
-script_commands=("--hello" "--macos" "--brew" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--gem-pip")
+test_commands=(  "--hello"                   "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--macos")
+script_commands=("--hello" "--brew" "--cask" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--macos")
+
+
+arg_array=($@)
 available_args=( ${main_commands[*]} ${script_commands[*]} )
-test_commands=("--macos" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data")
 
 #
 # Check that arguments have been passed, if not exit
@@ -76,8 +78,14 @@ export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
 if [[ $arg_array =~ "--all" ]]; then
 	if [[ ! $arg_array =~ "--force" ]]; then
-		echo "⚠️ You are about to run all the scripts. Please confirm that you have read"
-		echo "the source files and are okay with that. Unexepected behaviors can occur!"
+		echo ""
+		echo "⚠️ ⚠️ ⚠️"
+		echo "You are about to run all the scripts. This it NOT recommended"
+		echo "unless you know what you are doing!"
+		echo "Please confirm that you have read the source files and are okay with that."
+		echo "Unexepected behaviors can occur!"
+		echo "⚠️ ⚠️ ⚠️"
+		echo ""
 		read "Are you sure you want to continue? (y/n)"
 		if [[ ! $REPLY =~ ^[Yy]$ ]]
 		then
@@ -132,31 +140,20 @@ if [[ $arg_array =~ "--brew" ]]; then
 fi
 
 #
+# Arg: --cask
+#
+
+if [[ $arg_array =~ "--cask" ]]; then
+	echo "\n👷 Running brew cask configuration script 🚧\n"
+	source ./scripts/cask.sh
+fi
+
+#
 # Arg: --macos
 #
 
 if [[ $arg_array =~ "--macos" ]]; then
 	echo "\n👷 Running macOS configuration script 🚧\n"
-
-	echo "Opening apps before configuring"
-	for app in \
-		"Visual Studio Code" \
-		"Sublime Text" \
-		"iTerm" \
-	    "Transmission" \
-	    "Fantastical 2" \
-	    "Rectangle" ;
-	do
-		ls /Applications | grep $app
-		if [ $? -eq 0 ]; then
-			try open -a "$app"
-		else
-			echo "\t- $app not yet installed"
-		fi
-	done
-
-	echo ""
-
 	source ./scripts/macos.sh
 fi
 
@@ -221,17 +218,6 @@ fi
 if [[ $arg_array =~ "--dev" ]]; then
 	echo "\n👷 Running personnal dev configuration script 🚧\n"
 	source ./scripts/dev.sh
-fi
-
-#
-# Arg: --gem-pip
-#
-
-if [[ $arg_array =~ "--gem-pip" ]]; then
-	echo "\n👷 Installing useful gems, pip & node packages 🚧\n"
-	try gem install --no-document cocoapods fastlane neovim
-	try pip install -U --user mbed-cli pyserial neovim
-	try npm install -g neovim
 fi
 
 #

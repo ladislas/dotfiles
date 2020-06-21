@@ -35,6 +35,17 @@ Available arguments are:
 
 The rest is detailed here:
 
-`--macos` `--brew` `--zsh` `--git` `--symlink` `--nvim` `--dev` `--data` `--gem-pip`
+`--macos` `--brew` `--cask` `--zsh` `--git` `--symlink` `--nvim` `--dev` `--data` `--gem-pip`
 
 > https://github.com/ladislas/dotfiles/blob/master/bootstrap.sh#L123
+
+## Brew cask
+
+I've removed some of the heavy casks from the script as they were taking way too much time...
+
+To instatll them, run the following:
+
+```bash
+brew cask install mactex-no-gui
+```
+
