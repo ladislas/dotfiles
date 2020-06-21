@@ -44,8 +44,6 @@ try ln -sfn $clone_path/homebrew-avr $tap_path/homebrew-avr
 try ln -sfn $clone_path/homebrew-arm $tap_path/homebrew-arm
 
 
-
-
 echo ""
 echo "› Install useful gems, pip & node packages"
 try gem install --no-document cocoapods fastlane neovim

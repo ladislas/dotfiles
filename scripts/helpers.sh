@@ -4,6 +4,10 @@
 # Helpers
 #
 
+# create tmp file & schedule delete if error
+tmp_file=$(mktemp)
+trap "rm -f $temp_file" 0 2 3 15
+
 typeset -Ux failed_commands=()
 
 function try {
@@ -16,10 +20,6 @@ function try {
 
 	verbose=false
 	super_verbose=false
-
-	# create tmp file & schedule delete if error
-	tmp_file=$(mktemp)
-	trap "rm -f $temp_file" 0 2 3 15
 
 	# set output level
 	if [[ $1 =~ "-v" || $1 =~ "--verbose" ]]; then
