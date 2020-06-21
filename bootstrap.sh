@@ -57,12 +57,12 @@ done
 #
 
 if [[ $(command -v brew) == "" ]]; then
-	echo ""
+	echo "\n"
     echo "👷 Installing brew & coreutils 🚧"
     try /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     brew install coreutils
 elif [[ $(command -v gls) == "" ]]; then
-	echo ""
+	echo "\n"
 	echo "👷 Installing coreutils 🚧"
 	brew install coreutils
 fi
@@ -108,7 +108,6 @@ if [[ $arg_array =~ "--test" ]]; then
 	echo ""
 	echo "⚠️ Running bootstrap for testing with the following args:"
 	echo "\t$test_commands"
-	echo ""
 	arg_array=($test_commands)
 	typeset -Ux CI_TEST=1
 fi
@@ -130,8 +129,8 @@ fi
 #
 
 if [[ $arg_array =~ "--hello" ]]; then
-	echo ""
-	echo "👷 Running Hello, World! script 🚧\n"
+	echo "\n"
+	echo "👷 Starting Hello, World! script 🚧\n"
 	echo "Hello, World!"
 fi
 
@@ -140,8 +139,8 @@ fi
 #
 
 if [[ $arg_array =~ "--brew" ]]; then
-	echo ""
-	echo "👷 Running brew configuration script 🚧\n"
+	echo "\n"
+	echo "👷 Starting brew configuration script 🚧\n"
 	source ./scripts/brew.sh
 fi
 
@@ -150,8 +149,8 @@ fi
 #
 
 if [[ $arg_array =~ "--cask" ]]; then
-	echo ""
-	echo "👷 Running brew cask configuration script 🚧\n"
+	echo "\n"
+	echo "👷 Starting brew cask configuration script 🚧\n"
 	source ./scripts/cask.sh
 fi
 
@@ -160,8 +159,8 @@ fi
 #
 
 if [[ $arg_array =~ "--macos" ]]; then
-	echo ""
-	echo "👷 Running macOS configuration script 🚧\n"
+	echo "\n"
+	echo "👷 Starting macOS configuration script 🚧\n"
 	source ./scripts/macos.sh
 fi
 
@@ -170,8 +169,8 @@ fi
 #
 
 if [[ $arg_array =~ "--zsh" ]]; then
-	echo ""
-	echo "👷 Running zsh configuration script 🚧\n"
+	echo "\n"
+	echo "👷 Starting zsh configuration script 🚧\n"
 
 	# Switch to using brew-installed zsh as default shell
 	if ! fgrep -q "${BREW_PREFIX}/bin/zsh" /etc/shells; then
@@ -197,8 +196,8 @@ fi
 #
 
 if [[ $arg_array =~ "--git" ]]; then
-	echo ""
-	echo "👷 Running git configuration script 🚧\n"
+	echo "\n"
+	echo "👷 Starting git configuration script 🚧\n"
 	try ln -sr ./git ${XDG_CONFIG_HOME:-$HOME/.config}/
 fi
 
@@ -207,8 +206,8 @@ fi
 #
 
 if [[ $arg_array =~ "--nvim" ]]; then
-	echo ""
-	echo "👷 Running neovim configuration script 🚧\n"
+	echo "\n"
+	echo "👷 Starting neovim configuration script 🚧\n"
 	try git clone --recursive https://github.com/ladislas/nvim ~/.config/nvim
 fi
 
@@ -217,8 +216,8 @@ fi
 #
 
 if [[ $arg_array =~ "--data" ]]; then
-	echo ""
-	echo "👷 Running XGD Data configuration script 🚧\n"
+	echo "\n"
+	echo "👷 Starting XGD Data configuration script 🚧\n"
 	try mkdir -p ${XDG_DATA_HOME:-$HOME/.local/share}
 	try ln -sr ./data/* ${XDG_DATA_HOME:-$HOME/.local/share}
 fi
@@ -228,8 +227,8 @@ fi
 #
 
 if [[ $arg_array =~ "--dev" ]]; then
-	echo ""
-	echo "👷 Running personnal dev configuration script 🚧\n"
+	echo "\n"
+	echo "👷 Starting personnal dev configuration script 🚧\n"
 	source ./scripts/dev.sh
 fi
 
