@@ -506,7 +506,7 @@ try defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 ###############################################################################
 
 echo ""
-echo "☠️ Kill related apps"
+echo "›› ☠️ Kill related apps"
 
 for app in \
 	"Activity\ Monitor" \
