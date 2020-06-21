@@ -15,6 +15,7 @@ available_casks=$(brew cask list)
 typeset -U casks
 casks=(
 	1password
+	adoptopenjdk
 	aerial
 	alfred
 	appcleaner
@@ -50,7 +51,7 @@ try brew cleanup -s
 try rm -rf "$(brew --cache)"
 
 echo ""
-echo "Opening apps before configuring"
+echo "› Open apps before configuration"
 for app in \
 	"Visual Studio Code" \
 	"Sublime Text" \
@@ -78,19 +79,19 @@ echo "›››"
 echo "››› Transmission.app"
 echo "›››"
 
-try mkdir -p ~/Torrentz/Incomplete
+try mkdir -p $HOME/Torrentz/Incomplete
 
 echo ""
-echo "› Setting up an incomplete downloads folder in Downloads"
+echo "› Set incomplete downloads folder in Downloads"
 try defaults write org.m0k.transmission UseIncompleteDownloadFolder -bool true
 try defaults write org.m0k.transmission IncompleteDownloadFolder -string "${HOME}/Torrentz/Incomplete"
 
 echo ""
-echo "› Setting auto-add folder to be Downloads"
+echo "› Set auto-add folder to be Downloads"
 try defaults write org.m0k.transmission AutoImportDirectory -string "${HOME}/Downloads"
 
 echo ""
-echo "› Setting download folder to be Torrentz"
+echo "› Set download folder to be Torrentz"
 defaults read org.m0k.transmission DownloadFolder -string "${HOME}/Torrentz"
 
 echo ""
@@ -102,23 +103,23 @@ echo "› Trash original torrent files after adding them"
 try defaults write org.m0k.transmission DeleteOriginalTorrent -bool true
 
 echo ""
-echo "› Hiding the donate message"
+echo "› Hide the donate message"
 try defaults write org.m0k.transmission WarningDonate -bool false
 
 echo ""
-echo "› Hiding the legal disclaimer"
+echo "› Hide the legal disclaimer"
 try defaults write org.m0k.transmission WarningLegal -bool false
 
 echo ""
-echo "› Auto-resizing the window to fit transfers"
+echo "› Auto-resize the window to fit transfers"
 try defaults write org.m0k.transmission AutoSize -bool true
 
 echo ""
-echo "› Auto updating to betas"
+echo "› Auto update to betas"
 try defaults write org.m0k.transmission AutoUpdateBeta -bool true
 
 echo ""
-echo "› Setting up the best block list"
+echo "› Set up the best block list"
 try defaults write org.m0k.transmission EncryptionRequire -bool true
 try defaults write org.m0k.transmission BlocklistAutoUpdate -bool true
 try defaults write org.m0k.transmission BlocklistNew -bool true

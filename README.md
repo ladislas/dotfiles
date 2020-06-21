@@ -49,3 +49,8 @@ To instatll them, run the following:
 brew cask install mactex-no-gui
 ```
 
+## Apps Settings
+
+Apps must be launched first before syncronizing the settings.
+
+For VSCode, use [Settings Sync](https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync).
