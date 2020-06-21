@@ -1,0 +1,34 @@
+{
+	"color_scheme": "Packages/Nord/Nord.sublime-color-scheme",
+	"file_exclude_patterns":
+	[
+		"*.pyc",
+		"*.pyo",
+		"*.exe",
+		"*.dll",
+		"*.obj",
+		"*.o",
+		"*.a",
+		"*.so",
+		"*.dylib",
+		"*.ncb",
+		"*.sdf",
+		"*.suo",
+		"*.pdb",
+		"*.idb",
+		".DS_Store",
+		"*.class",
+		"*.psd",
+		"*.db",
+		"*.sublime-workspace"
+	],
+	"font_size": 11,
+	"ignored_packages":
+	[
+		"Vintage"
+	],
+	"theme": "Adaptive.sublime-theme",
+	"trim_trailing_white_space_on_save": true,
+	// Fold buttons are the triangles shown in the gutter to fold regions of text
+	"fold_buttons": false,
+}
