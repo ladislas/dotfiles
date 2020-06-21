@@ -151,7 +151,7 @@ if [[ $arg_array =~ "--macos" ]]; then
 		if [ $? -eq 0 ]; then
 			try open -a "$app"
 		else
-			echo "$app not yet installed"
+			echo "\t- $app not yet installed"
 		fi
 	done
 
