@@ -8,7 +8,7 @@ typeset -Ux failed_commands=()
 
 function try {
 
-	if [[ -n $CI ]]; then
+	if [[ -n $CI_TEST ]]; then
 		if [[ "$@" =~ "sudo -v" ]]; then
 			return 0
 		fi
