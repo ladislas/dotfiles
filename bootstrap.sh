@@ -227,7 +227,7 @@ fi
 #
 
 if [[ $arg_array =~ "--dev" ]]; then
-	if [[ -n $CI_TEST ]]; then
+	if [[ ! -n $CI_TEST ]]; then
 		echo "\n"
 		echo "👷 Starting personnal dev configuration script 🚧\n"
 		echo ""
