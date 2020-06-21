@@ -77,14 +77,15 @@ export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 if [[ $arg_array =~ "--all" ]]; then
 	if [[ ! $arg_array =~ "--force" ]]; then
 		echo "⚠️ You are about to run all the scripts. Please confirm that you have read\nthe source files and are okay with that. Unexepected behaviors can occur!"
-		read "?Are you sure you want to continue? "
+		read "Are you sure you want to continue? (y/n)"
 		if [[ ! $REPLY =~ ^[Yy]$ ]]
 		then
 			[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
 		fi
 	fi
 
-	echo "\n⚠️ Running bootstrap with all args!"
+	echo ""
+	echo "⚠️ Running bootstrap with all args!"
 	arg_array=($script_commands)
 fi
 
@@ -93,7 +94,9 @@ fi
 #
 
 if [[ $arg_array =~ "--test" ]]; then
-	echo "\n⚠️ Running bootstrap with all args except for testing!"
+	echo ""
+	echo "⚠️ Running bootstrap for testing with the following args:"
+	echo "\t$test_commands"
 	arg_array=($test_commands)
 	typeset -Ux CI_TEST=1
 fi

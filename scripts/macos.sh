@@ -16,6 +16,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 ###############################################################################
 
 echo ""
+echo ""
 echo "›› General UI/UX"
 
 DATE=$(date +"%Y%m%d")
@@ -81,6 +82,7 @@ try defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool fals
 ###############################################################################
 
 echo ""
+echo ""
 echo "›› General Power and Performance modifications"
 
 echo ""
@@ -121,6 +123,7 @@ sudo pmset -a lidwake 1
 ###############################################################################
 
 echo ""
+echo ""
 echo "›› Trackpad, mouse, keyboard, Bluetooth accessories, and input"
 
 echo ""
@@ -153,6 +156,7 @@ try defaults write com.apple.BezelServices kDimTime -int 300
 ###############################################################################
 
 echo ""
+echo ""
 echo "›› Screen"
 
 echo ""
@@ -177,6 +181,7 @@ sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutio
 # Finder
 ###############################################################################
 
+echo ""
 echo ""
 echo "›› Finder"
 
@@ -273,6 +278,7 @@ sudo chflags nohidden /Volumes
 ###############################################################################
 
 echo ""
+echo ""
 echo "›› Dock, Dashboard & Mission Control"
 
 echo ""
@@ -331,6 +337,7 @@ try defaults write com.apple.dock mru-spaces -bool false
 ###############################################################################
 
 echo ""
+echo ""
 echo "›› Hot corners"
 
 echo ""
@@ -359,6 +366,7 @@ try defaults write com.apple.dock wvous-br-modifier -int 0
 ###############################################################################
 
 echo ""
+echo ""
 echo "›› Terminal"
 
 echo ""
@@ -381,6 +389,7 @@ try defaults write com.apple.Terminal ShowLineMarks -int 0
 ###############################################################################
 
 echo ""
+echo ""
 echo "›› Messages"
 
 echo ""
@@ -392,6 +401,7 @@ try defaults write com.apple.messageshelper.MessageController SOInputLineSetting
 # Transmission.app
 ###############################################################################
 
+echo ""
 echo ""
 echo "›› Transmission.app"
 
@@ -443,6 +453,7 @@ try defaults write org.m0k.transmission BlocklistURL -string "http://john.bitsur
 ###############################################################################
 
 echo ""
+echo ""
 echo "›› Activity Monitor"
 
 echo ""
@@ -463,6 +474,7 @@ try defaults write com.apple.ActivityMonitor SortDirection -int 0
 # TextEdit & Disk Utility
 ###############################################################################
 
+echo ""
 echo ""
 echo "›› TextEdit & Disk Utility"
 
@@ -485,6 +497,7 @@ try defaults write com.apple.DiskUtility advanced-image-options -bool true
 # Mac App Store
 ###############################################################################
 
+echo ""
 echo ""
 echo "›› Mac App Store"
 
@@ -517,6 +530,7 @@ try defaults write com.apple.commerce AutoUpdateRestartRequired -bool true
 # Photos
 ###############################################################################
 
+echo ""
 echo ""
 echo "›› Photos"
 
