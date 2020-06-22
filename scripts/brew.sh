@@ -96,7 +96,9 @@ for formula in $formulae ; do
 	fi
 done
 
-echo ""
-echo "› Cleanup brew & remove cache"
-try brew cleanup -s
-try rm -rf "$(brew --cache)"
+if [[ ! -n $CI_TEST ]]; then
+	echo ""
+	echo "› Cleanup brew & remove cache"
+	try brew cleanup -s
+	try rm -rf "$(brew --cache)"
+fi

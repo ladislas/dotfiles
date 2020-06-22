@@ -2,13 +2,13 @@
 
 # Continue on error
 set +e
-
 if [[ ! -n $CI_TEST ]]; then
 	echo ""
 	echo "› Update brew"
 	try brew update
 	try brew upgrade
 fi
+
 
 # List already available casks
 available_casks=$(brew cask list)
@@ -48,8 +48,9 @@ for cask in $casks; do
 	fi
 done
 
-
-echo ""
-echo "› Cleanup brew & remove cache"
-try brew cleanup -s
-try rm -rf "$(brew --cache)"
+if [[ ! -n $CI_TEST ]]; then
+	echo ""
+	echo "› Cleanup brew & remove cache"
+	try brew cleanup -s
+	try rm -rf "$(brew --cache)"
+fi

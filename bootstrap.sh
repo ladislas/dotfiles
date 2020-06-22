@@ -23,8 +23,8 @@ fi
 #
 
 main_commands=("--all" "--force" "--ci")
-ci_commands=(    "--hello"                   "--apps_config" "--zsh" "--git" "--symlink" "--nvim"         "--data" "--macos")
-script_commands=("--hello" "--brew" "--apps" "--apps_config" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--macos")
+ci_commands=(    "--hello"                   "--config_apps" "--zsh" "--git" "--symlink" "--nvim"         "--data" "--macos")
+script_commands=("--hello" "--brew" "--apps" "--config_apps" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--macos")
 
 
 arg_array=($@)
@@ -159,10 +159,10 @@ if [[ $arg_array =~ "--apps" ]]; then
 fi
 
 #
-# Arg: --apps_config
+# Arg: --config_apps
 #
 
-if [[ $arg_array =~ "--apps_config" ]]; then
+if [[ $arg_array =~ "--config_apps" ]]; then
 	echo "\n"
 	echo "👷 Starting applications configuration script 🚧\n"
 	source ./scripts/apps_config.sh
