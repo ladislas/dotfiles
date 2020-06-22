@@ -54,11 +54,11 @@ try brew cleanup -s
 try rm -rf "$(brew --cache)"
 
 
-apps=("Visual Studio Code" "Sublime Text" "iTerm" "Transmission" "MacDown" "Fantastical 2" "Rectangle")
+apps=("Visual Studio Code" "Sublime Text" "iTerm" "CoolTerm" "Transmission" "MacDown" "Fantastical 2" "Rectangle")
 
 echo ""
-echo "› Open apps before configuration"
-for app in apps; do
+echo "› Open applications before configuration"
+for app in $apps; do
 	ls /Applications | grep $app
 	if [ $? -eq 0 ]; then
 		try open -a "$app"
@@ -70,8 +70,13 @@ done
 
 echo ""
 echo "› Kill applications before copying preferences"
-for app in apps; do
-	try killall "${app}"
+for app in $apps; do
+	ls /Applications | grep $app
+	if [ $? -eq 0 ]; then
+		try killall "${app}"
+	else
+		echo "\t- $app not yet installed"
+	fi
 done
 
 

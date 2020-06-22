@@ -24,7 +24,7 @@ fi
 
 main_commands=("--all" "--force" "--test")
 test_commands=(  "--hello"                   "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--macos")
-script_commands=("--hello" "--brew" "--cask" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--macos")
+script_commands=("--hello" "--brew" "--apps" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--macos")
 
 
 arg_array=($@)
@@ -145,13 +145,13 @@ if [[ $arg_array =~ "--brew" ]]; then
 fi
 
 #
-# Arg: --cask
+# Arg: --apps
 #
 
-if [[ $arg_array =~ "--cask" ]]; then
+if [[ $arg_array =~ "--apps" ]]; then
 	echo "\n"
-	echo "👷 Starting brew cask configuration script 🚧\n"
-	source ./scripts/cask.sh
+	echo "👷 Starting applications installation & configuration script 🚧\n"
+	source ./scripts/apps.sh
 fi
 
 #

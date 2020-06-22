@@ -10,6 +10,21 @@ try osascript -e 'tell application "System Preferences" to quit'
 # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
+###############################################################################
+# Open affected applications
+###############################################################################
+
+echo ""
+echo "›››"
+echo "››› Open affected applications"
+echo "›››"
+
+macos_apps=("Activity Monitor" "App Store" "Calendar" "Contacts" "Dock" "Finder" "Mail" "Messages" "Photos" "Safari" "SystemUIServer" "Terminal")
+
+for app in $macos_apps ;
+	try open -a "${app}"
+done
+
 
 ###############################################################################
 # General UI/UX
@@ -510,24 +525,10 @@ echo "›››"
 echo "››› Kill affected applications"
 echo "›››"
 
-for app in \
-	"Activity\ Monitor" \
-	"Address\ Book" \
-	"Calendar" \
-	"Contacts" \
-	"cfprefsd" \
-	"Dock" \
-	"Finder" \
-	"Mail" \
-	"Messages" \
-	"Safari" \
-	"SystemUIServer" \
-	"Terminal" \
-	"Photos" \
-	"App\ Store" ;
-do
+for app in $macos_apps ; do
 	try killall "${app}"
 done
+try killall "cfprefsd"
 
 echo ""
 echo "🎉 Done! ✅ Note that some of these changes require a logout/restart to take effect"
