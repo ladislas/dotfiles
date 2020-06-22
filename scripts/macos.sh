@@ -21,7 +21,8 @@ echo "›››"
 
 macos_apps=("Activity Monitor" "App Store" "Calendar" "Contacts" "Dock" "Finder" "Mail" "Messages" "Photos" "Safari" "SystemUIServer" "Terminal")
 
-for app in $macos_apps ;
+echo ""
+for app in $macos_apps ; do
 	try open -a "${app}"
 done
 
@@ -525,6 +526,7 @@ echo "›››"
 echo "››› Kill affected applications"
 echo "›››"
 
+echo ""
 for app in $macos_apps ; do
 	try killall "${app}"
 done
