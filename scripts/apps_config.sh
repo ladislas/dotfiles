@@ -13,6 +13,7 @@ apps=( \
 	"Sublime Text" \
 	"Transmission" \
 	"Visual Studio Code" \
+	"Xcode" \
 )
 
 
