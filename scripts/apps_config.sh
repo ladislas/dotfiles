@@ -55,8 +55,8 @@ dotf_spelling_path="$dotf_library_path/Spelling"
 user_xcode_userdata_path="$user_library_path/Developer/Xcode/UserData"
 dotf_xcode_userdata_path="$dotf_library_path/Developer/Xcode/UserData"
 
-user_sublimetext_settings_path="$user_library_path/Application\ Support/Sublime\ Text\ 3/Packages/User"
-dotf_sublimetext_settings_path="$dotf_library_path/Application\ Support/Sublime\ Text\ 3/Packages/User"
+user_sublimetext_settings_path="$user_library_path/Application Support/Sublime Text 3/Packages/User"
+dotf_sublimetext_settings_path="$dotf_library_path/Application Support/Sublime Text 3/Packages/User"
 
 echo ""
 echo "› Copy .plist to $user_preferences_path"
@@ -72,8 +72,8 @@ try cp -r $dotf_spelling_path/* $user_spelling_path
 
 echo ""
 echo "› Copy Xcode settings to $user_xcode_userdata_path"
-try cp -r $dotf_xcode_userdata_path/FontAndColorThemes $user_xcode_userdata_path
-try cp -r $dotf_xcode_userdata_path/KeyBindings $user_xcode_userdata_path
+try cp -r $dotf_xcode_userdata_path/FontAndColorThemes/* $user_xcode_userdata_path/FontAndColorThemes
+try cp -r $dotf_xcode_userdata_path/KeyBindings/* $user_xcode_userdata_path/KeyBindings
 
 echo ""
 echo "› Copy Sublime Text settings to $user_sublimetext_settings_path"
