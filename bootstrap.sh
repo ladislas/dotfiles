@@ -11,10 +11,10 @@ alias try='./scripts/helpers/try.sh'
 # Set output level (verbose / super_verbose)
 #
 
-if [[ "$1" =~ "-vv" ]]; then
+if [[ "$1" == "-vv" ]]; then
 	alias try="try -vv"
 	shift
-elif [[ "$1" =~ "-v" || "$1" =~ "--verbose" ]]; then
+elif [[ "$1" == "-v" || "$1" == "--verbose" ]]; then
 	alias try="try -v"
 	shift
 fi
@@ -46,7 +46,7 @@ fi
 #
 
 for arg in $arg_array; do
-	if [[ ! " ${available_args[@]} " =~ " ${arg} " ]]; then
+	if [[ ! " ${available_args[@]} " == " ${arg} " ]]; then
 		echo "💥 Unrecognized argument: $arg"
 		echo "Please try again with one of those: $available_args"
 		return 1
@@ -79,8 +79,8 @@ export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 # Arg: --all
 #
 
-if [[ $arg_array =~ "--all" ]]; then
-	if [[ ! $arg_array =~ "--force" ]]; then
+if [[ $arg_array == "--all" ]]; then
+	if [[ ! $arg_array == "--force" ]]; then
 		echo ""
 		echo "⚠️ ⚠️ ⚠️"
 		echo "You are about to run all the scripts. This it NOT recommended"
@@ -90,13 +90,13 @@ if [[ $arg_array =~ "--all" ]]; then
 		echo "⚠️ ⚠️ ⚠️"
 		echo ""
 		read "Are you sure you want to continue? (y/n)"
-		if [[ ! $REPLY =~ ^[Yy]$ ]]
+		if [[ ! $REPLY == ^[Yy]$ ]]
 		then
 			[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
 		fi
 	fi
 
-	if [[ $arg_array =~ "--ci" ]]; then
+	if [[ $arg_array == "--ci" ]]; then
 		typeset -Ux CI_TEST=1
 	fi
 
@@ -109,7 +109,7 @@ fi
 # Arg: --ci
 #
 
-if [[ $arg_array =~ "--ci" ]]; then
+if [[ $arg_array == "--ci" ]]; then
 	echo ""
 	echo "⚠️ Running bootstrap for testing with the following args:"
 	echo "\t$ci_commands"
@@ -121,7 +121,7 @@ fi
 # Arg: --dry-run
 #
 
-if [[ $arg_array =~ "--dry-run" ]]; then
+if [[ $arg_array == "--dry-run" ]]; then
 	echo ""
 	echo "⚠️ Running bootstrap as dry run. Nothing will be installed..."
 	echo "\t$ci_commands"
@@ -133,7 +133,7 @@ fi
 # Sudo power
 #
 
-if [[ $arg_array =~ "--macos" || $arg_array =~ "--brew" ]]; then
+if [[ $arg_array == "--macos" || $arg_array == "--brew" ]]; then
 	if ! sudo -n true 2>/dev/null; then
 		echo "⚠️ Args --macos & --brew require sudo to run."
 		echo "Please enter your password."
@@ -145,7 +145,7 @@ fi
 # Arg: --hello
 #
 
-if [[ $arg_array =~ "--hello" ]]; then
+if [[ $arg_array == "--hello" ]]; then
 	echo "\n"
 	echo "👷 Starting Hello, World! script 🚧\n"
 	echo "Hello, World!"
@@ -155,7 +155,7 @@ fi
 # Arg: --brew
 #
 
-if [[ $arg_array =~ "--brew" ]]; then
+if [[ $arg_array == "--brew" ]]; then
 	echo "\n"
 	echo "👷 Starting brew configuration script 🚧\n"
 	source ./scripts/brew.sh
@@ -165,7 +165,7 @@ fi
 # Arg: --apps-install
 #
 
-if [[ $arg_array =~ "--apps-install" ]]; then
+if [[ $arg_array == "--apps-install" ]]; then
 	echo "\n"
 	echo "👷 Starting applications installation script 🚧\n"
 	source ./scripts/apps.sh
@@ -175,7 +175,7 @@ fi
 # Arg: --apps-config
 #
 
-if [[ $arg_array =~ "--apps-config" ]]; then
+if [[ $arg_array == "--apps-config" ]]; then
 	echo "\n"
 	echo "👷 Starting applications configuration script 🚧\n"
 	source ./scripts/apps_config.sh
@@ -185,7 +185,7 @@ fi
 # Arg: --macos
 #
 
-if [[ $arg_array =~ "--macos" ]]; then
+if [[ $arg_array == "--macos" ]]; then
 	echo "\n"
 	echo "👷 Starting macOS configuration script 🚧\n"
 	source ./scripts/macos.sh
@@ -195,7 +195,7 @@ fi
 # Arg: --zsh
 #
 
-if [[ $arg_array =~ "--zsh" ]]; then
+if [[ $arg_array == "--zsh" ]]; then
 	echo "\n"
 	echo "👷 Starting zsh configuration script 🚧\n"
 
@@ -222,7 +222,7 @@ fi
 # Arg: --git
 #
 
-if [[ $arg_array =~ "--git" ]]; then
+if [[ $arg_array == "--git" ]]; then
 	echo "\n"
 	echo "👷 Starting git configuration script 🚧\n"
 	try ln -sr ./git ${XDG_CONFIG_HOME:-$HOME/.config}/
@@ -232,7 +232,7 @@ fi
 # Arg: --neovim
 #
 
-if [[ $arg_array =~ "--nvim" ]]; then
+if [[ $arg_array == "--nvim" ]]; then
 	echo "\n"
 	echo "👷 Starting neovim configuration script 🚧\n"
 	try git clone --recursive https://github.com/ladislas/nvim ~/.config/nvim
@@ -242,7 +242,7 @@ fi
 # Arg: --data
 #
 
-if [[ $arg_array =~ "--data" ]]; then
+if [[ $arg_array == "--data" ]]; then
 	echo "\n"
 	echo "👷 Starting XGD Data configuration script 🚧\n"
 	try mkdir -p ${XDG_DATA_HOME:-$HOME/.local/share}
@@ -253,7 +253,7 @@ fi
 # Arg: --dev
 #
 
-if [[ $arg_array =~ "--dev" ]]; then
+if [[ $arg_array == "--dev" ]]; then
 	if [[ ! -n $CI_TEST ]]; then
 		echo "\n"
 		echo "👷 Starting personnal dev configuration script 🚧\n"
@@ -261,7 +261,7 @@ if [[ $arg_array =~ "--dev" ]]; then
 		echo "⚠️ To run the script, git must be configured and you will need your Github password."
 		echo ""
 		read "Are you sure you want to continue? (y/n)"
-		if [[ ! $REPLY =~ ^[Yy]$ ]]
+		if [[ ! $REPLY == ^[Yy]$ ]]
 		then
 			[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
 		fi
