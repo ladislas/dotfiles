@@ -19,7 +19,20 @@ echo "›››"
 echo "››› Open affected applications"
 echo "›››"
 
-macos_apps=("Activity Monitor" "App Store" "Calendar" "Contacts" "Dock" "Finder" "Mail" "Messages" "Photos" "Safari" "SystemUIServer" "Terminal")
+macos_apps=( \
+	"Activity Monitor" \
+	"App Store" \
+	"Calendar" \
+	"Contacts" \
+	"Dock" \
+	"Finder" \
+	"Mail" \
+	"Messages" \
+	"Photos" \
+	"Safari" \
+	"SystemUIServer" \
+	"Terminal" \
+)
 
 echo ""
 for app in $macos_apps ; do

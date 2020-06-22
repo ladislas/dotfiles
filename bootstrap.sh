@@ -23,8 +23,8 @@ fi
 #
 
 main_commands=("--all" "--force" "--ci")
-ci_commands=(  "--hello"                   "--zsh" "--git" "--symlink" "--nvim"         "--data" "--macos")
-script_commands=("--hello" "--brew" "--apps" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--macos")
+ci_commands=(    "--hello"                   "--apps_config" "--zsh" "--git" "--symlink" "--nvim"         "--data" "--macos")
+script_commands=("--hello" "--brew" "--apps" "--apps_config" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--macos")
 
 
 arg_array=($@)
@@ -159,6 +159,16 @@ if [[ $arg_array =~ "--apps" ]]; then
 fi
 
 #
+# Arg: --apps_config
+#
+
+if [[ $arg_array =~ "--apps_config" ]]; then
+	echo "\n"
+	echo "👷 Starting applications installation & configuration script 🚧\n"
+	source ./scripts/apps_config.sh
+fi
+
+#
 # Arg: --macos
 #
 
@@ -248,7 +258,8 @@ if [[ $arg_array =~ "--dev" ]]; then
 fi
 
 #
-# List failed commands
+# List failed commands & delete tmp_file
 #
 
 list_failed_commands
+rm -rf $tmp_file

@@ -10,6 +10,8 @@ I try to keep `$HOME` as clean as possible by using [XDG Base Directory Specific
 
 ## Install & Use
 
+Make sure you have Xcode installed first.
+
 Clone the repo where you want, I usually do the following:
 
 ```console
@@ -29,13 +31,13 @@ Available arguments are:
 
 - `--all` - run all scripts
 - `--force` - used with `--all` skip the "Are you sure you want to continue" question
-- `--test` - for CI
+- `--ci` - for CI
 - `--verbose` or `-v` - print `stderr` message of failed commands
 - `-vv` - print `stdout` & `stderr` messages
 
 The rest is detailed here:
 
-`--macos` `--brew` `--cask` `--zsh` `--git` `--symlink` `--nvim` `--dev` `--data` `--gem-pip`
+`--brew` `--apps` `--apps_config` `--zsh` `--git` `--symlink` `--nvim` `--dev` `--data` `--macos`
 
 > https://github.com/ladislas/dotfiles/blob/master/bootstrap.sh#L123
 

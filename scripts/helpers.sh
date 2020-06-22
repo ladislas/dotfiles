@@ -56,9 +56,6 @@ function try {
 			cat $tmp_file
 		fi
 	fi
-
-	rm -rf $tmp_file
-
 }
 
 function list_failed_commands {
