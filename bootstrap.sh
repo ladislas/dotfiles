@@ -5,7 +5,12 @@
 #
 
 source ./scripts/helpers/include.sh
-alias try='./scripts/helpers/try.sh'
+
+function try {
+	try='./scripts/helpers/try.sh'
+	$try $@
+}
+
 
 #
 # Set output level (verbose / super_verbose)
