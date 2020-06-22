@@ -3,11 +3,12 @@
 # Continue on error
 set +e
 
-echo ""
-echo "› Update brew"
-try brew update
-try brew upgrade
-
+if [[ ! -n $CI_TEST ]]; then
+	echo ""
+	echo "› Update brew"
+	try brew update
+	try brew upgrade
+fi
 
 # List already available casks
 available_casks=$(brew cask list)

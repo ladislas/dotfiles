@@ -23,7 +23,7 @@ fi
 #
 
 main_commands=("--all" "--force" "--ci")
-ci_commands=(    "--hello"          "--apps" "--apps_config" "--zsh" "--git" "--symlink" "--nvim"         "--data" "--macos")
+ci_commands=(    "--hello" "--brew" "--apps" "--apps_config" "--zsh" "--git" "--symlink" "--nvim"         "--data" "--macos")
 script_commands=("--hello" "--brew" "--apps" "--apps_config" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--macos")
 
 
@@ -154,7 +154,7 @@ fi
 
 if [[ $arg_array =~ "--apps" ]]; then
 	echo "\n"
-	echo "👷 Starting applications installation & configuration script 🚧\n"
+	echo "👷 Starting applications installation script 🚧\n"
 	source ./scripts/apps.sh
 fi
 
@@ -164,7 +164,7 @@ fi
 
 if [[ $arg_array =~ "--apps_config" ]]; then
 	echo "\n"
-	echo "👷 Starting applications installation & configuration script 🚧\n"
+	echo "👷 Starting applications configuration script 🚧\n"
 	source ./scripts/apps_config.sh
 fi
 

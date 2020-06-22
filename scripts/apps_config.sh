@@ -6,7 +6,7 @@ set +e
 apps=( \
 	"AppCleaner" \
 	"CoolTerm" \
-	"Fantastical 2" \
+	"Fantastical" \
 	"iTerm" \
 	"MacDown" \
 	"Rectangle" \
@@ -19,12 +19,7 @@ apps=( \
 echo ""
 echo "› Open applications before configuration"
 for app in $apps; do
-	ls /Applications | grep $app
-	if [ $? -eq 0 ]; then
-		try open -a "$app"
-	else
-		echo "\t- $app not yet installed"
-	fi
+	try open -a "$app"
 done
 
 echo ""
@@ -34,11 +29,13 @@ try sleep 3
 echo ""
 echo "› Kill applications before copying preferences"
 for app in $apps; do
-	ls /Applications | grep $app
-	if [ $? -eq 0 ]; then
-		try killall "${app}"
+	if [[ $app =~ "iTerm" ]] ; then
+		try killall iTerm2
+	fi
+	elif [[ $app =~ "Visual Studio Code" ]] ; then
+		try kill -9 $(pgrep Electron)
 	else
-		echo "\t- $app not yet installed"
+		try killall "${app}"
 	fi
 done
 
@@ -46,19 +43,19 @@ done
 user_library_path="$HOME/Library"
 dotf_library_path="./Library"
 
-user_preferences_path="$library_path/Preferences"
+user_preferences_path="$user_library_path/Preferences"
 dotf_preferences_path="$dotf_library_path/Preferences"
 
-user_colors_path="$library_path/Colors"
+user_colors_path="$user_library_path/Colors"
 dotf_colors_path="$dotf_library_path/Colors"
 
-user_spelling_path="$library_path/Spelling"
+user_spelling_path="$user_library_path/Spelling"
 dotf_spelling_path="$dotf_library_path/Spelling"
 
-user_xcode_userdata_path="$library_path/Developer/Xcode/UserData"
+user_xcode_userdata_path="$user_library_path/Developer/Xcode/UserData"
 dotf_xcode_userdata_path="$dotf_library_path/Developer/Xcode/UserData"
 
-user_sublimetext_settings_path="$library_path/Application\ Support/Sublime\ Text\ 3/Packages/User"
+user_sublimetext_settings_path="$user_library_path/Application\ Support/Sublime\ Text\ 3/Packages/User"
 dotf_sublimetext_settings_path="$dotf_library_path/Application\ Support/Sublime\ Text\ 3/Packages/User"
 
 echo ""
@@ -67,7 +64,7 @@ try cp -r $dotf_preferences_path/*.plist $user_preferences_path
 
 echo ""
 echo "› Copy .clr to $user_colors_path"
-try cp -r $dotf_colors_path/*.plist $user_colors_path
+try cp -r $dotf_colors_path/*.clr $user_colors_path
 
 echo ""
 echo "› Copy dictionary to $user_spelling_path"
