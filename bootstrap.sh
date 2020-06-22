@@ -97,7 +97,7 @@ if [[ $arg_array =~ "--all" ]]; then
 	fi
 
 	if [[ $arg_array =~ "--ci" ]]; then
-		typeset -Ux CI_TEST=1
+		typeset -x CI_TEST=1
 	fi
 
 	echo ""
@@ -114,7 +114,7 @@ if [[ $arg_array =~ "--ci" ]]; then
 	echo "⚠️ Running bootstrap for testing with the following args:"
 	echo "\t$ci_commands"
 	arg_array=($ci_commands)
-	typeset -Ux CI_TEST=1
+	typeset -x CI_TEST=1
 fi
 
 #
@@ -126,7 +126,7 @@ if [[ $arg_array =~ "--dry-run" ]]; then
 	echo "⚠️ Running bootstrap as dry run. Nothing will be installed..."
 	echo "\t$ci_commands"
 	arg_array=($ci_commands)
-	typeset -Ux CI_TEST=1
+	typeset -x CI_TEST=1
 fi
 
 #
