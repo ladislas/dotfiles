@@ -6,7 +6,7 @@ try mkdir -p $HOME/dev/{ladislas,leka,osx-cross,tmp}
 
 
 echo ""
-echo "› Clone important repositories - ladislas"
+echo "› Clone personal repositories"
 cd $HOME/dev/ladislas
 try git clone --recursive https://github.com/ladislas/Bare-Arduino-Project
 try git clone --recursive https://github.com/ladislas/Bare-mbed-Project
@@ -14,7 +14,7 @@ try git clone https://github.com/ladislas/explorations
 
 
 echo ""
-echo "› Clone important repositories - leka"
+echo "› Clone Leka repositories"
 cd $HOME/dev/leka
 try git clone --recursive https://github.com/leka/Arduino-Makefile
 try git clone --recursive https://github.com/leka/leka-app
@@ -27,14 +27,14 @@ try git clone https://github.com/leka/styleguides
 
 
 echo ""
-echo "› Clone important repositories - osx-cross"
+echo "› Clone osx-cross repositories"
 cd $HOME/dev/osx-cross
 try git clone https://github.com/osx-cross/homebrew-avr
 try git clone https://github.com/osx-cross/homebrew-arm
 try git clone https://github.com/osx-cross/homebrew-stm32
 
 echo ""
-echo "› Symlink, install osx-cross formulae & casks"
+echo "› Symlink osx-cross formulae & casks"
 clone_path="$HOME/dev/osx-cross"
 tap_path="/usr/local/Homebrew/Library/Taps/osx-cross"
 
@@ -42,6 +42,12 @@ try mkdir -p /usr/local/Homebrew/Library/Taps/osx-cross
 try ln -sfn $clone_path/homebrew-stm32 $tap_path/homebrew-stm32
 try ln -sfn $clone_path/homebrew-avr $tap_path/homebrew-avr
 try ln -sfn $clone_path/homebrew-arm $tap_path/homebrew-arm
+
+echo ""
+echo "› Install osx-cross formulae & casks"
+try brew install avr-gcc
+try brew install arm-gcc-bin
+try brew cask install stm32cubemx
 
 
 echo ""
