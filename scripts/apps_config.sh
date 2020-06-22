@@ -31,9 +31,8 @@ echo "› Kill applications before copying preferences"
 for app in $apps; do
 	if [[ $app =~ "iTerm" ]] ; then
 		try killall iTerm2
-	fi
 	elif [[ $app =~ "Visual Studio Code" ]] ; then
-		try kill -9 $(pgrep Electron)
+		try osascript -e 'quit app "Visual Studio Code"'
 	else
 		try killall "${app}"
 	fi
