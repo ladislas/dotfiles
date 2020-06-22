@@ -67,7 +67,7 @@ try cp -r $dotf_colors_path/*.clr $user_colors_path
 
 echo ""
 echo "› Copy dictionary to $user_spelling_path"
-try cp -r $dotf_spelling_path/*.plist $user_spelling_path
+try cp -r $dotf_spelling_path/* $user_spelling_path
 
 echo ""
 echo "› Copy Xcode settings to $user_xcode_userdata_path"
