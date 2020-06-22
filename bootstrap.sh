@@ -23,7 +23,7 @@ fi
 #
 
 main_commands=("--all" "--force" "--ci")
-test_commands=(  "--hello"                   "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--macos")
+ci_commands=(  "--hello"                   "--zsh" "--git" "--symlink" "--nvim"         "--data" "--macos")
 script_commands=("--hello" "--brew" "--apps" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--macos")
 
 
@@ -111,8 +111,8 @@ fi
 if [[ $arg_array =~ "--ci" ]]; then
 	echo ""
 	echo "⚠️ Running bootstrap for testing with the following args:"
-	echo "\t$test_commands"
-	arg_array=($test_commands)
+	echo "\t$ci_commands"
+	arg_array=($ci_commands)
 	typeset -Ux CI_TEST=1
 fi
 
