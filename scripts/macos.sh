@@ -7,7 +7,7 @@ try osascript -e 'tell application "System Preferences" to quit'
 # Ask for the administrator password upfront
 # sudo -v
 
-# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
+# Keep-alive: update existing `sudo` time stamp until `macos.sh` has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ###############################################################################
@@ -54,10 +54,10 @@ COMPUTER_NAME="LadBookPro$DATE"
 
 echo ""
 echo "› Set computer name to $COMPUTER_NAME"
-sudo scutil --set ComputerName "$COMPUTER_NAME"
-sudo scutil --set HostName "$COMPUTER_NAME"
-sudo scutil --set LocalHostName "$COMPUTER_NAME"
-sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$COMPUTER_NAME"
+try sudo scutil --set ComputerName "$COMPUTER_NAME"
+try sudo scutil --set HostName "$COMPUTER_NAME"
+try sudo scutil --set LocalHostName "$COMPUTER_NAME"
+try sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$COMPUTER_NAME"
 
 echo ""
 echo "› Always show scrollbars"
@@ -88,7 +88,7 @@ try defaults write com.apple.helpviewer DevMode -bool true
 
 echo ""
 echo "› Reveal IP address, hostname, OS version, etc. when clicking the clock" # in the login window
-sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+try sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 
 echo ""
 echo "› Disable automatic capitalization"
@@ -126,27 +126,27 @@ try defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
 
 echo ""
 echo "› Disable the sudden motion sensor?"
-sudo pmset -a sms 0
+try sudo pmset -a sms 0
 
 # echo ""
 # echo "› Speed up wake from sleep to 24 hours from an hour"
-# sudo pmset -a standbydelay 86400
+# try sudo pmset -a standbydelay 86400
 
 echo ""
 echo "› Sleep the display after 15 minutes"
-sudo pmset -a displaysleep 15
+try sudo pmset -a displaysleep 15
 
 echo ""
 echo "› Disable machine sleep while charging"
-sudo pmset -c sleep 0
+try sudo pmset -c sleep 0
 
 echo ""
 echo "› Set machine sleep to 5 minutes on battery"
-sudo pmset -b sleep 5
+try sudo pmset -b sleep 5
 
 echo ""
 echo "› Enable lid wakeup"
-sudo pmset -a lidwake 1
+try sudo pmset -a lidwake 1
 
 
 ###############################################################################
@@ -207,7 +207,7 @@ try defaults write NSGlobalDomain AppleFontSmoothing -int 1
 
 echo ""
 echo "› Enable HiDPI display modes (requires restart)"
-sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
+try sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
 
 
 ###############################################################################
@@ -304,7 +304,7 @@ try chflags nohidden ~/Library
 
 echo ""
 echo "› Show the /Volumes folder"
-sudo chflags nohidden /Volumes
+try sudo chflags nohidden /Volumes
 
 
 ###############################################################################

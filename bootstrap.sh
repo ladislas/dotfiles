@@ -4,7 +4,8 @@
 # Source helper functions
 #
 
-source ./scripts/helpers.sh
+source ./scripts/helpers/include.sh
+alias try='./scripts/helpers/try.sh'
 
 #
 # Set output level (verbose / super_verbose)
@@ -22,9 +23,9 @@ fi
 # Set arguments
 #
 
-main_commands=("--all" "--force" "--ci")
-ci_commands=(    "--hello"          "--apps" "--config_apps" "--zsh" "--git" "--symlink" "--nvim"         "--data" "--macos")
-script_commands=("--hello" "--brew" "--apps" "--config_apps" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--macos")
+main_commands=("--all" "--force" "--ci" "--dry-run")
+ci_commands=(    "--hello"                                           "--zsh" "--git" "--symlink" "--nvim"         "--data" "--macos")
+script_commands=("--hello" "--brew" "--apps-install" "--apps-config" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--macos")
 
 
 arg_array=($@)
@@ -117,6 +118,18 @@ if [[ $arg_array =~ "--ci" ]]; then
 fi
 
 #
+# Arg: --dry-run
+#
+
+if [[ $arg_array =~ "--dry-run" ]]; then
+	echo ""
+	echo "⚠️ Running bootstrap as dry run. Nothing will be installed..."
+	echo "\t$ci_commands"
+	arg_array=($ci_commands)
+	typeset -Ux CI_TEST=1
+fi
+
+#
 # Sudo power
 #
 
@@ -149,20 +162,20 @@ if [[ $arg_array =~ "--brew" ]]; then
 fi
 
 #
-# Arg: --apps
+# Arg: --apps-install
 #
 
-if [[ $arg_array =~ "--apps" ]]; then
+if [[ $arg_array =~ "--apps-install" ]]; then
 	echo "\n"
 	echo "👷 Starting applications installation script 🚧\n"
 	source ./scripts/apps.sh
 fi
 
 #
-# Arg: --config_apps
+# Arg: --apps-config
 #
 
-if [[ $arg_array =~ "--config_apps" ]]; then
+if [[ $arg_array =~ "--apps-config" ]]; then
 	echo "\n"
 	echo "👷 Starting applications configuration script 🚧\n"
 	source ./scripts/apps_config.sh
