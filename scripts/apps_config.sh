@@ -72,8 +72,9 @@ try cp -r $dotf_spelling_path/* $user_spelling_path
 
 echo ""
 echo "› Copy Xcode settings to $user_xcode_userdata_path"
-try cp -r $dotf_xcode_userdata_path/FontAndColorThemes/* $user_xcode_userdata_path/FontAndColorThemes
-try cp -r $dotf_xcode_userdata_path/KeyBindings/* $user_xcode_userdata_path/KeyBindings
+try cp -r "$dotf_xcode_userdata_path/*" $user_xcode_userdata_path
+# try cp -r $dotf_xcode_userdata_path/FontAndColorThemes/* $user_xcode_userdata_path/FontAndColorThemes
+# try cp -r $dotf_xcode_userdata_path/KeyBindings/* $user_xcode_userdata_path/KeyBindings
 
 echo ""
 echo "› Copy Sublime Text settings to $user_sublimetext_settings_path"

@@ -29,7 +29,7 @@ fi
 #
 
 main_commands=("--all" "--force" "--ci" "--dry-run")
-ci_commands=(    "--hello"                                           "--zsh" "--git" "--symlink" "--nvim"         "--data" "--macos")
+ci_commands=(    "--hello"                           "--apps-config" "--zsh" "--git" "--symlink" "--nvim"         "--data" "--macos")
 script_commands=("--hello" "--brew" "--apps-install" "--apps-config" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--macos")
 
 
