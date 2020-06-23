@@ -61,27 +61,52 @@ dotf_sublimetext_settings_path="$dotf_library_path/Application Support/Sublime T
 echo ""
 echo "› Copy .plist to $user_preferences_path"
 # try cp -r $dotf_preferences_path/*.plist $user_preferences_path
-find $dotf_preferences_path -type f -print0 | try xargs -0 -I file cp -r file $user_preferences_path
+# find $dotf_preferences_path -type f -print0 | try xargs -0 -I file cp -r file $user_preferences_path
+files=($(find $dotf_preferences_path . -type f))
+for f in $files ; do
+	try cp -r "$f" $user_preferences_path
+done
 
 echo ""
 echo "› Copy .clr to $user_colors_path"
 # try cp -r $dotf_colors_path/*.clr $user_colors_path
-find $dotf_colors_path/ -type f -print0 | try xargs -0 -I file cp -r file $user_colors_path
+# find $dotf_colors_path/ -type f -print0 | try xargs -0 -I file cp -r file $user_colors_path
+files=($(find $dotf_colors_path . -type f))
+for f in $files ; do
+	try cp -r "$f" $user_colors_path
+done
 
 echo ""
 echo "› Copy dictionary to $user_spelling_path"
 # try cp -r $dotf_spelling_path/* $user_spelling_path
-find $dotf_spelling_path -type f -print0 | try xargs -0 -I file cp -r file $user_spelling_path
+# find $dotf_spelling_path -type f -print0 | try xargs -0 -I file cp -r file $user_spelling_path
+files=($(find $dotf_spelling_path . -type f))
+for f in $files ; do
+	try cp -r "$f" $user_spelling_path
+done
 
 echo ""
 echo "› Copy Xcode settings to $user_xcode_userdata_path"
 try mkdir -p $dotf_xcode_userdata_path/FontAndColorThemes
-find $dotf_xcode_userdata_path/FontAndColorThemes -type f -print0 | try xargs -0 -I file cp -r file $user_xcode_userdata_path/FontAndColorThemes
 try mkdir -p $dotf_xcode_userdata_path/KeyBindings
-find $dotf_xcode_userdata_path/KeyBindings -type f -print0 | try xargs -0 -I file cp -r file $user_xcode_userdata_path/KeyBindings
+# find $dotf_xcode_userdata_path/FontAndColorThemes -type f -print0 | try xargs -0 -I file cp -r file $user_xcode_userdata_path/FontAndColorThemes
+# find $dotf_xcode_userdata_path/KeyBindings -type f -print0 | try xargs -0 -I file cp -r file $user_xcode_userdata_path/KeyBindings
+files=($(find $dotf_xcode_userdata_path/FontAndColorThemes . -type f))
+for f in $files ; do
+	try cp -r "$f" $user_xcode_userdata_path/FontAndColorThemes
+done
+files=($(find $dotf_xcode_userdata_path/KeyBindings . -type f))
+for f in $files ; do
+	try cp -r "$f" $user_xcode_userdata_path/KeyBindings
+done
+
 
 echo ""
 echo "› Copy Sublime Text settings to $user_sublimetext_settings_path"
 try mkdir -p $user_sublimetext_settings_path
-find $dotf_sublimetext_settings_path -type f -print0 | try xargs -0 -I file cp -r file $user_sublimetext_settings_path
+# find $dotf_sublimetext_settings_path -type f -print0 | try xargs -0 -I file cp -r file $user_sublimetext_settings_path
+files=($(find $dotf_sublimetext_settings_path . -type f))
+for f in $files ; do
+	try cp -r "$f" $user_sublimetext_settings_path
+done
 
