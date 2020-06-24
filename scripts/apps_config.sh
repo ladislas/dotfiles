@@ -64,25 +64,30 @@ dotf_sublimetext_settings_path="$dotf_library_path/Application Support/Sublime T
 
 echo ""
 echo "› Rsync .plist to $user_preferences_path"
+try mkdir -p $user_preferences_path
 try rsync -av --backup --backup-dir="$rsync_backup_path/Preferences" $dotf_preferences_path/ $user_preferences_path
 
 echo ""
 echo "› Rsync Colors to $user_colors_path"
+try mkdir -p $user_colors_path
 try rsync -av --backup --backup-dir="$rsync_backup_path/Colors" $dotf_colors_path/ $user_colors_path
 
 echo ""
 echo "› Rsync Services to $user_colors_path"
+try mkdir -p $user_services_path
 try rsync -av --backup --backup-dir="$rsync_backup_path/Services" $dotf_services_path/ $user_services_path
 
 echo ""
 echo "› Rsync dictionary to $user_spelling_path"
+try mkdir -p $user_spelling_path
 try rsync -av --backup --backup-dir="$rsync_backup_path/Spelling" $dotf_spelling_path/ $user_spelling_path
 
 echo ""
 echo "› Rsync Xcode settings to $user_xcode_userdata_path"
+try mkdir -p $user_xcode_userdata_path
 try rsync -av --backup --backup-dir="$rsync_backup_path/Xcode" $dotf_xcode_userdata_path/ $user_xcode_userdata_path
 
 echo ""
 echo "› Rsync Sublime Text settings to $user_sublimetext_settings_path"
+try mkdir -p $user_sublimetext_settings_path
 try rsync -av --backup --backup-dir="$rsync_backup_path/ST3" $dotf_sublimetext_settings_path/ $user_sublimetext_settings_path
-

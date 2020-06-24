@@ -9,13 +9,12 @@ typeset -x DOTFILES_DIR=$(pwd)
 source $DOTFILES_DIR/scripts/helpers/include.sh
 
 function try {
-	try=$DOTFILES_DIR'/scripts/helpers/try.sh'
-	$try $@
+	. $DOTFILES_DIR'/scripts/helpers/try.sh' $@
 }
 
 
 #
-# Set output level (verbose / super_verbose)
+# Set output level (verbose / super verbose)
 #
 
 if [[ "$1" =~ "-vv" ]]; then
