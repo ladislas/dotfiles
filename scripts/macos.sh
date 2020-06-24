@@ -19,19 +19,21 @@ echo "›››"
 echo "››› Open affected applications"
 echo "›››"
 
-macos_apps=( \
-	"Activity Monitor" \
-	"App Store" \
-	"Calendar" \
-	"Contacts" \
-	"Dock" \
-	"Finder" \
-	"Mail" \
-	"Messages" \
-	"Photos" \
-	"Safari" \
-	"SystemUIServer" \
-	"Terminal" \
+typeset -U macos_apps
+
+macos_apps=(
+	"Activity Monitor"
+	"App Store"
+	"Calendar"
+	"Contacts"
+	"Dock"
+	"Finder"
+	"Mail"
+	"Messages"
+	"Photos"
+	"Safari"
+	"SystemUIServer"
+	"Terminal"
 )
 
 echo ""

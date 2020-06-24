@@ -60,17 +60,25 @@ for arg in $arg_array; do
 done
 
 #
+# Arg: --dry-run
+#
+
+if [[ $arg_array =~ "--dry-run" ]]; then
+	echo ""
+	echo "⚠️ Running bootstrap as dry run. Nothing will be installed or modified..."
+	typeset -x DRY_RUN=1
+fi
+
+#
 # Check for brew & coreutils, if not install
 #
 
 if [[ $(command -v brew) == "" ]]; then
-	echo "\n"
-    echo "👷 Installing brew & coreutils 🚧"
+	print_section "Installing brew & coreutils"
     try /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     brew install coreutils
 elif [[ $(command -v gls) == "" ]]; then
-	echo "\n"
-	echo "👷 Installing coreutils 🚧"
+	print_section "Installing coreutils"
 	brew install coreutils
 fi
 
@@ -89,16 +97,19 @@ if [[ $arg_array =~ "--all" ]]; then
 	if [[ ! $arg_array =~ "--force" ]]; then
 		echo ""
 		echo "⚠️ ⚠️ ⚠️"
+		echo ""
 		echo "You are about to run all the scripts. This it NOT recommended"
-		echo "unless you know what you are doing!"
-		echo "Please confirm that you have read the source files and are okay with that."
-		echo "Unexepected behaviors can occur!"
+		echo "unless you know what you are doing! Unexepected behaviors can occur!"
+		echo ""
 		echo "⚠️ ⚠️ ⚠️"
 		echo ""
-		read "Are you sure you want to continue? (y/n)"
-		if [[ ! $REPLY =~ ^[Yy]$ ]]
-		then
-			[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
+		echo "Please confirm that you have read the source files and are okay with that."
+		printf "Are you sure you want to continue? (y/n) "
+		read
+		if [[ ! $REPLY =~ ^[Yy]$ ]] ; then
+			echo ""
+			echo "Goodbye, come again!..."
+			exit 0
 		fi
 	fi
 
@@ -108,6 +119,7 @@ if [[ $arg_array =~ "--all" ]]; then
 
 	echo ""
 	echo "⚠️ Running bootstrap with all args!"
+	echo "\t$script_commands"
 	arg_array=($script_commands)
 fi
 
@@ -124,24 +136,21 @@ if [[ $arg_array =~ "--ci" ]]; then
 fi
 
 #
-# Arg: --dry-run
-#
-
-if [[ $arg_array =~ "--dry-run" ]]; then
-	echo ""
-	echo "⚠️ Running bootstrap as dry run. Nothing will be installed or modified..."
-	typeset -x DRY_RUN=1
-fi
-
-#
 # Sudo power
 #
 
 if [[ $arg_array =~ "--macos" || $arg_array =~ "--brew" ]]; then
 	if ! sudo -n true 2>/dev/null; then
+		echo ""
 		echo "⚠️ Args --macos & --brew require sudo to run."
+		echo ""
 		echo "Please enter your password."
 		sudo -v
+		if [ ! $? -eq 0 ]; then
+			echo ""
+			echo "Goodbye, come again!..."
+			exit 0
+		fi
 	fi
 fi
 
@@ -150,11 +159,12 @@ fi
 #
 
 if [[ $arg_array =~ "--hello" ]]; then
-	echo "\n"
-	echo "👷 Starting Hello, World! script 🚧\n"
+	print_section "Starting Hello, World! script"
 	echo ""
+	echo "› Make sure we're good to go"
 	try echo "Hello, World!"
 	try sleep 3
+	try echo "Let's get moving!"
 fi
 
 #
@@ -162,8 +172,7 @@ fi
 #
 
 if [[ $arg_array =~ "--brew" ]]; then
-	echo "\n"
-	echo "👷 Starting brew configuration script 🚧\n"
+	print_section "Starting brew configuration script"
 	source $DOTFILES_DIR/scripts/brew.sh
 fi
 
@@ -172,8 +181,7 @@ fi
 #
 
 if [[ $arg_array =~ "--apps-install" ]]; then
-	echo "\n"
-	echo "👷 Starting applications installation script 🚧\n"
+	print_section "Starting applications installation script"
 	source $DOTFILES_DIR/scripts/apps.sh
 fi
 
@@ -182,8 +190,7 @@ fi
 #
 
 if [[ $arg_array =~ "--apps-config" ]]; then
-	echo "\n"
-	echo "👷 Starting applications configuration script 🚧\n"
+	print_section "Starting applications configuration script"
 	source $DOTFILES_DIR/scripts/apps_config.sh
 fi
 
@@ -192,8 +199,7 @@ fi
 #
 
 if [[ $arg_array =~ "--macos" ]]; then
-	echo "\n"
-	echo "👷 Starting macOS configuration script 🚧\n"
+	print_section "Starting macOS configuration script"
 	source $DOTFILES_DIR/scripts/macos.sh
 fi
 
@@ -202,26 +208,31 @@ fi
 #
 
 if [[ $arg_array =~ "--zsh" ]]; then
-	echo "\n"
-	echo "👷 Starting zsh configuration script 🚧\n"
+	print_section "Starting zsh configuration script"
 
 	# Switch to using brew-installed zsh as default shell
-	if ! fgrep -q "${BREW_PREFIX}/bin/zsh" /etc/shells; then
+	if ! fgrep -q "${BREW_PREFIX}/bin/zsh" /etc/shells ; then
 		echo ""
-		echo "Setting brew zsh as default shell"
+		echo "› Setting brew zsh as default shell"
 		try echo "${BREW_PREFIX}/bin/zsh" | sudo tee -a /etc/shells;
 		try chsh -s "${BREW_PREFIX}/bin/zsh";
 	fi;
 
+	echo ""
+	echo "› Clean up zcompdump"
 	try rm -f ~/.zcompdump
-	try rm -f ./zsh/.zcompdump
-	try rm -f ./zsh/.zcompdump.zwc
+	try rm -f $DOTFILES_DIR/zsh/.zcompdump
+	try rm -f $DOTFILES_DIR/zsh/.zcompdump.zwc
 
+	echo ""
+	echo "› chmod /usr/local/share for completion"
 	try chmod go-w "/usr/local/share"
 
-	try ln -sr ./symlink/.zshenv $HOME/.zshenv
+	echo ""
+	echo "› Symlink config files"
 	try mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}
-	try ln -sr ./zsh ${XDG_CONFIG_HOME:-$HOME/.config}/
+	try ln -sr $DOTFILES_DIR/symlink/.zshenv $HOME/.zshenv
+	try ln -sr $DOTFILES_DIR/zsh ${XDG_CONFIG_HOME:-$HOME/.config}/
 fi
 
 #
@@ -229,9 +240,12 @@ fi
 #
 
 if [[ $arg_array =~ "--git" ]]; then
-	echo "\n"
-	echo "👷 Starting git configuration script 🚧\n"
-	try ln -sr ./git ${XDG_CONFIG_HOME:-$HOME/.config}/
+	print_section "Starting git configuration script"
+
+	echo ""
+	echo "› Symlink config files"
+	try mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}
+	try ln -sr $DOTFILES_DIR/git ${XDG_CONFIG_HOME:-$HOME/.config}/
 fi
 
 #
@@ -239,8 +253,10 @@ fi
 #
 
 if [[ $arg_array =~ "--nvim" ]]; then
-	echo "\n"
-	echo "👷 Starting neovim configuration script 🚧\n"
+	print_section "Starting neovim configuration script"
+
+	echo ""
+	echo "› Git clone neovim config"
 	try git clone --recursive https://github.com/ladislas/nvim ~/.config/nvim
 fi
 
@@ -249,10 +265,12 @@ fi
 #
 
 if [[ $arg_array =~ "--data" ]]; then
-	echo "\n"
-	echo "👷 Starting XGD Data configuration script 🚧\n"
+	print_section "Starting XDG Data configuration script"
+
+	echo ""
+	echo "› Symlink config files"
 	try mkdir -p ${XDG_DATA_HOME:-$HOME/.local/share}
-	try ln -sr ./data/* ${XDG_DATA_HOME:-$HOME/.local/share}
+	try ln -sr $DOTFILES_DIR/data/* ${XDG_DATA_HOME:-$HOME/.local/share}
 fi
 
 #
@@ -260,19 +278,7 @@ fi
 #
 
 if [[ $arg_array =~ "--dev" ]]; then
-	if [[ ! -n $CI_TEST ]]; then
-		echo "\n"
-		echo "👷 Starting personnal dev configuration script 🚧\n"
-		echo ""
-		echo "⚠️ To run the script, git must be configured and you will need your Github password."
-		echo ""
-		read "Are you sure you want to continue? (y/n)"
-		if [[ ! $REPLY =~ ^[Yy]$ ]]
-		then
-			[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
-		fi
-	fi
-
+	print_section "Starting personnal dev configuration script"
 	source $DOTFILES_DIR/scripts/dev.sh
 fi
 

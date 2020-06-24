@@ -36,8 +36,6 @@ if [[ ! -n $DRY_RUN ]]; then
 	cmd_result=$?
 fi
 
-
-
 end=$(date +%s.%N)
 
 # calculate duration

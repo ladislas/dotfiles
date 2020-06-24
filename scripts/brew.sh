@@ -82,10 +82,6 @@ formulae=(
 	swiftlint
 	clang-format
 	cppcheck
-
-	# Install osx-cross formulae
-	osx-cross/arm/arm-gcc-bin
-	osx-cross/avr/avr-gcc
 )
 
 echo ""

@@ -3,22 +3,24 @@
 # Continue on error
 set +e
 
-apps=( \
-	"AppCleaner" \
-	"CoolTerm" \
-	"Fantastical" \
-	"iTerm" \
-	"MacDown" \
-	"Rectangle" \
-	"Sublime Text" \
-	"Transmission" \
-	"Visual Studio Code" \
-	"Xcode" \
+typeset -U user_apps
+
+user_apps=(
+	"AppCleaner"
+	"CoolTerm"
+	"Fantastical"
+	"iTerm"
+	"MacDown"
+	"Rectangle"
+	"Sublime Text"
+	"Transmission"
+	"Visual Studio Code"
+	"Xcode"
 )
 
 echo ""
 echo "› Open applications before configuration"
-for app in $apps; do
+for app in $user_apps; do
 	try open -a "$app"
 done
 
@@ -28,7 +30,7 @@ try sleep 3
 
 echo ""
 echo "› Kill applications before copying preferences"
-for app in $apps; do
+for app in $user_apps; do
 	if [[ $app =~ "iTerm" ]] ; then
 		try killall iTerm2
 	elif [[ $app =~ "Visual Studio Code" ]] ; then

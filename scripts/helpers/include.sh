@@ -22,3 +22,8 @@ function list_failed_commands {
 		exit 1
 	fi
 }
+
+function print_section {
+	echo "\n"
+	echo "👷 $@ 🚧"
+}
