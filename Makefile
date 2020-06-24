@@ -8,4 +8,4 @@ test_all:
 	zsh ./bootstrap.sh -v --all --force --ci
 
 test_dry_run:
-	zsh ./bootstrap.sh --dry-run -v --all --force --ci
+	zsh ./bootstrap.sh -v --dry-run --all --force --ci
