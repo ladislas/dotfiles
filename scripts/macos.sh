@@ -2,6 +2,8 @@
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
+echo ""
+echo "› Quit System Preferences"
 try osascript -e 'tell application "System Preferences" to quit'
 
 # Ask for the administrator password upfront
@@ -546,6 +548,3 @@ for app in $macos_apps ; do
 	try killall "${app}"
 done
 try killall "cfprefsd"
-
-echo ""
-echo "🎉 Done! ✅ Note that some of these changes require a logout/restart to take effect"

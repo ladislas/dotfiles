@@ -42,7 +42,7 @@ available_args=( ${main_commands[*]} ${script_commands[*]} )
 #
 
 if [ ${#arg_array[@]} -eq 0 ]; then
-	echo "⚠️ No arguments have been passed."
+	echo "💥 No arguments have been passed."
 	echo "Please try again with one of those: $available_args"
 	exit 1
 fi
@@ -65,7 +65,7 @@ done
 
 if [[ $arg_array =~ "--dry-run" ]]; then
 	echo ""
-	echo "⚠️ Running bootstrap as dry run. Nothing will be installed or modified..."
+	echo "🏃 Running bootstrap as dry run. Nothing will be installed or modified... 🛡️"
 	typeset -x DRY_RUN=1
 fi
 
@@ -96,15 +96,13 @@ export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 if [[ $arg_array =~ "--all" ]]; then
 	if [[ ! $arg_array =~ "--force" ]]; then
 		echo ""
-		echo "⚠️ ⚠️ ⚠️"
-		echo ""
+		echo "🔥 🔥 🔥"
 		echo "You are about to run all the scripts. This it NOT recommended"
 		echo "unless you know what you are doing! Unexepected behaviors can occur!"
-		echo ""
-		echo "⚠️ ⚠️ ⚠️"
+		echo "🔥 🔥 🔥"
 		echo ""
 		echo "Please confirm that you have read the source files and are okay with that."
-		printf "Are you sure you want to continue? (y/n) "
+		printf "👀 Are you sure you want to continue? (y/n) "
 		read
 		if [[ ! $REPLY =~ ^[Yy]$ ]] ; then
 			echo ""
@@ -118,7 +116,7 @@ if [[ $arg_array =~ "--all" ]]; then
 	fi
 
 	echo ""
-	echo "⚠️ Running bootstrap with all args!"
+	echo "⚠️   Running bootstrap with all args! ⚠️"
 	echo "\t$script_commands"
 	arg_array=($script_commands)
 fi
@@ -129,7 +127,7 @@ fi
 
 if [[ $arg_array =~ "--ci" ]]; then
 	echo ""
-	echo "⚠️ Running bootstrap for testing with the following args:"
+	echo "🔬 Running bootstrap for testing with the following args: 🧪"
 	echo "\t$ci_commands"
 	arg_array=($ci_commands)
 	typeset -x CI_TEST=1
@@ -142,8 +140,7 @@ fi
 if [[ $arg_array =~ "--macos" || $arg_array =~ "--brew" ]]; then
 	if ! sudo -n true 2>/dev/null; then
 		echo ""
-		echo "⚠️ Args --macos & --brew require sudo to run."
-		echo ""
+		echo "🔐 Args --macos & --brew require sudo to run. 🔐"
 		echo "Please enter your password."
 		sudo -v
 		if [ ! $? -eq 0 ]; then
@@ -192,15 +189,6 @@ fi
 if [[ $arg_array =~ "--apps-config" ]]; then
 	print_section "Starting applications configuration script"
 	source $DOTFILES_DIR/scripts/apps_config.sh
-fi
-
-#
-# Arg: --macos
-#
-
-if [[ $arg_array =~ "--macos" ]]; then
-	print_section "Starting macOS configuration script"
-	source $DOTFILES_DIR/scripts/macos.sh
 fi
 
 #
@@ -280,6 +268,15 @@ fi
 if [[ $arg_array =~ "--dev" ]]; then
 	print_section "Starting personnal dev configuration script"
 	source $DOTFILES_DIR/scripts/dev.sh
+fi
+
+#
+# Arg: --macos
+#
+
+if [[ $arg_array =~ "--macos" ]]; then
+	print_section "Starting macOS configuration script"
+	source $DOTFILES_DIR/scripts/macos.sh
 fi
 
 #

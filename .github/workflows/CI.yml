@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
 
-  bootstrap_all_dryrun:
+  bootstrap_all_dry_run:
     name: Bootstrap --all --dry-run
     runs-on: macos-latest
     steps:
