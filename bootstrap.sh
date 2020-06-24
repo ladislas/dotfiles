@@ -4,14 +4,21 @@
 # Source helper functions
 #
 
+trap "exit 1" INT
+
 typeset -x DOTFILES_DIR=$(pwd)
+typeset -Ux FAILED_COMMANDS=()
+typeset -x ARG_ARRAY=()
+
+# create tmp file & schedule delete if error
+typeset -x TEMP_FILE=$(mktemp)
+trap "rm -f $TEMP_FILE" 0 2 3 15
 
 source $DOTFILES_DIR/scripts/helpers/include.sh
 
 function try {
 	. $DOTFILES_DIR'/scripts/helpers/try.sh' $@
 }
-
 
 #
 # Set output level (verbose / super verbose)
@@ -32,14 +39,14 @@ fi
 script_commands=( "--hello" "--zsh" "--git" "--symlink" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config" "--dev")
 
 
-arg_array=($@)
+ARG_ARRAY=($@)
 available_args=( ${main_commands[*]} ${script_commands[*]} )
 
 #
 # Check that arguments have been passed, if not exit
 #
 
-if [ ${#arg_array[@]} -eq 0 ]; then
+if [ ${#ARG_ARRAY[@]} -eq 0 ]; then
 	echo "💥 No arguments have been passed."
 	echo "Please try again with one of those: $available_args"
 	exit 1
@@ -49,7 +56,7 @@ fi
 # Check that passed arguments are available, if not exit
 #
 
-for arg in $arg_array; do
+for arg in $ARG_ARRAY; do
 	if [[ ! " ${available_args[@]} " =~ " ${arg} " ]]; then
 		echo "💥 Unrecognized argument: $arg"
 		echo "Please try again with one of those: $available_args"
@@ -61,7 +68,7 @@ done
 # Arg: --dry-run
 #
 
-if [[ $arg_array =~ "--dry-run" ]]; then
+if is_dry_run ; then
 	echo ""
 	echo "🏃 Running bootstrap as dry run. Nothing will be installed or modified... 🛡️"
 	typeset -x DRY_RUN=1
@@ -71,18 +78,19 @@ fi
 # Check for brew & coreutils, if not install
 #
 
-if [[ $(command -v brew) == "" ]]; then
-	print_section "Installing brew & coreutils"
-    try /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    brew install coreutils
-elif [[ $(command -v gls) == "" ]]; then
-	print_section "Installing coreutils"
-	brew install coreutils
-fi
-
-if [ ! $? -eq 0 ]; then
-	echo "💥 Could not install brew & coreutils, exiting with status code $?"
-	exit 1
+if ! is_dry_run ; then
+	if [[ $(command -v brew) == "" ]]; then
+		print_section "Installing brew & coreutils"
+	    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	    brew install coreutils
+	elif [[ $(command -v gls) == "" ]]; then
+		print_section "Installing coreutils"
+		brew install coreutils
+	fi
+	if [ ! $? -eq 0 ]; then
+		echo "💥 Could not install brew & coreutils, exiting with status code $?"
+		exit 1
+	fi
 fi
 
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
@@ -91,8 +99,8 @@ export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 # Arg: --all
 #
 
-if [[ $arg_array =~ "--all" ]]; then
-	if [[ ! $arg_array =~ "--force" ]]; then
+if args_contain "--all" ; then
+	if ! args_contain "--force" ; then
 		echo ""
 		echo "🔥 🔥 🔥"
 		echo "You are about to run all the scripts. This it NOT recommended"
@@ -109,25 +117,25 @@ if [[ $arg_array =~ "--all" ]]; then
 		fi
 	fi
 
-	if [[ $arg_array =~ "--ci" ]]; then
+	if args_contain "--ci" ; then
 		typeset -x CI_TEST=1
 	fi
 
 	echo ""
 	echo "⚠️   Running bootstrap with all args! ⚠️"
 	echo "\t$script_commands"
-	arg_array=($script_commands)
+	ARG_ARRAY=($script_commands)
 fi
 
 #
 # Arg: --ci
 #
 
-if [[ $arg_array =~ "--ci" ]]; then
+if args_contain "--ci" ; then
 	echo ""
 	echo "🔬 Running bootstrap for testing with the following args: 🧪"
 	echo "\t$ci_commands"
-	arg_array=($ci_commands)
+	ARG_ARRAY=($ci_commands)
 	typeset -x CI_TEST=1
 fi
 
@@ -135,7 +143,7 @@ fi
 # Sudo power
 #
 
-if [[ $arg_array =~ "--macos" || $arg_array =~ "--brew" ]]; then
+if args_contain "--macos" || args_contain "--brew" ; then
 	if ! sudo -n true 2>/dev/null; then
 		echo ""
 		echo "🔐 Args --macos & --brew require sudo to run. 🔐"
@@ -153,7 +161,7 @@ fi
 # Arg: --hello
 #
 
-if [[ $arg_array =~ "--hello" ]]; then
+if args_contain "--hello" ; then
 	print_section "Starting Hello, World! script"
 	echo ""
 	echo "› Make sure we're good to go"
@@ -166,7 +174,7 @@ fi
 # Arg: --brew
 #
 
-if [[ $arg_array =~ "--brew" ]]; then
+if args_contain "--brew" ; then
 	print_section "Starting brew configuration script"
 	source $DOTFILES_DIR/scripts/brew.sh
 fi
@@ -175,7 +183,7 @@ fi
 # Arg: --apps-install
 #
 
-if [[ $arg_array =~ "--apps-install" ]]; then
+if args_contain "--apps-install" ; then
 	print_section "Starting applications installation script"
 	source $DOTFILES_DIR/scripts/apps.sh
 fi
@@ -184,7 +192,7 @@ fi
 # Arg: --apps-config
 #
 
-if [[ $arg_array =~ "--apps-config" ]]; then
+if args_contain "--apps-config" ; then
 	print_section "Starting applications configuration script"
 	source $DOTFILES_DIR/scripts/apps_config.sh
 fi
@@ -193,7 +201,7 @@ fi
 # Arg: --zsh
 #
 
-if [[ $arg_array =~ "--zsh" ]]; then
+if args_contain "--zsh" ; then
 	print_section "Starting zsh configuration script"
 
 	# Switch to using brew-installed zsh as default shell
@@ -225,7 +233,7 @@ fi
 # Arg: --git
 #
 
-if [[ $arg_array =~ "--git" ]]; then
+if args_contain "--git" ; then
 	print_section "Starting git configuration script"
 
 	echo ""
@@ -238,7 +246,7 @@ fi
 # Arg: --neovim
 #
 
-if [[ $arg_array =~ "--nvim" ]]; then
+if args_contain "--nvim" ; then
 	print_section "Starting neovim configuration script"
 
 	echo ""
@@ -250,7 +258,7 @@ fi
 # Arg: --data
 #
 
-if [[ $arg_array =~ "--data" ]]; then
+if args_contain "--data" ; then
 	print_section "Starting XDG Data configuration script"
 
 	echo ""
@@ -263,7 +271,7 @@ fi
 # Arg: --dev
 #
 
-if [[ $arg_array =~ "--dev" ]]; then
+if args_contain "--dev" ; then
 	print_section "Starting personnal dev configuration script"
 	source $DOTFILES_DIR/scripts/dev.sh
 fi
@@ -272,14 +280,14 @@ fi
 # Arg: --macos
 #
 
-if [[ $arg_array =~ "--macos" ]]; then
+if args_contain "--macos" ; then
 	print_section "Starting macOS configuration script"
 	source $DOTFILES_DIR/scripts/macos.sh
 fi
 
 #
-# List failed commands & delete tmp_file
+# List failed commands & delete TEMP_FILE
 #
 
 list_failed_commands
-rm -rf $tmp_file
+rm -rf $TEMP_FILE

@@ -29,9 +29,9 @@ cmd_result=0
 if [[ ! -n $DRY_RUN ]]; then
 	if [[ $1 =~ "sudo" ]]; then
 		shift
-		sudo script -q $tmp_file $@ > /dev/null 2>&1
+		sudo script -q $TEMP_FILE $@ > /dev/null 2>&1
 	else
-		script -q $tmp_file $@ > /dev/null 2>&1
+		script -q $TEMP_FILE $@ > /dev/null 2>&1
 	fi
 	cmd_result=$?
 fi
@@ -45,12 +45,12 @@ runtime="$(printf %.2f $(echo "$end-$start" | bc -l))"
 if [ $cmd_result -eq 0 ]; then
 	echo "✅ ($runtime)"
 	if [[ $super_verbose == true ]]; then
-		cat $tmp_file
+		cat $TEMP_FILE
 	fi
 else
 	echo "❌ ($runtime)"
-	failed_commands+=$@
+	FAILED_COMMANDS+=$@
 	if [[ $verbose == true ]]; then
-		cat $tmp_file
+		cat $TEMP_FILE
 	fi
 fi
