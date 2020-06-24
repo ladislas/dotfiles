@@ -35,7 +35,7 @@ fi
 #
 
   main_commands=( "-v" "-vv" "--verbose" "--all" "--force" "--ci" "--dry-run")
-	ci_commands=( "--hello" "--zsh" "--git" "--symlink" "--nvim" "--data" "--macos"          "--apps-install" "--apps-config"        )
+	ci_commands=( "--hello" "--zsh" "--git" "--symlink" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config"        )
 script_commands=( "--hello" "--zsh" "--git" "--symlink" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config" "--dev")
 
 
