@@ -21,7 +21,9 @@ user_apps=(
 echo ""
 echo "› Open applications before configuration"
 for app in $user_apps; do
-	try open -a "$app"
+	if ls /Applications | grep "$app" &> /dev/null ; then
+		try open -a "$app"
+	fi
 done
 
 echo ""
@@ -31,12 +33,14 @@ try sleep 3
 echo ""
 echo "› Kill applications before copying preferences"
 for app in $user_apps; do
-	if [[ $app =~ "iTerm" ]] ; then
-		try killall iTerm2
-	elif [[ $app =~ "Visual Studio Code" ]] ; then
-		try osascript -e 'quit app "Visual Studio Code"'
-	else
-		try killall "${app}"
+	if ls /Applications | grep "$app" &> /dev/null ; then
+		if [[ $app =~ "iTerm" ]] ; then
+			try killall iTerm2
+		elif [[ $app =~ "Visual Studio Code" ]] ; then
+			try osascript -e 'quit app "Visual Studio Code"'
+		else
+			try killall "${app}"
+		fi
 	fi
 done
 
