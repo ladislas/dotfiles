@@ -14,8 +14,19 @@ jobs:
       run: |
         make test_dry_run
 
+  bootstrap_all_verbose:
+    name: Bootstrap --ci quick
+    runs-on: macos-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2.0.0
+    - name: Test script
+      run: |
+        make test_quick
+
+
   bootstrap_test:
-    name: Bootstrap --test
+    name: Bootstrap --ci
     runs-on: macos-latest
     steps:
     - name: Checkout
@@ -23,13 +34,3 @@ jobs:
     - name: Test script
       run: |
         make test
-
-  bootstrap_all_verbose:
-    name: Bootstrap --all -v
-    runs-on: macos-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2.0.0
-    - name: Test script
-      run: |
-        make test_all
