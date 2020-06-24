@@ -12,8 +12,13 @@ function try {
 	. $DOTFILES_DIR'/scripts/helpers/try.sh' $@
 }
 
+
+brew install coreutils
+export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 try sleep 3
 try sleeep 3
+
+
 
 # #
 # # Set output level (verbose / super verbose)

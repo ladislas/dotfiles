@@ -19,6 +19,6 @@ function list_failed_commands {
 		for cmd in $failed_commands; do
 			echo "\t- $cmd"
 		done
-		EXIT 1
+		exit 1
 	fi
 }
