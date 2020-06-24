@@ -4,93 +4,68 @@
 # Source helper functions
 #
 
-trap "exit 1" INT
-
-typeset -x DOTFILES_DIR=$(pwd)
-typeset -Ux FAILED_COMMANDS=()
-typeset -x ARG_ARRAY=()
-
-# create tmp file & schedule delete if error
-typeset -x TEMP_FILE=$(mktemp)
-trap "rm -f $TEMP_FILE" 0 2 3 15
-
-source $DOTFILES_DIR/scripts/helpers/include.sh
-
-function try {
-	. $DOTFILES_DIR'/scripts/helpers/try.sh' $@
-}
+source ./scripts/helpers.sh
 
 #
-# Set output level (verbose / super verbose)
+# Set output level (verbose / super_verbose)
 #
 
-if [[ "$@" =~ "-vv" ]]; then
+if [[ "$1" =~ "-vv" ]]; then
 	alias try="try -vv"
-elif [[ "$@" =~ "-v" || "$@" =~ "--verbose" ]]; then
+	shift
+elif [[ "$1" =~ "-v" || "$1" =~ "--verbose" ]]; then
 	alias try="try -v"
+	shift
 fi
 
 #
 # Set arguments
 #
 
-  main_commands=( "-v" "-vv" "--verbose" "--all" "--force" "--ci" "--dry-run")
-	ci_commands=( "--hello" "--zsh" "--git" "--symlink" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config"        )
-script_commands=( "--hello" "--zsh" "--git" "--symlink" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config" "--dev")
-
-
-ARG_ARRAY=($@)
+arg_array=($@)
+main_commands=("--all" "--force" "--test")
+script_commands=("--hello" "--macos" "--brew" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--gem-pip")
 available_args=( ${main_commands[*]} ${script_commands[*]} )
+test_commands=("--macos" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data")
 
 #
 # Check that arguments have been passed, if not exit
 #
 
-if [ ${#ARG_ARRAY[@]} -eq 0 ]; then
-	echo "💥 No arguments have been passed."
+if [ ${#arg_array[@]} -eq 0 ]; then
+	echo "⚠️ No arguments have been passed."
 	echo "Please try again with one of those: $available_args"
-	exit 1
+	return 1
 fi
 
 #
 # Check that passed arguments are available, if not exit
 #
 
-for arg in $ARG_ARRAY; do
+for arg in $arg_array; do
 	if [[ ! " ${available_args[@]} " =~ " ${arg} " ]]; then
 		echo "💥 Unrecognized argument: $arg"
 		echo "Please try again with one of those: $available_args"
-		exit 1
+		return 1
 	fi
 done
-
-#
-# Arg: --dry-run
-#
-
-if is_dry_run ; then
-	echo ""
-	echo "🏃 Running bootstrap as dry run. Nothing will be installed or modified... 🛡️"
-	typeset -x DRY_RUN=1
-fi
 
 #
 # Check for brew & coreutils, if not install
 #
 
-if ! is_dry_run ; then
-	if [[ $(command -v brew) == "" ]]; then
-		print_section "Installing brew & coreutils"
-	    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-	    brew install coreutils
-	elif [[ $(command -v gls) == "" ]]; then
-		print_section "Installing coreutils"
-		brew install coreutils
-	fi
-	if [ ! $? -eq 0 ]; then
-		echo "💥 Could not install brew & coreutils, exiting with status code $?"
-		exit 1
-	fi
+if [[ $(command -v brew) == "" ]]; then
+    echo "👷 Installing brew & coreutils 🚧"
+    try /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    brew install coreutils
+elif [[ $(command -v gls) == "" ]]; then
+	echo "👷 Installing coreutils 🚧"
+	brew install coreutils
+fi
+
+if [ ! $? -eq 0 ]; then
+	echo "💥 Could not install brew & coreutils, exiting with status code $?"
+	exit 1
 fi
 
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
@@ -99,61 +74,39 @@ export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 # Arg: --all
 #
 
-if args_contain "--all" ; then
-	if ! args_contain "--force" ; then
-		echo ""
-		echo "🔥 🔥 🔥"
-		echo "You are about to run all the scripts. This it NOT recommended"
-		echo "unless you know what you are doing! Unexepected behaviors can occur!"
-		echo "🔥 🔥 🔥"
-		echo ""
-		echo "Please confirm that you have read the source files and are okay with that."
-		printf "👀 Are you sure you want to continue? (y/n) "
-		read
-		if [[ ! $REPLY =~ ^[Yy]$ ]] ; then
-			echo ""
-			echo "Goodbye, come again!..."
-			exit 0
+if [[ $arg_array =~ "--all" ]]; then
+	if [[ ! $arg_array =~ "--force" ]]; then
+		echo "⚠️ You are about to run all the scripts. Please confirm that you have read\nthe source files and are okay with that. Unexepected behaviors can occur!"
+		read "?Are you sure you want to continue? "
+		if [[ ! $REPLY =~ ^[Yy]$ ]]
+		then
+			[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
 		fi
 	fi
 
-	if args_contain "--ci" ; then
-		typeset -x CI_TEST=1
-	fi
-
-	echo ""
-	echo "⚠️   Running bootstrap with all args! ⚠️"
-	echo "\t$script_commands"
-	ARG_ARRAY=($script_commands)
+	echo "\n⚠️ Running bootstrap with all args!"
+	arg_array=($script_commands)
 fi
 
 #
-# Arg: --ci
+# Arg: --test
 #
 
-if args_contain "--ci" ; then
-	echo ""
-	echo "🔬 Running bootstrap for testing with the following args: 🧪"
-	echo "\t$ci_commands"
-	ARG_ARRAY=($ci_commands)
-	typeset -x CI_TEST=1
+if [[ $arg_array =~ "--test" ]]; then
+	echo "\n⚠️ Running bootstrap with all args except for testing!"
+	arg_array=($test_commands)
+	typeset -Ux CI_TEST=1
 fi
 
 #
 # Sudo power
 #
 
-if args_contain "--macos" || args_contain "--brew" ; then
+if [[ $arg_array =~ "--macos" || $arg_array =~ "--brew" ]]; then
 	if ! sudo -n true 2>/dev/null; then
-		echo ""
-		echo "🔐 Args --macos & --brew require sudo to run. 🔐"
+		echo "⚠️ Args --macos & --brew require sudo to run."
 		echo "Please enter your password."
 		sudo -v
-		if [ ! $? -eq 0 ]; then
-			echo ""
-			echo "Goodbye, come again!..."
-			exit 0
-		fi
 	fi
 fi
 
@@ -161,96 +114,78 @@ fi
 # Arg: --hello
 #
 
-if args_contain "--hello" ; then
-	print_section "Starting Hello, World! script"
-	echo ""
-	echo "› Make sure we're good to go"
-	try echo "Hello, World!"
-	try sleep 3
-	try echo "Let's get moving!"
+if [[ $arg_array =~ "--hello" ]]; then
+	echo "Hello, World!"
 fi
 
 #
 # Arg: --brew
 #
 
-if args_contain "--brew" ; then
-	print_section "Starting brew configuration script"
-	source $DOTFILES_DIR/scripts/brew.sh
+if [[ $arg_array =~ "--brew" ]]; then
+	echo "\n👷 Running brew configuration script 🚧\n"
+	source ./scripts/brew.sh
 fi
 
 #
-# Arg: --apps-install
+# Arg: --macos
 #
 
-if args_contain "--apps-install" ; then
-	print_section "Starting applications installation script"
-	source $DOTFILES_DIR/scripts/apps.sh
-fi
+if [[ $arg_array =~ "--macos" ]]; then
+	echo "\n👷 Running macOS configuration script 🚧\n"
 
-#
-# Arg: --apps-config
-#
+	echo "Opening apps before configuring"
+	for app in "Visual Studio Code" "Sublime Text" "iTerm" \
+	    "Transmission" "Fantastical 2" "Rectangle" ; do
+		try open -a "$app"
+	done
 
-if args_contain "--apps-config" ; then
-	print_section "Starting applications configuration script"
-	source $DOTFILES_DIR/scripts/apps_config.sh
+	echo ""
+
+	source ./scripts/macos.sh
 fi
 
 #
 # Arg: --zsh
 #
 
-if args_contain "--zsh" ; then
-	print_section "Starting zsh configuration script"
+if [[ $arg_array =~ "--zsh" ]]; then
+	echo "\n👷 Running zsh configuration script 🚧\n"
 
 	# Switch to using brew-installed zsh as default shell
-	if ! fgrep -q "${BREW_PREFIX}/bin/zsh" /etc/shells ; then
+	if ! fgrep -q "${BREW_PREFIX}/bin/zsh" /etc/shells; then
 		echo ""
-		echo "› Setting brew zsh as default shell"
+		echo "Setting brew zsh as default shell"
 		try echo "${BREW_PREFIX}/bin/zsh" | sudo tee -a /etc/shells;
 		try chsh -s "${BREW_PREFIX}/bin/zsh";
 	fi;
 
-	echo ""
-	echo "› Clean up zcompdump"
 	try rm -f ~/.zcompdump
-	try rm -f $DOTFILES_DIR/zsh/.zcompdump
-	try rm -f $DOTFILES_DIR/zsh/.zcompdump.zwc
+	try rm -f ./zsh/.zcompdump
+	try rm -f ./zsh/.zcompdump.zwc
 
-	echo ""
-	echo "› chmod /usr/local/share for completion"
 	try chmod go-w "/usr/local/share"
 
-	echo ""
-	echo "› Symlink config files"
+	try ln -sr ./symlink/.zshenv $HOME/.zshenv
 	try mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}
-	try ln -sr $DOTFILES_DIR/symlink/.zshenv $HOME/.zshenv
-	try ln -sr $DOTFILES_DIR/zsh ${XDG_CONFIG_HOME:-$HOME/.config}/
+	try ln -sr ./zsh ${XDG_CONFIG_HOME:-$HOME/.config}/
 fi
 
 #
 # Arg: --git
 #
 
-if args_contain "--git" ; then
-	print_section "Starting git configuration script"
-
-	echo ""
-	echo "› Symlink config files"
-	try mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}
-	try ln -sr $DOTFILES_DIR/git ${XDG_CONFIG_HOME:-$HOME/.config}/
+if [[ $arg_array =~ "--git" ]]; then
+	echo "\n👷 Running git configuration script 🚧\n"
+	try ln -sr ./git ${XDG_CONFIG_HOME:-$HOME/.config}/
 fi
 
 #
 # Arg: --neovim
 #
 
-if args_contain "--nvim" ; then
-	print_section "Starting neovim configuration script"
-
-	echo ""
-	echo "› Git clone neovim config"
+if [[ $arg_array =~ "--nvim" ]]; then
+	echo "\n👷 Running neovim configuration script 🚧\n"
 	try git clone --recursive https://github.com/ladislas/nvim ~/.config/nvim
 fi
 
@@ -258,36 +193,34 @@ fi
 # Arg: --data
 #
 
-if args_contain "--data" ; then
-	print_section "Starting XDG Data configuration script"
-
-	echo ""
-	echo "› Symlink config files"
+if [[ $arg_array =~ "--data" ]]; then
+	echo "\n👷 Running XGD Data configuration script 🚧\n"
 	try mkdir -p ${XDG_DATA_HOME:-$HOME/.local/share}
-	try ln -sr $DOTFILES_DIR/data/* ${XDG_DATA_HOME:-$HOME/.local/share}
+	try ln -sr ./data/* ${XDG_DATA_HOME:-$HOME/.local/share}
 fi
 
 #
 # Arg: --dev
 #
 
-if args_contain "--dev" ; then
-	print_section "Starting personnal dev configuration script"
-	source $DOTFILES_DIR/scripts/dev.sh
+if [[ $arg_array =~ "--dev" ]]; then
+	echo "\n👷 Running dev directory structure configuration script 🚧\n"
+	try mkdir -p $HOME/dev/{ladislas,leka,osx-cross,tmp}
 fi
 
 #
-# Arg: --macos
+# Arg: --gem-pip
 #
 
-if args_contain "--macos" ; then
-	print_section "Starting macOS configuration script"
-	source $DOTFILES_DIR/scripts/macos.sh
+if [[ $arg_array =~ "--gem-pip" ]]; then
+	echo "\n👷 Installing useful gems, pip & node packages 🚧\n"
+	try gem install --no-document cocoapods fastlane neovim
+	try pip install -U --user mbed-cli pyserial neovim
+	try npm install -g neovim
 fi
 
 #
-# List failed commands & delete TEMP_FILE
+# List failed commands
 #
 
 list_failed_commands
-rm -rf $TEMP_FILE

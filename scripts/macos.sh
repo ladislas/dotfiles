@@ -2,46 +2,13 @@
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
-echo ""
-echo "› Quit System Preferences"
 try osascript -e 'tell application "System Preferences" to quit'
 
 # Ask for the administrator password upfront
 # sudo -v
 
-# Keep-alive: update existing `sudo` time stamp until `macos.sh` has finished
+# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
-
-###############################################################################
-# Open affected applications
-###############################################################################
-
-echo ""
-echo "›››"
-echo "››› Open affected applications"
-echo "›››"
-
-typeset -U macos_apps
-
-macos_apps=(
-	"Activity Monitor"
-	"App Store"
-	"Calendar"
-	"Contacts"
-	"Dock"
-	"Finder"
-	"Mail"
-	"Messages"
-	"Photos"
-	"Safari"
-	"SystemUIServer"
-	"Terminal"
-)
-
-echo ""
-for app in $macos_apps ; do
-	try open -a "${app}"
-done
 
 
 ###############################################################################
@@ -49,19 +16,17 @@ done
 ###############################################################################
 
 echo ""
-echo "›››"
-echo "››› General UI/UX"
-echo "›››"
+echo "›› General UI/UX"
 
 DATE=$(date +"%Y%m%d")
 COMPUTER_NAME="LadBookPro$DATE"
 
 echo ""
 echo "› Set computer name to $COMPUTER_NAME"
-try sudo scutil --set ComputerName "$COMPUTER_NAME"
-try sudo scutil --set HostName "$COMPUTER_NAME"
-try sudo scutil --set LocalHostName "$COMPUTER_NAME"
-try sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$COMPUTER_NAME"
+sudo scutil --set ComputerName "$COMPUTER_NAME"
+sudo scutil --set HostName "$COMPUTER_NAME"
+sudo scutil --set LocalHostName "$COMPUTER_NAME"
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$COMPUTER_NAME"
 
 echo ""
 echo "› Always show scrollbars"
@@ -74,9 +39,9 @@ try defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 try defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
 try defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
 
-# echo ""
-# echo "› Disable the over-the-top focus ring animation"
-# try defaults write NSGlobalDomain NSUseAnimatedFocusRing -bool false
+echo ""
+echo "› Disable the over-the-top focus ring animation"
+try defaults write NSGlobalDomain NSUseAnimatedFocusRing -bool false
 
 echo ""
 echo "› Save to disk (not to iCloud) by default"
@@ -92,7 +57,7 @@ try defaults write com.apple.helpviewer DevMode -bool true
 
 echo ""
 echo "› Reveal IP address, hostname, OS version, etc. when clicking the clock" # in the login window
-try sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 
 echo ""
 echo "› Disable automatic capitalization"
@@ -116,41 +81,39 @@ try defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool fals
 ###############################################################################
 
 echo ""
-echo "›››"
-echo "››› General Power and Performance modifications"
-echo "›››"
+echo "›› General Power and Performance modifications"
 
 echo ""
 echo "› Disable Resume system-wide"
 try defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
 
 echo ""
-echo "› Disable automatic termination of inactive apps"
+echo "› Disable automatic termination of inactive apps"echo " ›"
 try defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
 
 echo ""
 echo "› Disable the sudden motion sensor?"
-try sudo pmset -a sms 0
+sudo pmset -a sms 0
 
-# echo ""
-# echo "› Speed up wake from sleep to 24 hours from an hour"
-# try sudo pmset -a standbydelay 86400
+echo ""
+echo "› Speed up wake from sleep to 24 hours from an hour"
+sudo pmset -a standbydelay 86400
 
 echo ""
 echo "› Sleep the display after 15 minutes"
-try sudo pmset -a displaysleep 15
+sudo pmset -a displaysleep 15
 
 echo ""
 echo "› Disable machine sleep while charging"
-try sudo pmset -c sleep 0
+sudo pmset -c sleep 0
 
 echo ""
 echo "› Set machine sleep to 5 minutes on battery"
-try sudo pmset -b sleep 5
+sudo pmset -b sleep 5
 
 echo ""
 echo "› Enable lid wakeup"
-try sudo pmset -a lidwake 1
+sudo pmset -a lidwake 1
 
 
 ###############################################################################
@@ -158,9 +121,7 @@ try sudo pmset -a lidwake 1
 ###############################################################################
 
 echo ""
-echo "›››"
-echo "››› Trackpad, mouse, keyboard, Bluetooth accessories, and input"
-echo "›››"
+echo "›› Trackpad, mouse, keyboard, Bluetooth accessories, and input"
 
 echo ""
 echo "› Increase sound quality for Bluetooth headphones/headsets"
@@ -192,9 +153,7 @@ try defaults write com.apple.BezelServices kDimTime -int 300
 ###############################################################################
 
 echo ""
-echo "›››"
-echo "››› Screen"
-echo "›››"
+echo "›› Screen"
 
 echo ""
 echo "› Require password immediately after sleep or screen saver begins"
@@ -211,7 +170,7 @@ try defaults write NSGlobalDomain AppleFontSmoothing -int 1
 
 echo ""
 echo "› Enable HiDPI display modes (requires restart)"
-try sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
+sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
 
 
 ###############################################################################
@@ -219,9 +178,7 @@ try sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResol
 ###############################################################################
 
 echo ""
-echo "›››"
-echo "››› Finder"
-echo "›››"
+echo "›› Finder"
 
 echo ""
 echo "› Disable window animations and Get Info animations"
@@ -266,11 +223,11 @@ echo ""
 echo "› Remove the spring loading delay for directories"
 try defaults write NSGlobalDomain com.apple.springing.delay -float 0
 
-# echo "Allowing text selection in Quick Look/Preview in Finder by default"
-# try defaults write com.apple.finder QLEnableTextSelection -bool true
+echo "Allowing text selection in Quick Look/Preview in Finder by default"
+try defaults write com.apple.finder QLEnableTextSelection -bool true
 
 echo ""
-echo "› Use column view in all Finder windows by default"
+echo "› Use colimn view in all Finder windows by default"
 try defaults write com.apple.finder FXPreferredViewStyle Clmv
 
 echo ""
@@ -298,9 +255,9 @@ try /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arran
 
 echo ""
 echo "› Increase grid spacing for icons on the desktop and in other icon views"
-try /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 80" ~/Library/Preferences/com.apple.finder.plist
-try /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 80" ~/Library/Preferences/com.apple.finder.plist
-try /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 80" ~/Library/Preferences/com.apple.finder.plist
+try /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
+try /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
+try /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist
 
 echo ""
 echo "› Show the ~/Library folder"
@@ -308,7 +265,7 @@ try chflags nohidden ~/Library
 
 echo ""
 echo "› Show the /Volumes folder"
-try sudo chflags nohidden /Volumes
+sudo chflags nohidden /Volumes
 
 
 ###############################################################################
@@ -316,9 +273,7 @@ try sudo chflags nohidden /Volumes
 ###############################################################################
 
 echo ""
-echo "›››"
-echo "››› Dock, Dashboard & Mission Control"
-echo "›››"
+echo "›› Dock, Dashboard & Mission Control"
 
 echo ""
 echo "› Wipe all (default) app icons from the Dock" # This is only really useful when setting up a new Mac
@@ -348,9 +303,9 @@ echo ""
 echo "› Show indicator lights for open applications in the Dock"
 try defaults write com.apple.dock show-process-indicators -bool true
 
-# echo ""
-# echo "› Minimize windows into their application’s icon"
-# try defaults write com.apple.dock minimize-to-application -bool true
+echo ""
+echo "› Minimize windows into their application’s icon"
+try defaults write com.apple.dock minimize-to-application -bool true
 
 echo ""
 echo "› Remove the auto-hiding Dock delay"
@@ -376,9 +331,7 @@ try defaults write com.apple.dock mru-spaces -bool false
 ###############################################################################
 
 echo ""
-echo "›››"
-echo "››› Hot corners"
-echo "›››"
+echo "›› Hot corners"
 
 echo ""
 echo "› Top left screen corner → Mission Control"
@@ -406,9 +359,7 @@ try defaults write com.apple.dock wvous-br-modifier -int 0
 ###############################################################################
 
 echo ""
-echo "›››"
-echo "››› Terminal"
-echo "›››"
+echo "›› Terminal"
 
 echo ""
 echo "› Enable UTF-8 ONLY in Terminal.app and setting the Pro theme by default"
@@ -430,9 +381,7 @@ try defaults write com.apple.Terminal ShowLineMarks -int 0
 ###############################################################################
 
 echo ""
-echo "›››"
-echo "››› Messages"
-echo "›››"
+echo "›› Messages"
 
 echo ""
 echo "› Disable smart quotes in Messages.app"
@@ -440,13 +389,61 @@ try defaults write com.apple.messageshelper.MessageController SOInputLineSetting
 
 
 ###############################################################################
+# Transmission.app
+###############################################################################
+
+echo ""
+echo "›› Transmission.app"
+
+try mkdir -p ~/Torrentz/Incomplete
+
+echo ""
+echo "› Setting up an incomplete downloads folder in Downloads"
+try defaults write org.m0k.transmission UseIncompleteDownloadFolder -bool true
+try defaults write org.m0k.transmission IncompleteDownloadFolder -string "${HOME}/Torrentz/Incomplete"
+
+echo ""
+echo "› Setting auto-add folder to be Downloads"
+try defaults write org.m0k.transmission AutoImportDirectory -string "${HOME}/Torrentz"
+
+echo ""
+echo "› Don't prompt for confirmation before downloading"
+try defaults write org.m0k.transmission DownloadAsk -bool false
+
+echo ""
+echo "› Trash original torrent files after adding them"
+try defaults write org.m0k.transmission DeleteOriginalTorrent -bool true
+
+echo ""
+echo "› Hiding the donate message"
+try defaults write org.m0k.transmission WarningDonate -bool false
+
+echo ""
+echo "› Hiding the legal disclaimer"
+try defaults write org.m0k.transmission WarningLegal -bool false
+
+echo ""
+echo "› Auto-resizing the window to fit transfers"
+try defaults write org.m0k.transmission AutoSize -bool true
+
+echo ""
+echo "› Auto updating to betas"
+try defaults write org.m0k.transmission AutoUpdateBeta -bool true
+
+echo ""
+echo "› Setting up the best block list"
+try defaults write org.m0k.transmission EncryptionRequire -bool true
+try defaults write org.m0k.transmission BlocklistAutoUpdate -bool true
+try defaults write org.m0k.transmission BlocklistNew -bool true
+try defaults write org.m0k.transmission BlocklistURL -string "http://john.bitsurge.net/public/biglist.p2p.gz"
+
+
+###############################################################################
 # Activity Monitor
 ###############################################################################
 
 echo ""
-echo "›››"
-echo "››› Activity Monitor"
-echo "›››"
+echo "›› Activity Monitor"
 
 echo ""
 echo "› Show the main window when launching Activity Monitor"
@@ -467,9 +464,7 @@ try defaults write com.apple.ActivityMonitor SortDirection -int 0
 ###############################################################################
 
 echo ""
-echo "›››"
-echo "››› TextEdit & Disk Utility"
-echo "›››"
+echo "›› TextEdit & Disk Utility"
 
 echo ""
 echo "› Use plain text mode for new TextEdit documents"
@@ -491,9 +486,7 @@ try defaults write com.apple.DiskUtility advanced-image-options -bool true
 ###############################################################################
 
 echo ""
-echo "›››"
-echo "››› Mac App Store"
-echo "›››"
+echo "›› Mac App Store"
 
 echo ""
 echo "› Enable the automatic update check"
@@ -525,9 +518,7 @@ try defaults write com.apple.commerce AutoUpdateRestartRequired -bool true
 ###############################################################################
 
 echo ""
-echo "›››"
-echo "››› Photos"
-echo "›››"
+echo "›› Photos"
 
 echo ""
 echo "› Prevent Photos from opening automatically when devices are plugged in"
@@ -538,13 +529,25 @@ try defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 # Kill affected applications
 ###############################################################################
 
-echo ""
-echo "›››"
-echo "››› Kill affected applications"
-echo "›››"
+echo "☠️ Kill related apps"
 
-echo ""
-for app in $macos_apps ; do
-	try killall "${app}"
+for app in "Activity Monitor" \
+	"Address Book" \
+	"Calendar" \
+	"Contacts" \
+	"cfprefsd" \
+	"Dock" \
+	"Finder" \
+	"Mail" \
+	"Messages" \
+	"Safari" \
+	"SystemUIServer" \
+	"Terminal" \
+	"Transmission" \
+	"Photos" \
+	"App Store" \
+	"Rectangle" ; do
+	try killall "${app}" &> /dev/null
 done
-try killall "cfprefsd"
+
+echo "🎉 Done! ✅ Note that some of these changes require a logout/restart to take effect"
