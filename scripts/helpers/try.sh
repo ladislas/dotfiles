@@ -23,13 +23,20 @@ start=$(date +%s.%N)
 
 # execute command
 echo -ne "Running $@ ... "
-if [[ $1 =~ "sudo" ]]; then
-	shift
-	sudo script -q $tmp_file $@ > /dev/null 2>&1
-else
-	script -q $tmp_file $@ > /dev/null 2>&1
+
+cmd_result=0
+
+if [[ ! -n $DRY_RUN ]]; then
+	if [[ $1 =~ "sudo" ]]; then
+		shift
+		sudo script -q $tmp_file $@ > /dev/null 2>&1
+	else
+		script -q $tmp_file $@ > /dev/null 2>&1
+	fi
+	cmd_result=$?
 fi
-cmd_result=$?
+
+
 
 end=$(date +%s.%N)
 

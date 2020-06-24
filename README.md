@@ -37,9 +37,9 @@ Available arguments are:
 
 The rest is detailed here:
 
-`--brew` `--apps` `--apps_config` `--zsh` `--git` `--symlink` `--nvim` `--dev` `--data` `--macos`
+`--hello` `--brew` `--apps-install` `--apps-config` `--zsh` `--git` `--symlink` `--nvim` `--dev` `--data` `--macos`
 
-> https://github.com/ladislas/dotfiles/blob/master/bootstrap.sh#L123
+> https://github.com/ladislas/dotfiles/blob/master/bootstrap.sh
 
 ## Brew cask
 
@@ -53,6 +53,6 @@ brew cask install mactex-no-gui
 
 ## Apps Settings
 
-Apps must be launched first before syncronizing the settings.
+Apps must be launched first before syncronizing the settings. The script takes care of that but sometimes it might take a little longer or you might need to accept a dialog box.
 
 For VSCode, use [Settings Sync](https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync).

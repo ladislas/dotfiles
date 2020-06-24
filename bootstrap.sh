@@ -30,8 +30,8 @@ fi
 #
 
   main_commands=( "--all" "--force" "--ci" "--dry-run")
-	ci_commands=( "--hello"          "--apps-install" "--apps-config" "--zsh" "--git" "--symlink" "--nvim"         "--data" "--macos")
-script_commands=( "--hello" "--brew" "--apps-install" "--apps-config" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--macos")
+	ci_commands=( "--hello" "--zsh" "--git" "--symlink" "--nvim" "--data" "--macos"          "--apps-install" "--apps-config"        )
+script_commands=( "--hello" "--zsh" "--git" "--symlink" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config" "--dev")
 
 
 arg_array=($@)
@@ -44,7 +44,7 @@ available_args=( ${main_commands[*]} ${script_commands[*]} )
 if [ ${#arg_array[@]} -eq 0 ]; then
 	echo "⚠️ No arguments have been passed."
 	echo "Please try again with one of those: $available_args"
-	return 1
+	exit 1
 fi
 
 #
@@ -55,7 +55,7 @@ for arg in $arg_array; do
 	if [[ ! " ${available_args[@]} " =~ " ${arg} " ]]; then
 		echo "💥 Unrecognized argument: $arg"
 		echo "Please try again with one of those: $available_args"
-		return 1
+		exit 1
 	fi
 done
 
@@ -129,10 +129,8 @@ fi
 
 if [[ $arg_array =~ "--dry-run" ]]; then
 	echo ""
-	echo "⚠️ Running bootstrap as dry run. Nothing will be installed..."
-	echo "\t$ci_commands"
-	arg_array=($ci_commands)
-	typeset -x CI_TEST=1
+	echo "⚠️ Running bootstrap as dry run. Nothing will be installed or modified..."
+	typeset -x DRY_RUN=1
 fi
 
 #
@@ -154,7 +152,9 @@ fi
 if [[ $arg_array =~ "--hello" ]]; then
 	echo "\n"
 	echo "👷 Starting Hello, World! script 🚧\n"
-	echo "Hello, World!"
+	echo ""
+	try echo "Hello, World!"
+	try sleep 3
 fi
 
 #

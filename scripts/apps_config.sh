@@ -16,7 +16,6 @@ apps=( \
 	"Xcode" \
 )
 
-
 echo ""
 echo "› Open applications before configuration"
 for app in $apps; do
@@ -39,7 +38,7 @@ for app in $apps; do
 	fi
 done
 
-
+# Set path variables for all the preferences/settings
 user_library_path="$HOME/Library"
 dotf_library_path="$DOTFILES_DIR/Library"
 rsync_backup_path="$DOTFILES_DIR/Library/_backup"

@@ -4,6 +4,16 @@ on: [push]
 
 jobs:
 
+  bootstrap_all_dryrun:
+    name: Bootstrap --all --dry-run
+    runs-on: macos-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2.0.0
+    - name: Test script
+      run: |
+        make test_dry_run
+
   bootstrap_test:
     name: Bootstrap --test
     runs-on: macos-latest
