@@ -51,3 +51,6 @@ __pycache__
 Projects/
 *.sublime-license
 oscrypto-ca-bundle.crt
+
+# Rsync backup directory
+_backup

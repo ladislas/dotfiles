@@ -4,10 +4,12 @@
 # Source helper functions
 #
 
-source ./scripts/helpers/include.sh
+typeset -x DOTFILES_DIR=$(pwd)
+
+source $DOTFILES_DIR/scripts/helpers/include.sh
 
 function try {
-	try='./scripts/helpers/try.sh'
+	try=$DOTFILES_DIR'/scripts/helpers/try.sh'
 	$try $@
 }
 
@@ -28,9 +30,9 @@ fi
 # Set arguments
 #
 
-main_commands=("--all" "--force" "--ci" "--dry-run")
-ci_commands=(    "--hello"          "--apps-install" "--apps-config" "--zsh" "--git" "--symlink" "--nvim"         "--data" "--macos")
-script_commands=("--hello" "--brew" "--apps-install" "--apps-config" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--macos")
+  main_commands=( "--all" "--force" "--ci" "--dry-run")
+	ci_commands=( "--hello"          "--apps-install" "--apps-config" "--zsh" "--git" "--symlink" "--nvim"         "--data" "--macos")
+script_commands=( "--hello" "--brew" "--apps-install" "--apps-config" "--zsh" "--git" "--symlink" "--nvim" "--dev" "--data" "--macos")
 
 
 arg_array=($@)
@@ -163,7 +165,7 @@ fi
 if [[ $arg_array =~ "--brew" ]]; then
 	echo "\n"
 	echo "👷 Starting brew configuration script 🚧\n"
-	source ./scripts/brew.sh
+	source $DOTFILES_DIR/scripts/brew.sh
 fi
 
 #
@@ -173,7 +175,7 @@ fi
 if [[ $arg_array =~ "--apps-install" ]]; then
 	echo "\n"
 	echo "👷 Starting applications installation script 🚧\n"
-	source ./scripts/apps.sh
+	source $DOTFILES_DIR/scripts/apps.sh
 fi
 
 #
@@ -183,7 +185,7 @@ fi
 if [[ $arg_array =~ "--apps-config" ]]; then
 	echo "\n"
 	echo "👷 Starting applications configuration script 🚧\n"
-	source ./scripts/apps_config.sh
+	source $DOTFILES_DIR/scripts/apps_config.sh
 fi
 
 #
@@ -193,7 +195,7 @@ fi
 if [[ $arg_array =~ "--macos" ]]; then
 	echo "\n"
 	echo "👷 Starting macOS configuration script 🚧\n"
-	source ./scripts/macos.sh
+	source $DOTFILES_DIR/scripts/macos.sh
 fi
 
 #
@@ -272,7 +274,7 @@ if [[ $arg_array =~ "--dev" ]]; then
 		fi
 	fi
 
-	source ./scripts/dev.sh
+	source $DOTFILES_DIR/scripts/dev.sh
 fi
 
 #

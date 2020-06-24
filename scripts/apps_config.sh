@@ -41,7 +41,8 @@ done
 
 
 user_library_path="$HOME/Library"
-dotf_library_path="./Library"
+dotf_library_path="$DOTFILES_DIR/Library"
+rsync_backup_path="$DOTFILES_DIR/Library/_backup"
 
 user_preferences_path="$user_library_path/Preferences"
 dotf_preferences_path="$dotf_library_path/Preferences"
@@ -49,64 +50,39 @@ dotf_preferences_path="$dotf_library_path/Preferences"
 user_colors_path="$user_library_path/Colors"
 dotf_colors_path="$dotf_library_path/Colors"
 
+user_services_path="$user_library_path/Services"
+dotf_services_path="$dotf_library_path/Services"
+
 user_spelling_path="$user_library_path/Spelling"
 dotf_spelling_path="$dotf_library_path/Spelling"
 
 user_xcode_userdata_path="$user_library_path/Developer/Xcode/UserData"
 dotf_xcode_userdata_path="$dotf_library_path/Developer/Xcode/UserData"
 
-user_sublimetext_settings_path="$user_library_path/Application Support/Sublime Text 3/Packages/User"
-dotf_sublimetext_settings_path="$dotf_library_path/Application Support/Sublime Text 3/Packages/User"
+user_sublimetext_settings_path="$user_library_path/Application Support/Sublime Text 3"
+dotf_sublimetext_settings_path="$dotf_library_path/Application Support/Sublime Text 3"
 
 echo ""
-echo "› Copy .plist to $user_preferences_path"
-# try cp -r $dotf_preferences_path/*.plist $user_preferences_path
-# find $dotf_preferences_path -type f -print0 | try xargs -0 -I file cp -r file $user_preferences_path
-files=($(find $dotf_preferences_path . -type f))
-for f in $files ; do
-	try cp -r "$f" $user_preferences_path
-done
+echo "› Rsync .plist to $user_preferences_path"
+try rsync -av --backup --backup-dir="$rsync_backup_path/Preferences" $dotf_preferences_path/ $user_preferences_path
 
 echo ""
-echo "› Copy .clr to $user_colors_path"
-# try cp -r $dotf_colors_path/*.clr $user_colors_path
-# find $dotf_colors_path/ -type f -print0 | try xargs -0 -I file cp -r file $user_colors_path
-files=($(find $dotf_colors_path . -type f))
-for f in $files ; do
-	try cp -r "$f" $user_colors_path
-done
+echo "› Rsync Colors to $user_colors_path"
+try rsync -av --backup --backup-dir="$rsync_backup_path/Colors" $dotf_colors_path/ $user_colors_path
 
 echo ""
-echo "› Copy dictionary to $user_spelling_path"
-# try cp -r $dotf_spelling_path/* $user_spelling_path
-# find $dotf_spelling_path -type f -print0 | try xargs -0 -I file cp -r file $user_spelling_path
-files=($(find $dotf_spelling_path . -type f))
-for f in $files ; do
-	try cp -r "$f" $user_spelling_path
-done
+echo "› Rsync Services to $user_colors_path"
+try rsync -av --backup --backup-dir="$rsync_backup_path/Services" $dotf_services_path/ $user_services_path
 
 echo ""
-echo "› Copy Xcode settings to $user_xcode_userdata_path"
-try mkdir -p $dotf_xcode_userdata_path/FontAndColorThemes
-try mkdir -p $dotf_xcode_userdata_path/KeyBindings
-# find $dotf_xcode_userdata_path/FontAndColorThemes -type f -print0 | try xargs -0 -I file cp -r file $user_xcode_userdata_path/FontAndColorThemes
-# find $dotf_xcode_userdata_path/KeyBindings -type f -print0 | try xargs -0 -I file cp -r file $user_xcode_userdata_path/KeyBindings
-files=($(find $dotf_xcode_userdata_path/FontAndColorThemes . -type f))
-for f in $files ; do
-	try cp -r "$f" $user_xcode_userdata_path/FontAndColorThemes
-done
-files=($(find $dotf_xcode_userdata_path/KeyBindings . -type f))
-for f in $files ; do
-	try cp -r "$f" $user_xcode_userdata_path/KeyBindings
-done
-
+echo "› Rsync dictionary to $user_spelling_path"
+try rsync -av --backup --backup-dir="$rsync_backup_path/Spelling" $dotf_spelling_path/ $user_spelling_path
 
 echo ""
-echo "› Copy Sublime Text settings to $user_sublimetext_settings_path"
-try mkdir -p $user_sublimetext_settings_path
-# find $dotf_sublimetext_settings_path -type f -print0 | try xargs -0 -I file cp -r file $user_sublimetext_settings_path
-files=($(find $dotf_sublimetext_settings_path . -type f))
-for f in $files ; do
-	try cp -r "$f" $user_sublimetext_settings_path
-done
+echo "› Rsync Xcode settings to $user_xcode_userdata_path"
+try rsync -av --backup --backup-dir="$rsync_backup_path/Xcode" $dotf_xcode_userdata_path/ $user_xcode_userdata_path
+
+echo ""
+echo "› Rsync Sublime Text settings to $user_sublimetext_settings_path"
+try rsync -av --backup --backup-dir="$rsync_backup_path/ST3" $dotf_sublimetext_settings_path/ $user_sublimetext_settings_path
 
