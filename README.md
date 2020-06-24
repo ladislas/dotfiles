@@ -21,6 +21,12 @@ $ git clone https://github.com/ladislas/dotfiles
 $ cd dotfiles
 ```
 
+or run the following:
+
+```console
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ladislas/dotfiles/master/install.sh)"
+```
+
 Then run the bootstrap process:
 
 ```console

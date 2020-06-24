@@ -17,19 +17,17 @@ function try {
 # Set output level (verbose / super verbose)
 #
 
-if [[ "$1" =~ "-vv" ]]; then
+if [[ "$@" =~ "-vv" ]]; then
 	alias try="try -vv"
-	shift
-elif [[ "$1" =~ "-v" || "$1" =~ "--verbose" ]]; then
+elif [[ "$@" =~ "-v" || "$@" =~ "--verbose" ]]; then
 	alias try="try -v"
-	shift
 fi
 
 #
 # Set arguments
 #
 
-  main_commands=( "--all" "--force" "--ci" "--dry-run")
+  main_commands=( "-v" "-vv" "--verbose" "--all" "--force" "--ci" "--dry-run")
 	ci_commands=( "--hello" "--zsh" "--git" "--symlink" "--nvim" "--data" "--macos"          "--apps-install" "--apps-config"        )
 script_commands=( "--hello" "--zsh" "--git" "--symlink" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config" "--dev")
 
