@@ -71,7 +71,7 @@ done
 if is_dry_run ; then
 	echo ""
 	echo "🏃 Running bootstrap as dry run. Nothing will be installed or modified... 🛡️"
-	typeset -x DRY_RUN=1
+	typeset -x DRY_RUN=0
 fi
 
 #

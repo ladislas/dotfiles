@@ -36,7 +36,7 @@ function print_action {
 
 
 function is_dry_run {
-	if [[ $ARG_ARRAY =~ "--dry-run" ]]; then
+	if [[ $ARG_ARRAY =~ "--dry-run" || -n $DRY_RUN ]]; then
 		return 0
 	else
 		return 1
