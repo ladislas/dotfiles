@@ -28,6 +28,13 @@ function print_section {
 	echo "👷 $@ 🚧"
 }
 
+function print_action {
+	echo ""
+	echo "› $@"
+}
+
+
+
 function is_dry_run {
 	if [[ $ARG_ARRAY =~ "--dry-run" ]]; then
 		return 0
@@ -41,5 +48,15 @@ function args_contain {
 		return 0
 	else
 		return 1
+	fi
+}
+
+function ask_for_sudo {
+	echo "Please enter your password."
+	sudo -v
+	if [ ! $? -eq 0 ]; then
+		echo ""
+		echo "Goodbye, come again!..."
+		exit 0
 	fi
 }

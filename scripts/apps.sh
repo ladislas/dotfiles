@@ -3,8 +3,7 @@
 # Continue on error
 set +e
 if [[ ! -n $CI_TEST ]]; then
-	echo ""
-	echo "› Update brew"
+	print_action "Update brew"
 	try brew update
 	try brew upgrade
 fi
@@ -40,8 +39,7 @@ casks=(
 	whatsapp
 )
 
-echo ""
-echo "› Install casks"
+print_action "Install casks"
 for cask in $casks; do
 	if [[ ! $available_casks =~ $cask ]]; then
 		try brew cask install $cask
@@ -49,8 +47,7 @@ for cask in $casks; do
 done
 
 if [[ ! -n $CI_TEST ]]; then
-	echo ""
-	echo "› Cleanup brew & remove cache"
+	print_action "Cleanup brew & remove cache"
 	try brew cleanup -s
 	try rm -rf "$(brew --cache)"
 fi

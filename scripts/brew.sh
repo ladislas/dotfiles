@@ -4,8 +4,7 @@
 set +e
 
 if [[ ! -n $CI_TEST ]]; then
-	echo ""
-	echo "› Update brew"
+	print_action "Update brew"
 	try brew update
 	try brew upgrade
 fi
@@ -84,8 +83,7 @@ formulae=(
 	cppcheck
 )
 
-echo ""
-echo "› Install formulae"
+print_action "Install formulae"
 for formula in $formulae ; do
 	if [[ ! $available_formulae =~ $formula ]]; then
 		try brew install $formula
@@ -93,8 +91,7 @@ for formula in $formulae ; do
 done
 
 if [[ ! -n $CI_TEST ]]; then
-	echo ""
-	echo "› Cleanup brew & remove cache"
+	print_action "Cleanup brew & remove cache"
 	try brew cleanup -s
 	try rm -rf "$(brew --cache)"
 fi
