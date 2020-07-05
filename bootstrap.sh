@@ -82,11 +82,12 @@ if ! is_dry_run ; then
 	print_section "Checking for brew & coreutils"
 	if [[ $(command -v brew) == "" ]]; then
 		print_action "Install brew"
-	    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-	    print_action "Install coreutils"
-	    brew install coreutils
-	elif [[ $(command -v gls) == "" ]]; then
+		fake_try "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)\""
+	    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+	fi
+	if [[ $(command -v gls) == "" ]]; then
 		print_action "Install coreutils"
+		fake_try "brew install coreutils"
 		brew install coreutils
 	fi
 	if [ ! $? -eq 0 ]; then
@@ -96,7 +97,7 @@ if ! is_dry_run ; then
 fi
 
 print_action "Add gnubin to path"
-echo "Running export PATH=\"/usr/local/opt/coreutils/libexec/gnubin:\$PATH\" ... ✅ (-)"
+fake_try "export PATH=\"/usr/local/opt/coreutils/libexec/gnubin:\$PATH\""
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
 #

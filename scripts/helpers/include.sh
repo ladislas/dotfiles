@@ -23,6 +23,10 @@ function print_action {
 	echo "› $@"
 }
 
+function fake_try {
+	echo "Running $@ ... ✅ (-)"
+}
+
 function is_ci {
 	if [[ $ARG_ARRAY =~ "--ci" || -n $CI_TEST ]]; then
 		return 0
@@ -30,7 +34,6 @@ function is_ci {
 		return 1
 	fi
 }
-
 
 function is_dry_run {
 	if [[ $ARG_ARRAY =~ "--dry-run" || -n $DRY_RUN ]]; then
