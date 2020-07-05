@@ -275,9 +275,6 @@ echo "›››"
 echo "››› Dock, Dashboard & Mission Control"
 echo "›››"
 
-print_action "Wipe all (default) app icons from the Dock" # This is only really useful when setting up a new Mac
-try defaults write com.apple.dock persistent-apps -array
-
 print_action "Change position of the Dock to right" # Available options: "left" "right" or "bottom"
 try defaults write com.apple.Dock orientation -string right
 

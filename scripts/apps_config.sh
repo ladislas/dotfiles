@@ -87,3 +87,19 @@ try rsync -av --backup --backup-dir="$rsync_backup_path/Xcode" $dotf_xcode_userd
 print_action "Rsync Sublime Text settings to $user_sublimetext_settings_path"
 try mkdir -p $user_sublimetext_settings_path
 try rsync -av --backup --backup-dir="$rsync_backup_path/ST3" $dotf_sublimetext_settings_path/ $user_sublimetext_settings_path
+
+print_action "Wipe all (default) app icons from the Dock" # This is only really useful when setting up a new Mac
+try defaults write com.apple.dock persistent-apps -array
+
+print_action "Add favorite apps to Dock"
+function add_app_to_dock {
+	app=$@
+	try defaults write com.apple.dock persistent-apps -array-add "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/$app.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>"
+}
+add_app_to_dock "Brave"
+add_app_to_dock "Music"
+add_app_to_dock "System Preferences"
+
+print_action "Kill Dock for changes to take effect"
+try killall Dock
+
