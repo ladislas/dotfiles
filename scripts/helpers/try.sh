@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-if [[ -n $CI_TEST ]]; then
+if is_ci ; then
 	if [[ "$@" =~ "sudo -v" ]]; then
 		return 0
 	fi

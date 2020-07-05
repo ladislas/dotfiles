@@ -46,7 +46,7 @@ available_args=( ${main_commands[*]} ${script_commands[*]} )
 # Check that arguments have been passed, if not exit
 #
 
-if [ ${#ARG_ARRAY[@]} -eq 0 ]; then
+if array_is_empty $ARG_ARRAY ; then
 	echo "💥 No arguments have been passed."
 	echo "Please try again with one of those: $available_args"
 	exit 1
@@ -71,7 +71,7 @@ done
 if is_dry_run ; then
 	echo ""
 	echo "🏃 Running bootstrap as dry run. Nothing will be installed or modified... 🛡️"
-	typeset -x DRY_RUN=0
+	typeset -x DRY_RUN=true
 fi
 
 #
@@ -119,8 +119,8 @@ if args_contain "--all" ; then
 		fi
 	fi
 
-	if args_contain "--ci" ; then
-		typeset -x CI_TEST=1
+	if is_ci ; then
+		typeset -x CI_TEST=true
 	fi
 
 	echo ""
@@ -138,7 +138,7 @@ if args_contain "--ci" ; then
 	echo "🔬 Running bootstrap for testing with the following args: 🧪"
 	echo "\t$ci_commands"
 	ARG_ARRAY=($ci_commands)
-	typeset -x CI_TEST=1
+	typeset -x CI_TEST=true
 fi
 
 #

@@ -3,7 +3,7 @@
 # Continue on error
 set +e
 
-if [[ ! -n $CI_TEST ]]; then
+if ! is_ci ; then
 	print_action "Update brew"
 	try brew update
 	try brew upgrade
@@ -90,7 +90,7 @@ for formula in $formulae ; do
 	fi
 done
 
-if [[ ! -n $CI_TEST ]]; then
+if ! is_ci ; then
 	print_action "Cleanup brew & remove cache"
 	try brew cleanup -s
 	try rm -rf "$(brew --cache)"

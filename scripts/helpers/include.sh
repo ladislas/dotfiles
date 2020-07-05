@@ -4,23 +4,13 @@
 # Helpers
 #
 
-function list_failed_commands {
-	ret=0
-	echo ""
-	if [ ${#FAILED_COMMANDS[@]} -eq 0 ]; then
-		echo "🎉 The bootstrap process completed successfully! 💪"
+function array_is_empty {
+	arr=($@)
+	if [ ${#arr[@]} -eq 0 ] ; then
+		return 0
 	else
-		echo "💥 The following commands have failed: 💥"
-		for cmd in $FAILED_COMMANDS; do
-			echo "\t- $cmd"
-		done
-		exit 1
+		return 1
 	fi
-
-	echo ""
-	echo "💡 Note that some of these changes require a logout/restart 💻 to take effect 🚀"
-
-	exit $ret
 }
 
 function print_section {
@@ -33,6 +23,13 @@ function print_action {
 	echo "› $@"
 }
 
+function is_ci {
+	if [[ $ARG_ARRAY =~ "--ci" || -n $CI_TEST ]]; then
+		return 0
+	else
+		return 1
+	fi
+}
 
 
 function is_dry_run {
@@ -59,4 +56,23 @@ function ask_for_sudo {
 		echo "Goodbye, come again!..."
 		exit 0
 	fi
+}
+
+function list_failed_commands {
+	ret=0
+	echo ""
+	if array_is_empty $FAILED_COMMANDS ; then
+		echo "🎉 The bootstrap process completed successfully! 💪"
+	else
+		echo "💥 The following commands have failed: 💥"
+		for cmd in $FAILED_COMMANDS; do
+			echo "\t- $cmd"
+		done
+		exit 1
+	fi
+
+	echo ""
+	echo "💡 Note that some of these changes require a logout/restart 💻 to take effect 🚀"
+
+	exit $ret
 }
