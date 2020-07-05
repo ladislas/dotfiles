@@ -95,6 +95,8 @@ if ! is_dry_run ; then
 	fi
 fi
 
+print_action "Add gnubin to path"
+echo "Running export PATH=\"/usr/local/opt/coreutils/libexec/gnubin:\$PATH\" ... ✅ (-)"
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
 #
