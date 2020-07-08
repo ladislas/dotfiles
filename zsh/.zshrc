@@ -38,7 +38,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
 
 	# Python
 	# lpath+="/usr/local/opt/python/libexec/bin"
-	lpath+="/Users/ladislas/Library/Python/3.7/bin/"
+	lpath+="/Users/ladislas/Library/Python/3.8/bin/"
 
 	# Export $PATH
 	path=($lpath $path)
