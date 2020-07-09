@@ -12,9 +12,9 @@ jobs:
       uses: actions/checkout@v2.0.0
     - name: Test script
       run: |
-        make test_dry_run
+        zsh ./bootstrap.sh -v --dry-run --all --force --ci
 
-  bootstrap_all_verbose:
+  bootstrap_quick:
     name: Bootstrap --ci quick
     runs-on: macos-latest
     steps:
@@ -22,10 +22,10 @@ jobs:
       uses: actions/checkout@v2.0.0
     - name: Test script
       run: |
-        make test_quick
+        zsh ./bootstrap.sh -v --hello --zsh --git --symlink --nvim --data --macos
 
 
-  bootstrap_test:
+  bootstrap_all:
     name: Bootstrap --ci
     runs-on: macos-latest
     steps:
@@ -33,4 +33,4 @@ jobs:
       uses: actions/checkout@v2.0.0
     - name: Test script
       run: |
-        make test
+        zsh ./bootstrap.sh -v --ci
