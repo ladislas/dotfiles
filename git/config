@@ -114,7 +114,7 @@
 
 	# Use custom `.gitignore` and `.gitattributes`
 	excludesfile = ~/.gitignore
-	attributesfile = ~/.gitattributes
+	attributesfile = /Users/ladislas/.config/git/gitattributes
 
 	# Treat spaces before tabs and all kinds of trailing whitespace as an error
 	# [default] trailing-space: looks for spaces at the end of a line
@@ -205,8 +205,14 @@
 [diff-so-fancy]
 
 	stripLeadingSymbols = false
+
 [filter "lfs"]
+
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+
+[diff "plist"]
+
+	textconv = plutil -convert xml1 -o -

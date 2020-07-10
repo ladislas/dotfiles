@@ -2,13 +2,14 @@
 
 # Continue on error
 set +e
-if [[ ! -n $CI_TEST ]]; then
-	echo ""
-	echo "› Update brew"
+if ! is_ci ; then
+	print_action "Update brew"
 	try brew update
 	try brew upgrade
 fi
 
+print_action "Tap homebrew/cask"
+try brew tap homebrew/cask
 
 # List already available casks
 available_casks=$(brew cask list)
@@ -40,17 +41,15 @@ casks=(
 	whatsapp
 )
 
-echo ""
-echo "› Install casks"
+print_action "Install casks"
 for cask in $casks; do
 	if [[ ! $available_casks =~ $cask ]]; then
 		try brew cask install $cask
 	fi
 done
 
-if [[ ! -n $CI_TEST ]]; then
-	echo ""
-	echo "› Cleanup brew & remove cache"
+if ! is_ci ; then
+	print_action "Cleanup brew & remove cache"
 	try brew cleanup -s
 	try rm -rf "$(brew --cache)"
 fi

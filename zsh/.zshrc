@@ -38,7 +38,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
 
 	# Python
 	# lpath+="/usr/local/opt/python/libexec/bin"
-	lpath+="/Users/ladislas/Library/Python/3.7/bin/"
+	lpath+="/Users/ladislas/Library/Python/3.8/bin/"
 
 	# Export $PATH
 	path=($lpath $path)
@@ -139,6 +139,7 @@ alias gc='git commit'
 alias gd='git diff'
 alias gco='git checkout'
 alias gst='git status'
+alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
 # Git flow
 alias gf='git-flow'

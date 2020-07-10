@@ -46,7 +46,7 @@ available_args=( ${main_commands[*]} ${script_commands[*]} )
 # Check that arguments have been passed, if not exit
 #
 
-if [ ${#ARG_ARRAY[@]} -eq 0 ]; then
+if array_is_empty $ARG_ARRAY ; then
 	echo "💥 No arguments have been passed."
 	echo "Please try again with one of those: $available_args"
 	exit 1
@@ -71,7 +71,7 @@ done
 if is_dry_run ; then
 	echo ""
 	echo "🏃 Running bootstrap as dry run. Nothing will be installed or modified... 🛡️"
-	typeset -x DRY_RUN=1
+	typeset -x DRY_RUN=true
 fi
 
 #
@@ -79,12 +79,15 @@ fi
 #
 
 if ! is_dry_run ; then
+	print_section "Checking for brew & coreutils"
 	if [[ $(command -v brew) == "" ]]; then
-		print_section "Installing brew & coreutils"
-	    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-	    brew install coreutils
-	elif [[ $(command -v gls) == "" ]]; then
-		print_section "Installing coreutils"
+		print_action "Install brew"
+		fake_try "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)\""
+	    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+	fi
+	if [[ $(command -v gls) == "" ]]; then
+		print_action "Install coreutils"
+		fake_try "brew install coreutils"
 		brew install coreutils
 	fi
 	if [ ! $? -eq 0 ]; then
@@ -93,6 +96,8 @@ if ! is_dry_run ; then
 	fi
 fi
 
+print_action "Add gnubin to path"
+fake_try "export PATH=\"/usr/local/opt/coreutils/libexec/gnubin:\$PATH\""
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
 #
@@ -117,8 +122,8 @@ if args_contain "--all" ; then
 		fi
 	fi
 
-	if args_contain "--ci" ; then
-		typeset -x CI_TEST=1
+	if is_ci ; then
+		typeset -x CI_TEST=true
 	fi
 
 	echo ""
@@ -136,7 +141,7 @@ if args_contain "--ci" ; then
 	echo "🔬 Running bootstrap for testing with the following args: 🧪"
 	echo "\t$ci_commands"
 	ARG_ARRAY=($ci_commands)
-	typeset -x CI_TEST=1
+	typeset -x CI_TEST=true
 fi
 
 #
@@ -147,13 +152,7 @@ if args_contain "--macos" || args_contain "--brew" ; then
 	if ! sudo -n true 2>/dev/null; then
 		echo ""
 		echo "🔐 Args --macos & --brew require sudo to run. 🔐"
-		echo "Please enter your password."
-		sudo -v
-		if [ ! $? -eq 0 ]; then
-			echo ""
-			echo "Goodbye, come again!..."
-			exit 0
-		fi
+		ask_for_sudo
 	fi
 fi
 
@@ -163,8 +162,7 @@ fi
 
 if args_contain "--hello" ; then
 	print_section "Starting Hello, World! script"
-	echo ""
-	echo "› Make sure we're good to go"
+	print_action "Make sure we're good to go"
 	try echo "Hello, World!"
 	try sleep 3
 	try echo "Let's get moving!"
@@ -206,24 +204,20 @@ if args_contain "--zsh" ; then
 
 	# Switch to using brew-installed zsh as default shell
 	if ! fgrep -q "${BREW_PREFIX}/bin/zsh" /etc/shells ; then
-		echo ""
-		echo "› Setting brew zsh as default shell"
+		print_action "Setting brew zsh as default shell"
 		try echo "${BREW_PREFIX}/bin/zsh" | sudo tee -a /etc/shells;
 		try chsh -s "${BREW_PREFIX}/bin/zsh";
 	fi;
 
-	echo ""
-	echo "› Clean up zcompdump"
+	print_action "Clean up zcompdump"
 	try rm -f ~/.zcompdump
 	try rm -f $DOTFILES_DIR/zsh/.zcompdump
 	try rm -f $DOTFILES_DIR/zsh/.zcompdump.zwc
 
-	echo ""
-	echo "› chmod /usr/local/share for completion"
+	print_action "chmod /usr/local/share for completion"
 	try chmod go-w "/usr/local/share"
 
-	echo ""
-	echo "› Symlink config files"
+	print_action "Symlink config files"
 	try mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}
 	try ln -sr $DOTFILES_DIR/symlink/.zshenv $HOME/.zshenv
 	try ln -sr $DOTFILES_DIR/zsh ${XDG_CONFIG_HOME:-$HOME/.config}/
@@ -235,9 +229,7 @@ fi
 
 if args_contain "--git" ; then
 	print_section "Starting git configuration script"
-
-	echo ""
-	echo "› Symlink config files"
+	print_action "Symlink config files"
 	try mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}
 	try ln -sr $DOTFILES_DIR/git ${XDG_CONFIG_HOME:-$HOME/.config}/
 fi
@@ -248,9 +240,7 @@ fi
 
 if args_contain "--nvim" ; then
 	print_section "Starting neovim configuration script"
-
-	echo ""
-	echo "› Git clone neovim config"
+	print_action "Git clone neovim config"
 	try git clone --recursive https://github.com/ladislas/nvim ~/.config/nvim
 fi
 
@@ -260,9 +250,7 @@ fi
 
 if args_contain "--data" ; then
 	print_section "Starting XDG Data configuration script"
-
-	echo ""
-	echo "› Symlink config files"
+	print_action "Symlink config files"
 	try mkdir -p ${XDG_DATA_HOME:-$HOME/.local/share}
 	try ln -sr $DOTFILES_DIR/data/* ${XDG_DATA_HOME:-$HOME/.local/share}
 fi
