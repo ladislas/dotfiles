@@ -43,7 +43,7 @@ Available arguments are:
 
 The rest is detailed here:
 
-`--hello` `--brew` `--apps-install` `--apps-config` `--zsh` `--git` `--symlink` `--nvim` `--dev` `--data` `--macos`
+`--hello` `--zsh` `--git` `--nvim` `--data` `--macos` `--brew` `--apps-install` `--apps-config` `--dev`
 
 > https://github.com/ladislas/dotfiles/blob/master/bootstrap.sh
 

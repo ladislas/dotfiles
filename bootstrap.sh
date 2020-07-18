@@ -35,8 +35,8 @@ fi
 #
 
   main_commands=( "-v" "-vv" "--verbose" "--all" "--force" "--ci" "--dry-run")
-	ci_commands=( "--hello" "--zsh" "--git" "--symlink" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config"        )
-script_commands=( "--hello" "--zsh" "--git" "--symlink" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config" "--dev")
+	ci_commands=( "--hello" "--zsh" "--git" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config"        )
+script_commands=( "--hello" "--zsh" "--git" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config" "--dev")
 
 
 ARG_ARRAY=($@)

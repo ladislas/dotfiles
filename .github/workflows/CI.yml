@@ -22,7 +22,7 @@ jobs:
       uses: actions/checkout@v2.0.0
     - name: Test script
       run: |
-        zsh ./bootstrap.sh -v --hello --zsh --git --symlink --nvim --data --macos
+        zsh ./bootstrap.sh -v --hello --zsh --git --nvim --data --macos
 
 
   bootstrap_all:
