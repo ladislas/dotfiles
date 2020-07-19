@@ -29,8 +29,24 @@ for app in $user_apps; do
 	fi
 done
 
-print_action "Wait for apps to launch"
-try sleep 3
+#
+# Wait and ask to continue when apps are open
+#
+
+echo ""
+echo "› Wait for apps to launch"
+try sleep 10
+
+echo ""
+echo "› Make sure akk the apps have launched and that you've accepted any system dialog before moving forward"
+echo ""
+printf "👀 Are you ready to continue? (y/n) "
+read
+if [[ ! $REPLY =~ ^[Yy]$ ]] ; then
+	echo ""
+	echo "Goodbye, come again!..."
+	exit 0
+fi
 
 #
 # Close apps
