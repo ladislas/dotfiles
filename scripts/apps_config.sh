@@ -65,6 +65,10 @@ for app in $user_apps; do
 	fi
 done
 
+echo ""
+echo "› Wait for apps to quit"
+try sleep 10
+
 #
 # Set path variables for all the preferences/settings
 #
