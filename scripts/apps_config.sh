@@ -165,4 +165,5 @@ print_action "Kill Dock for changes to take effect"
 try killall Dock
 
 print_action "Kill Touch Bar for changes to take effect"
-pkill "Touch Bar agent"; killall "ControlStrip";
+try pkill "Touch Bar agent"
+try killall "ControlStrip";
