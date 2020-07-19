@@ -18,6 +18,10 @@ user_apps=(
 	"Xcode"
 )
 
+#
+# Open apps
+#
+
 print_action "Open applications before configuration"
 for app in $user_apps; do
 	if ls /Applications | grep "$app" &> /dev/null ; then
@@ -27,6 +31,10 @@ done
 
 print_action "Wait for apps to launch"
 try sleep 3
+
+#
+# Close apps
+#
 
 print_action "Kill applications before copying preferences"
 for app in $user_apps; do
@@ -41,7 +49,10 @@ for app in $user_apps; do
 	fi
 done
 
+#
 # Set path variables for all the preferences/settings
+#
+
 user_library_path="$HOME/Library"
 dotf_library_path="$DOTFILES_DIR/Library"
 rsync_backup_path="$DOTFILES_DIR/Library/_backup"
@@ -64,29 +75,57 @@ dotf_xcode_userdata_path="$dotf_library_path/Developer/Xcode/UserData"
 user_sublimetext_settings_path="$user_library_path/Application Support/Sublime Text 3"
 dotf_sublimetext_settings_path="$dotf_library_path/Application Support/Sublime Text 3"
 
+#
+# Preferences
+#
+
 print_action "Rsync .plist to $user_preferences_path"
 try mkdir -p $user_preferences_path
 try rsync -av --backup --backup-dir="$rsync_backup_path/Preferences" $dotf_preferences_path/ $user_preferences_path
+
+#
+# Colors
+#
 
 print_action "Rsync Colors to $user_colors_path"
 try mkdir -p $user_colors_path
 try rsync -av --backup --backup-dir="$rsync_backup_path/Colors" $dotf_colors_path/ $user_colors_path
 
+#
+# Services
+#
+
 print_action "Rsync Services to $user_colors_path"
 try mkdir -p $user_services_path
 try rsync -av --backup --backup-dir="$rsync_backup_path/Services" $dotf_services_path/ $user_services_path
 
-print_action "Rsync dictionary to $user_spelling_path"
+#
+# Spelling
+#
+
+print_action "Rsync Spelling to $user_spelling_path"
 try mkdir -p $user_spelling_path
 try rsync -av --backup --backup-dir="$rsync_backup_path/Spelling" $dotf_spelling_path/ $user_spelling_path
+
+#
+# Xcode
+#
 
 print_action "Rsync Xcode settings to $user_xcode_userdata_path"
 try mkdir -p $user_xcode_userdata_path
 try rsync -av --backup --backup-dir="$rsync_backup_path/Xcode" $dotf_xcode_userdata_path/ $user_xcode_userdata_path
 
+#
+# Sublime Text
+#
+
 print_action "Rsync Sublime Text settings to $user_sublimetext_settings_path"
 try mkdir -p $user_sublimetext_settings_path
 try rsync -av --backup --backup-dir="$rsync_backup_path/ST3" $dotf_sublimetext_settings_path/ $user_sublimetext_settings_path
+
+#
+# Dock
+#
 
 print_action "Wipe all (default) app icons from the Dock" # This is only really useful when setting up a new Mac
 try defaults write com.apple.dock persistent-apps -array
@@ -98,8 +137,16 @@ function add_app_to_dock {
 }
 add_app_to_dock "Brave"
 add_app_to_dock "Music"
+add_app_to_dock "Slack"
+add_app_to_dock "iTerm"
 add_app_to_dock "System Preferences"
+
+#
+# Kill all for changes to take effect
+#
 
 print_action "Kill Dock for changes to take effect"
 try killall Dock
 
+print_action "Kill Touch Bar for changes to take effect"
+pkill "Touch Bar agent"; killall "ControlStrip";
