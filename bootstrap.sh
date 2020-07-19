@@ -34,13 +34,14 @@ fi
 # Set arguments
 #
 
-  main_commands=( "-v" "-vv" "--verbose" "--all" "--force" "--ci" "--dry-run")
-	ci_commands=( "--hello" "--zsh" "--git" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config"        )
-script_commands=( "--hello" "--zsh" "--git" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config" "--dev")
+qualifier_commands=( "-v" "-vv" "--verbose" "--force" )
+     main_commands=( "--all"  "--ci" "--dry-run" )
+	   ci_commands=( "--hello" "--zsh" "--git" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config"                   )
+   script_commands=( "--hello" "--zsh" "--git" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config" "--dev" "--rsync" )
 
 
 ARG_ARRAY=($@)
-available_args=( ${main_commands[*]} ${script_commands[*]} )
+available_args=( ${qualifier_commands[*]} ${main_commands[*]} ${script_commands[*]} )
 
 #
 # Check that arguments have been passed, if not exit
@@ -271,6 +272,15 @@ fi
 if args_contain "--macos" ; then
 	print_section "Starting macOS configuration script"
 	source $DOTFILES_DIR/scripts/macos.sh
+fi
+
+#
+# Arg: --rsync
+#
+
+if args_contain "--rsync" ; then
+	print_section "Starting rsync configuration script"
+	source $DOTFILES_DIR/scripts/rsync_config.sh
 fi
 
 #

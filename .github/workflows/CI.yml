@@ -24,7 +24,6 @@ jobs:
       run: |
         zsh ./bootstrap.sh -v --hello --zsh --git --nvim --data --macos
 
-
   bootstrap_all:
     name: Bootstrap --ci
     runs-on: macos-latest
@@ -34,3 +33,16 @@ jobs:
     - name: Test script
       run: |
         zsh ./bootstrap.sh -v --ci
+
+  bootstrap_rsync_back:
+    name: Bootstrap --rsync
+    runs-on: macos-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2.0.0
+    - name: Test script
+      run: |
+        zsh ./bootstrap.sh -vv --hello
+        zsh ./bootstrap.sh -vv --apps-install --apps-config
+        zsh ./bootstrap.sh -vv --rsync
+        git status
