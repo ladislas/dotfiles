@@ -65,6 +65,10 @@ for app in $user_apps; do
 	fi
 done
 
+echo ""
+echo "› Wait for apps to quit"
+try sleep 10
+
 #
 # Set path variables for all the preferences/settings
 #
@@ -162,8 +166,8 @@ add_app_to_dock "System Preferences"
 #
 
 print_action "Kill Dock for changes to take effect"
-try killall Dock
+try sudo killall Dock
 
 print_action "Kill Touch Bar for changes to take effect"
-try pkill "Touch Bar agent"
-try killall "ControlStrip";
+try sudo pkill "Touch Bar agent"
+try sudo killall "ControlStrip";
