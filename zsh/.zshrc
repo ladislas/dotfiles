@@ -34,7 +34,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
 
 	# Ruby
 	lpath+="/usr/local/opt/ruby/bin"
-	lpath+="/usr/local/lib/ruby/gems/2.6.0/bin"
+	lpath+="/usr/local/lib/ruby/gems/2.7.0/bin"
 
 	# Python
 	# lpath+="/usr/local/opt/python/libexec/bin"
