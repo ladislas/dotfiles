@@ -41,10 +41,9 @@ formulae=(
 	hub
 	git
 	git-lfs
-	github/gh/gh
+	gh
 	git-flow-avh
 	diff-so-fancy
-	mercurial
 
 	# Install wget & curl
 	wget
@@ -65,19 +64,16 @@ formulae=(
 
 	# Install useful tools
 	ack
-	mint
 	tree
 	neovim
 	pandoc
 	rename
 	imagemagick
-	youtube-dl
 	the_silver_searcher
 
 	# Install dev tools
 	avrdude
 	stlink
-	open-ocd
 	swiftlint
 	clang-format
 	cppcheck

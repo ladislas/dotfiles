@@ -21,7 +21,6 @@ casks=(
 	aerial
 	alfred
 	appcleaner
-	arduino
 	brave-browser
 	coolterm
 	dropbox
@@ -34,6 +33,7 @@ casks=(
 	rectangle
 	slack
 	spotify
+	stats
 	sublime-text
 	transmission
 	visual-studio-code
