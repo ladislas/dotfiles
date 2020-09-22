@@ -43,6 +43,6 @@ jobs:
     - name: Test script
       run: |
         zsh ./bootstrap.sh -vv --hello
-        zsh ./bootstrap.sh -vv --apps-install --apps-config
+        zsh ./bootstrap.sh -vv --apps-config
         zsh ./bootstrap.sh -vv --rsync
         git status

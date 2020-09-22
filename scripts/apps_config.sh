@@ -38,14 +38,16 @@ echo "› Wait for apps to launch"
 try sleep 10
 
 echo ""
-echo "› Make sure akk the apps have launched and that you've accepted any system dialog before moving forward"
+echo "› Make sure all the apps have launched and that you've accepted any system dialog before moving forward"
 echo ""
 printf "👀 Are you ready to continue? (y/n) "
-read
-if [[ ! $REPLY =~ ^[Yy]$ ]] ; then
-	echo ""
-	echo "Goodbye, come again!..."
-	exit 0
+if ! is_ci ; then
+	read
+	if [[ ! $REPLY =~ ^[Yy]$ ]] ; then
+		echo ""
+		echo "Goodbye, come again!..."
+		exit 0
+	fi
 fi
 
 #
@@ -168,6 +170,8 @@ try rsync -av --backup --backup-dir="$rsync_backup_path/ST3" $dotf_sublimetext_s
 print_action "Kill Dock for changes to take effect"
 try killall Dock
 
-print_action "Kill Touch Bar for changes to take effect"
-try pkill "Touch Bar agent"
-try killall "ControlStrip";
+if ! is_ci ; then
+	print_action "Kill Touch Bar for changes to take effect"
+	try pkill "Touch Bar agent"
+	try killall "ControlStrip";
+fi

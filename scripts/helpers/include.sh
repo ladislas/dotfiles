@@ -28,7 +28,7 @@ function fake_try {
 }
 
 function is_ci {
-	if [[ $ARG_ARRAY =~ "--ci" || -n $CI_TEST ]]; then
+	if [[ $ARG_ARRAY =~ "--ci" || -n $CI_TEST || -n $CI ]]; then
 		return 0
 	else
 		return 1
