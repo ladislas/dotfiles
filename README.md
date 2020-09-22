@@ -54,7 +54,9 @@ I've removed some of the heavy casks from the script as they were taking way too
 To instatll them, run the following:
 
 ```bash
-brew cask install mactex-no-gui
+brew cask install --no-quarantine adoptopenjdk
+brew cask install --no-quarantine mactex-no-gui
+brew cask install --no-quarantine gpg-suite-no-mail
 ```
 
 ## Apps Settings

@@ -17,7 +17,7 @@ available_casks=$(brew cask list)
 typeset -U casks
 casks=(
 	1password
-	adoptopenjdk
+	# adoptopenjdk
 	aerial
 	alfred
 	appcleaner
@@ -27,7 +27,7 @@ casks=(
 	fantastical
 	glance
 	google-chrome
-	gpg-suite-no-mail
+	# gpg-suite-no-mail
 	iterm2
 	macdown
 	rectangle
