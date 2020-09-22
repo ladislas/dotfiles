@@ -147,19 +147,19 @@ try rsync -av --backup --backup-dir="$rsync_backup_path/ST3" $dotf_sublimetext_s
 # Dock
 #
 
-print_action "Wipe all (default) app icons from the Dock" # This is only really useful when setting up a new Mac
-try defaults write com.apple.dock persistent-apps -array
+# print_action "Wipe all (default) app icons from the Dock" # This is only really useful when setting up a new Mac
+# try defaults write com.apple.dock persistent-apps -array
 
-print_action "Add favorite apps to Dock"
-function add_app_to_dock {
-	app=$@
-	try defaults write com.apple.dock persistent-apps -array-add "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>$app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>"
-}
-add_app_to_dock "/Applications/Brave Browser Beta.app"
-add_app_to_dock "/System/Applications/Music.app"
-add_app_to_dock "/Applications/Slack.app"
-add_app_to_dock "/Applications/iTerm.app"
-add_app_to_dock "/System/Applications/System Preferences.app"
+# print_action "Add favorite apps to Dock"
+# function add_app_to_dock {
+# 	app=$@
+# 	try defaults write com.apple.dock persistent-apps -array-add "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>$app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>"
+# }
+# add_app_to_dock "/Applications/Brave Browser Beta.app"
+# add_app_to_dock "/System/Applications/Music.app"
+# add_app_to_dock "/Applications/Slack.app"
+# add_app_to_dock "/Applications/iTerm.app"
+# add_app_to_dock "/System/Applications/System Preferences.app"
 
 #
 # Kill all for changes to take effect
