@@ -2,6 +2,7 @@
 
 # Continue on error
 set +e
+
 if ! is_ci ; then
 	print_action "Update brew"
 	try brew update

@@ -1,5 +1,8 @@
 #!/usr/bin/env zsh
 
+# Continue on error
+set +e
+
 #
 # Set path variables for all the preferences/settings
 #
