@@ -12,7 +12,7 @@ print_action "Tap homebrew/cask"
 try brew tap homebrew/cask
 
 # List already available casks
-available_casks=$(brew cask list)
+available_casks=$(brew list --cask)
 
 typeset -U casks
 casks=(
