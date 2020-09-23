@@ -64,14 +64,23 @@ function ask_for_sudo {
 function list_failed_commands {
 	ret=0
 	echo ""
-	if array_is_empty $FAILED_COMMANDS ; then
+	if array_is_empty $FAILED_COMMANDS && array_is_empty $CAN_FAIL_COMMANDS ; then
 		echo "🎉 The bootstrap process completed successfully! 💪"
 	else
-		echo "💥 The following commands have failed: 💥"
-		for cmd in $FAILED_COMMANDS; do
-			echo "\t- $cmd"
-		done
-		exit 1
+		if ! array_is_empty $CAN_FAIL_COMMANDS ; then
+			echo "⚠️ The following commands have failed but it's okay: ⚠️"
+			for cmd in $CAN_FAIL_COMMANDS; do
+				echo "\t- $cmd"
+			done
+		fi
+
+		if ! array_is_empty $FAILED_COMMANDS ; then
+			echo "💥 The following commands have failed: 💥"
+			for cmd in $FAILED_COMMANDS; do
+				echo "\t- $cmd"
+			done
+			ret=1
+		fi
 	fi
 
 	echo ""

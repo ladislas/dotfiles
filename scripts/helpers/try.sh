@@ -8,6 +8,7 @@ fi
 
 verbose=false
 super_verbose=false
+can_fail=false
 
 # set output level
 if [[ $1 =~ "-v" || $1 =~ "--verbose" ]]; then
@@ -16,6 +17,12 @@ if [[ $1 =~ "-v" || $1 =~ "--verbose" ]]; then
 		verbose=true
 		super_verbose=true
 	fi
+	shift
+fi
+
+# set set can
+if [[ $1 =~ "-x" ]]; then
+	can_fail=true
 	shift
 fi
 
@@ -59,7 +66,11 @@ else
 		fi
 	else
 		echo "❌ ($duration)"
-		FAILED_COMMANDS+=$@
+		if [[ $can_fail == true ]]; then
+			CAN_FAIL_COMMANDS+=$@
+		else
+			FAILED_COMMANDS+=$@
+		fi
 		if [[ $verbose == true ]]; then
 			cat $TEMP_FILE
 		fi

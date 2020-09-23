@@ -6,9 +6,10 @@
 
 trap "exit 1" INT
 
-typeset -x DOTFILES_DIR=$(pwd)
+typeset -x  DOTFILES_DIR=$(pwd)
 typeset -Ux FAILED_COMMANDS=()
-typeset -x ARG_ARRAY=()
+typeset -Ux CAN_FAIL_COMMANDS=()
+typeset -x  ARG_ARRAY=()
 
 # create tmp file & schedule delete if error
 typeset -x TEMP_FILE=$(mktemp)
@@ -165,8 +166,9 @@ if args_contain "--hello" ; then
 	print_section "Starting Hello, World! script"
 	print_action "Make sure we're good to go"
 	try echo "Hello, World!"
-	try sleep 3
+	# try sleep 3
 	try echo "Let's get moving!"
+	try -x false
 fi
 
 #
