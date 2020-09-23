@@ -83,5 +83,5 @@ done
 print_action "Copy back Sublime Text settings to $dotf_sublimetext_settings_path"
 for file in $dotf_sublimetext_settings_path/Packages/User/* ; do
 	f="$(basename -- $file)"
-	try_can_fail cp -rf "$user_sublimetext_settings_path/Packages/User/$f" "$dotf_sublimetext_settings_path""
+	try_can_fail cp -rf "$user_sublimetext_settings_path/Packages/User/$f" "$dotf_sublimetext_settings_path"
 done

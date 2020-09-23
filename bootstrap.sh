@@ -126,10 +126,6 @@ if args_contain "--all" ; then
 		fi
 	fi
 
-	if is_ci ; then
-		typeset -x CI_TEST=true
-	fi
-
 	echo ""
 	echo "⚠️   Running bootstrap with all args! ⚠️"
 	echo "\t$script_commands"
@@ -145,7 +141,6 @@ if args_contain "--ci" ; then
 	echo "🔬 Running bootstrap for testing with the following args: 🧪"
 	echo "\t$ci_commands"
 	ARG_ARRAY=($ci_commands)
-	typeset -x CI_TEST=true
 fi
 
 #

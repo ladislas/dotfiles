@@ -5,17 +5,17 @@ on: [push]
 jobs:
 
   bootstrap_all_dry_run:
-    name: Bootstrap --all --dry-run
+    name: Bootstrap --all --dry-run --force
     runs-on: macos-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2.0.0
     - name: Test script
       run: |
-        zsh ./bootstrap.sh -v --dry-run --all --force --ci
+        zsh ./bootstrap.sh -v --dry-run --all --force
 
   bootstrap_quick:
-    name: Bootstrap --ci quick
+    name: Bootstrap quick
     runs-on: macos-latest
     steps:
     - name: Checkout
@@ -42,7 +42,5 @@ jobs:
       uses: actions/checkout@v2.0.0
     - name: Test script
       run: |
-        zsh ./bootstrap.sh -vv --hello
-        zsh ./bootstrap.sh -vv --apps-config
-        zsh ./bootstrap.sh -vv --rsync
+        zsh ./bootstrap.sh --hello --apps-config --rsync
         git status
