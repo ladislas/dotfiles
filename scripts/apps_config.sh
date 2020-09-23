@@ -25,7 +25,7 @@ user_apps=(
 print_action "Open applications before configuration"
 for app in $user_apps; do
 	if ls /Applications | grep "$app" &> /dev/null ; then
-		try open -a "$app"
+		try_can_fail open -a "$app"
 	fi
 done
 
