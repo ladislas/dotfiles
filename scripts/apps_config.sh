@@ -58,11 +58,11 @@ print_action "Kill applications before copying preferences"
 for app in $user_apps; do
 	if ls /Applications | grep "$app" &> /dev/null ; then
 		if [[ $app =~ "iTerm" ]] ; then
-			try killall iTerm2
+			try_can_fail killall iTerm2
 		elif [[ $app =~ "Visual Studio Code" ]] ; then
-			try osascript -e 'quit app "Visual Studio Code"'
+			try_can_fail osascript -e 'quit app "Visual Studio Code"'
 		else
-			try killall "${app}"
+			try_can_fail killall "${app}"
 		fi
 	fi
 done
@@ -168,10 +168,10 @@ try rsync -av --backup --backup-dir="$rsync_backup_path/ST3" $dotf_sublimetext_s
 #
 
 print_action "Kill Dock for changes to take effect"
-try killall Dock
+try_can_fail killall Dock
 
 if ! is_ci ; then
 	print_action "Kill Touch Bar for changes to take effect"
-	try pkill "Touch Bar agent"
-	try killall "ControlStrip";
+	try_can_fail sudo pkill "Touch Bar agent";
+	try_can_fail sudo killall "ControlStrip";
 fi

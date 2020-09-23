@@ -82,7 +82,7 @@ formulae=(
 print_action "Install formulae"
 for formula in $formulae ; do
 	if [[ ! $available_formulae =~ $formula ]]; then
-		try brew install $formula
+		try_can_fail brew install $formula
 	fi
 done
 

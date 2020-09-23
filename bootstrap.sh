@@ -21,6 +21,8 @@ function try {
 	. $DOTFILES_DIR'/scripts/helpers/try.sh' $@
 }
 
+alias try_can_fail="try -x"
+
 #
 # Set output level (verbose / super verbose)
 #
@@ -168,7 +170,7 @@ if args_contain "--hello" ; then
 	try echo "Hello, World!"
 	# try sleep 3
 	try echo "Let's get moving!"
-	try -x false
+	try_can_fail false
 fi
 
 #

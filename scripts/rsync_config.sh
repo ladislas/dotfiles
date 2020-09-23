@@ -33,7 +33,7 @@ dotf_sublimetext_settings_path="$dotf_library_path/Application Support/Sublime T
 print_action "Copy back .plist to $dotf_preferences_path"
 for file in $dotf_preferences_path/* ; do
 	f="$(basename -- $file)"
-	try cp -rf "$user_preferences_path/$f" "$dotf_preferences_path"
+	try_can_fail cp -rf "$user_preferences_path/$f" "$dotf_preferences_path"
 done
 
 #
@@ -43,7 +43,7 @@ done
 print_action "Copy back Colors to $dotf_colors_path"
 for file in $user_colors_path/* ; do
 	f="$(basename -- $file)"
-	try cp -rf "$user_colors_path/$f" "$dotf_colors_path"
+	try_can_fail cp -rf "$user_colors_path/$f" "$dotf_colors_path"
 done
 
 #
@@ -53,7 +53,7 @@ done
 print_action "Copy back Services to $dotf_services_path"
 for file in $user_services_path/* ; do
 	f="$(basename -- $file)"
-	try cp -rf "$user_services_path/$f" "$dotf_services_path"
+	try_can_fail cp -rf "$user_services_path/$f" "$dotf_services_path"
 done
 
 #
@@ -63,7 +63,7 @@ done
 print_action "Copy back Spelling to $dotf_spelling_path"
 for file in $dotf_spelling_path/* ; do
 	f="$(basename -- $file)"
-	try cp -rf "$user_spelling_path/$f" "$dotf_spelling_path"
+	try_can_fail cp -rf "$user_spelling_path/$f" "$dotf_spelling_path"
 done
 
 #
@@ -73,7 +73,7 @@ done
 print_action "Copy back Xcode settings to $dotf_xcode_userdata_path"
 for file in $dotf_xcode_userdata_path/* ; do
 	f="$(basename -- $file)"
-	try cp -rf "$user_xcode_userdata_path/$f" "$dotf_xcode_userdata_path"
+	try_can_fail cp -rf "$user_xcode_userdata_path/$f" "$dotf_xcode_userdata_path"
 done
 
 #
@@ -83,5 +83,5 @@ done
 print_action "Copy back Sublime Text settings to $dotf_sublimetext_settings_path"
 for file in $dotf_sublimetext_settings_path/Packages/User/* ; do
 	f="$(basename -- $file)"
-	try echo "cp -rf "$user_sublimetext_settings_path/Packages/User/$f" "$dotf_sublimetext_settings_path""
+	try_can_fail cp -rf "$user_sublimetext_settings_path/Packages/User/$f" "$dotf_sublimetext_settings_path""
 done
