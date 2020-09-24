@@ -59,6 +59,7 @@ formulae=(
 	grep
 	make
 	cmake
+	ninja
 	screen
 	openssh
 
