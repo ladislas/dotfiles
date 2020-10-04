@@ -12,7 +12,7 @@ try mkdir -p $HOME/dev/{ladislas,leka,osx-cross,tmp}
 print_action "Clone personal repositories"
 cd $HOME/dev/ladislas
 try git clone --recursive https://github.com/ladislas/Bare-Arduino-Project
-try git clone --recursive https://github.com/ladislas/Bare-mbed-Project
+try git clone --recursive https://github.com/ladislas/mbed-cmake-template
 try git clone https://github.com/ladislas/explorations
 
 
