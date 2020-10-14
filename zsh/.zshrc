@@ -143,6 +143,8 @@ alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %
 
 # Git flow
 alias gf='git-flow'
+alias gffs='git-flow feature start'
+alias gfff='git-flow feature finish'
 
 # Gem
 alias gi='gem install --no-document'
@@ -151,16 +153,16 @@ alias gem-update='gu'
 
 # Python
 function pip_update_all_user {
-	if [[ $(pip3 list --user --outdated) ]]; then
+	if [[ $(python3 -m pip list --user --outdated) ]]; then
 		echo "pip will update the --user installed packages..."
-		pip3 list --user --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install --user -U
+		python3 -m pip list --user --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 python3 -m pip install --user -U
 	else
 		echo "pip did not find any --user installed packages to update."
 	fi
 }
 
-alias pipinstall='pip3 install --user'
-alias pipupdate='pip3 install --user -U'
+alias pipinstall='python3 -m pip install --user'
+alias pipupdate='python3 -m pip install -U'
 alias pipupdate=pip_update_all_user
 
 # Miscs
