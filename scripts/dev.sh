@@ -53,5 +53,5 @@ try brew cask install stm32cubemx
 
 print_action "Install useful gems, pip & node packages"
 try gem install --no-document cocoapods fastlane neovim
-try pip3 install -U --user mbed-cli pyserial neovim pyocd
-try npm install -g neovim mbed-vscode-generator
+try python3 -m pip install -U --user mbed-cli pyserial neovim pyocd
+try npm install -g neovim
