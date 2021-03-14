@@ -66,7 +66,6 @@ formulae=(
 	neovim
 	pandoc
 	rename
-	imagemagick
 	the_silver_searcher
 
 	# Install dev tools
