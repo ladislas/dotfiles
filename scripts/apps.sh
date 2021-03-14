@@ -13,6 +13,7 @@ print_action "Tap homebrew/cask"
 try brew tap homebrew/cask
 
 # List already available casks
+print_action "List casks already installed"
 available_casks=$(brew list --cask)
 
 typeset -U casks
@@ -45,7 +46,7 @@ casks=(
 print_action "Install casks"
 for cask in $casks; do
 	if [[ ! $available_casks =~ $cask ]]; then
-		try_can_fail brew cask install --no-quarantine $cask
+		try_can_fail brew install --no-quarantine $cask
 	fi
 done
 
