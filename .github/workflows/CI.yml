@@ -3,44 +3,43 @@ name: CI
 on: [push]
 
 jobs:
-
   bootstrap_all_dry_run:
     name: Bootstrap --all --dry-run --force
-    runs-on: macos-latest
+    runs-on: macos-11.0
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2.0.0
-    - name: Test script
-      run: |
-        zsh ./bootstrap.sh -v --dry-run --all --force
+      - name: Checkout
+        uses: actions/checkout@v2.0.0
+      - name: Test script
+        run: |
+          zsh ./bootstrap.sh -v --dry-run --all --force
 
   bootstrap_quick:
     name: Bootstrap quick
-    runs-on: macos-latest
+    runs-on: macos-11.0
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2.0.0
-    - name: Test script
-      run: |
-        zsh ./bootstrap.sh -v --hello --zsh --git --nvim --data --macos
+      - name: Checkout
+        uses: actions/checkout@v2.0.0
+      - name: Test script
+        run: |
+          zsh ./bootstrap.sh -v --hello --zsh --git --nvim --data --macos
 
   bootstrap_all:
     name: Bootstrap --ci
-    runs-on: macos-latest
+    runs-on: macos-11.0
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2.0.0
-    - name: Test script
-      run: |
-        zsh ./bootstrap.sh -v --ci
+      - name: Checkout
+        uses: actions/checkout@v2.0.0
+      - name: Test script
+        run: |
+          zsh ./bootstrap.sh -v --ci
 
   bootstrap_rsync_back:
     name: Bootstrap --rsync
-    runs-on: macos-latest
+    runs-on: macos-11.0
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2.0.0
-    - name: Test script
-      run: |
-        zsh ./bootstrap.sh --hello --apps-config --rsync
-        git status
+      - name: Checkout
+        uses: actions/checkout@v2.0.0
+      - name: Test script
+        run: |
+          zsh ./bootstrap.sh --hello --apps-config --rsync
+          git status
