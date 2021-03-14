@@ -19,27 +19,27 @@ typeset -U casks
 casks=(
 	1password
 	# adoptopenjdk
-	aerial
+	# aerial
 	alfred
 	appcleaner
 	brave-browser
 	coolterm
 	dropbox
 	fantastical
-	glance
-	google-chrome
+	# glance
+	# google-chrome
 	# gpg-suite-no-mail
 	iterm2
 	macdown
 	rectangle
 	slack
-	spotify
+	# spotify
 	stats
 	sublime-text
-	transmission
+	# transmission
 	visual-studio-code
-	vlc
-	whatsapp
+	# vlc
+	# whatsapp
 )
 
 print_action "Install casks"
