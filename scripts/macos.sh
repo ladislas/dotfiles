@@ -34,7 +34,6 @@ macos_apps=(
 	"Photos"
 	"Safari"
 	"SystemUIServer"
-	"Terminal"
 )
 
 echo ""
