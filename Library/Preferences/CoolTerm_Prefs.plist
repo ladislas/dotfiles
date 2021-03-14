@@ -8,7 +8,7 @@
 	
 	<key>Pref_Version</key>
 	
-	<string>1.6.0.3.1.708</string>
+	<string>1.8.0.3.0.861</string>
 	
 	<key>Pref_WinHelp_Left</key>
 	
@@ -25,38 +25,6 @@
 	<key>Pref_WinHelp_Heigth</key>
 	
 	<string>-1</string>
-	
-	<key>Font</key>
-	
-	<string>Monaco</string>
-	
-	<key>FontSize</key>
-	
-	<string>13</string>
-	
-	<key>InputFontSize</key>
-	
-	<string>13</string>
-	
-	<key>CondenseLines</key>
-	
-	<string>False</string>
-	
-	<key>TextColor</key>
-	
-	<string>&amp;h00000000</string>
-	
-	<key>BackgroundColor</key>
-	
-	<string>&amp;h00FFFFFF</string>
-	
-	<key>HexFont</key>
-	
-	<string>Monaco</string>
-	
-	<key>HexFontSize</key>
-	
-	<string>13</string>
 	
 	<key>Pref_DateTimeFormat</key>
 	
@@ -77,6 +45,34 @@
 	<key>Pref_RestoreLastSession</key>
 	
 	<string>False</string>
+	
+	<key>Pref_SkipSave</key>
+	
+	<string>True</string>
+	
+	<key>Pref_SmartPause</key>
+	
+	<string>True</string>
+	
+	<key>Pref_RemoteSocketEnable</key>
+	
+	<string>False</string>
+	
+	<key>Pref_RemoteSocketPort</key>
+	
+	<string>51413</string>
+	
+	<key>Pref_HTTPSocketEnable</key>
+	
+	<string>False</string>
+	
+	<key>Pref_HTTPSocketPort</key>
+	
+	<string>8080</string>
+	
+	<key>Pref_AppleScriptEnable</key>
+	
+	<string>True</string>
 	
 	<key>Pref_UpdateCheck</key>
 	
