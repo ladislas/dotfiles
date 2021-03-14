@@ -45,7 +45,7 @@ casks=(
 print_action "Install casks"
 for cask in $casks; do
 	if [[ ! $available_casks =~ $cask ]]; then
-		try_can_fail brew cask install --no-quarantine $cask
+		try_can_fail brew install --no-quarantine
 	fi
 done
 
