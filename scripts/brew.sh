@@ -34,15 +34,12 @@ formulae=(
 	zsh-syntax-highlighting
 	zsh-history-substring-search
 
-	# Brew
-	brew-cask-completion
-
 	# Install git & co
-	hub
+	gh
 	git
 	git-lfs
-	gh
-	git-flow-avh
+	gitmoji
+	git-crypt
 	diff-so-fancy
 
 	# Install wget & curl
@@ -73,11 +70,15 @@ formulae=(
 	the_silver_searcher
 
 	# Install dev tools
-	avrdude
+	lcov
+	gcovr
 	stlink
+	ccache
+	cppcheck
+	fastlane
+	open-ocd
 	swiftlint
 	clang-format
-	cppcheck
 )
 
 print_action "Install formulae"
