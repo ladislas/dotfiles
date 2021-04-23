@@ -37,7 +37,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
 	lpath+="/usr/local/lib/ruby/gems/3.0.0/bin"
 
 	# Python
-	# lpath+="/usr/local/opt/python/libexec/bin"
 	lpath+="/Users/ladislas/Library/Python/3.9/bin/"
 
 	# Export $PATH
