@@ -37,9 +37,9 @@ try git clone https://github.com/osx-cross/homebrew-stm32
 
 print_action "Symlink osx-cross formulae & casks"
 clone_path="$HOME/dev/osx-cross"
-tap_path="/usr/local/Homebrew/Library/Taps/osx-cross"
+tap_path="/opt/homebrew/Homebrew/Library/Taps/osx-cross"
 
-try mkdir -p /usr/local/Homebrew/Library/Taps/osx-cross
+try mkdir -p /opt/homebrew/Homebrew/Library/Taps/osx-cross
 try ln -sfn $clone_path/homebrew-stm32 $tap_path/homebrew-stm32
 try ln -sfn $clone_path/homebrew-avr $tap_path/homebrew-avr
 try ln -sfn $clone_path/homebrew-arm $tap_path/homebrew-arm

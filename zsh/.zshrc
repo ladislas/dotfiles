@@ -20,21 +20,21 @@ if [[ "$OSTYPE" == darwin* ]]; then
 
 	# Use GNU Coreutils instead of Apple's
 	if which gwhoami >/dev/null 2>&1; then
-		lpath+="/usr/local/opt/coreutils/libexec/gnubin"
+		lpath+="/opt/homebrew/opt/coreutils/libexec/gnubin"
 		eval $( gdircolors -b "$ZDOTDIR/lscolors/dircolors.ladislas" )
 		# Alias ls to use color output
 		alias ls="${aliases[ls]:-ls} --group-directories-first --color=auto"
 	fi
 
 	# GNU Tar
-	lpath+="/usr/local/opt/gnu-tar/libexec/gnubin"
+	lpath+="/opt/homebrew/opt/gnu-tar/libexec/gnubin"
 
 	# GNU Find
-	lpath+="/usr/local/opt/findutils/libexec/gnubin"
+	lpath+="/opt/homebrew/opt/findutils/libexec/gnubin"
 
 	# Ruby
-	lpath+="/usr/local/opt/ruby/bin"
-	lpath+="/usr/local/lib/ruby/gems/3.0.0/bin"
+	lpath+="/opt/homebrew/opt/ruby/bin"
+	lpath+="/opt/homebrew/lib/ruby/gems/3.0.0/bin"
 
 	# Python
 	lpath+="/Users/ladislas/Library/Python/3.9/bin/"
@@ -55,8 +55,8 @@ zstyle ':module:editor' key-bindings 'vi'
 # Modules
 #
 
-if [ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] ; then
-	source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] ; then
+	source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 . $ZMODULESDIR/editor.zsh

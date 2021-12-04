@@ -67,7 +67,7 @@ cdpath=(
 
 # Set the list of directories that Zsh searches for programs.
 path=(
-	/usr/local/{bin,sbin}
+	/opt/homebrew/{bin,sbin}
 	$path
 )
 
@@ -92,4 +92,4 @@ fi
 export GPG_TTY=$(tty);
 
 # zsh-syntax-highlighting
-export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/usr/local/share/zsh-syntax-highlighting/highlighters
+export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/opt/homebrew/share/zsh-syntax-highlighting/highlighters

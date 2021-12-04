@@ -101,8 +101,8 @@ if ! is_dry_run ; then
 fi
 
 print_action "Add gnubin to path"
-fake_try "export PATH=\"/usr/local/opt/coreutils/libexec/gnubin:\$PATH\""
-export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+fake_try "export PATH=\"/opt/homebrew/opt/coreutils/libexec/gnubin:\$PATH\""
+export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 
 #
 # Arg: --all
@@ -214,8 +214,8 @@ if args_contain "--zsh" ; then
 	try rm -f $DOTFILES_DIR/zsh/.zcompdump
 	try rm -f $DOTFILES_DIR/zsh/.zcompdump.zwc
 
-	print_action "chmod /usr/local/share for completion"
-	try chmod go-w "/usr/local/share"
+	print_action "chmod /opt/homebrew/share for completion"
+	try chmod go-w "/opt/homebrew/share"
 
 	print_action "Symlink config files"
 	try mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}
