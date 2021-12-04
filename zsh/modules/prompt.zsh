@@ -60,7 +60,6 @@ zstyle ':prezto:module:git:info:untracked' format "${white}●%f";
 zstyle ':prezto:module:git:info:keys' format 'prompt' '(%b%S%a%d%m%r%U%u)'
 
 # Define prompts.
-PROMPT=$'\n${turquoise}#%f ${orange}%n%f @ ${yellow}%m%f in ${green}%~%f ${(e)git_info[prompt]}\n${green}→%f ';
-# PROMPT=$'\n${turquoise}#%f ${orange}%n%f @ ${yellow}%m%f in ${green}%~%f \n${green}→%f ';
-RPROMPT='';
+PROMPT=$'\n${turquoise}#%f ${orange}%n%f @ ${yellow}%m%f in ${green}%~%f ${(e)git_info[prompt]}\n%(?.${green}→.${red}→)%f ';
+RPROMPT='%(?..${red}(%?%)%f)';
 SPROMPT='zsh: correct ${red}%R%f to ${green}%r%f [nyae]? ';
