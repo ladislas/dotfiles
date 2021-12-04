@@ -36,6 +36,7 @@ Temporary Items
 .zcompcache
 .zhistory
 .zsh_history
+zsh/.zsh_sessions**
 
 ### Preferences
 
