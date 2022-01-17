@@ -21,6 +21,9 @@
 
 [alias]
 
+	# Edit all modified files
+	edit = !code $(git status --short | awk '$1 ~ /^M|A|U/ {print $2}' )
+
 	# View abbreviated SHA, description, and history graph of the latest 20 commits
 	l = log --pretty=oneline -n 20 --graph --abbrev-commit
 
