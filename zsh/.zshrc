@@ -16,7 +16,12 @@
 
 if [[ "$OSTYPE" == darwin* ]]; then
 
+	eval "$(/opt/homebrew/bin/brew shellenv)"
+
 	typeset -U lpath=() # set local path
+
+	# brew bin/sbin
+	lpath+="/opt/homebrew/bin /opt/homebrew/sbin"
 
 	# Use GNU Coreutils instead of Apple's
 	if which gwhoami >/dev/null 2>&1; then
