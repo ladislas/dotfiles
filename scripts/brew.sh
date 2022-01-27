@@ -57,7 +57,6 @@ formulae=(
 	make
 	cmake
 	ninja
-	screen
 	openssh
 
 	# Install useful tools
@@ -73,7 +72,6 @@ formulae=(
 	gcovr
 	stlink
 	ccache
-	cppcheck
 	fastlane
 	open-ocd
 	swiftlint
