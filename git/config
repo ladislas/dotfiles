@@ -53,6 +53,12 @@
 	branches = branch -a
 	remotes = remote -v
 
+	# Ack
+	ack = ! git ls-files --others --cached --exclude-standard | ack -x
+
+	# Merge --no-ff
+	mnoff = "!f() { git merge --no-ff --no-edit $1 && export MESSAGE=\"$(git show -s --format=%s)\" && git commit --amend -m \":twisted_rightwards_arrows: $MESSAGE\"; }; f"
+
 	# List aliases
 	aliases = config --get-regexp alias
 
@@ -64,6 +70,12 @@
 
 	# Interactive rebase with the given number of latest commits
 	reb = "!r() { git rebase -i HEAD~$1; }; r"
+
+	# Interactive rebase from last merge commit
+	reblc = "!r() { git rebase -i $(git log --pretty=format:"%H" --merges -n 1	); }; r"
+
+	# Rebase on develop
+	rebdev = rebase develop
 
 	# Remove the old tag with this name and tag the latest commit with it.
 	retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
@@ -116,8 +128,8 @@
 	autocrlf = input
 
 	# Use custom `.gitignore` and `.gitattributes`
-	excludesfile = ~/.gitignore
-	attributesfile = /Users/ladislas/.config/git/gitattributes
+	excludesfile = ~/.config/git/ignore
+	attributesfile = ~/.config/git/gitattributes
 
 	# Treat spaces before tabs and all kinds of trailing whitespace as an error
 	# [default] trailing-space: looks for spaces at the end of a line
