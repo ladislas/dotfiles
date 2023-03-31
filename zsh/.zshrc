@@ -39,7 +39,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
 
 	# Ruby
 	lpath+="/opt/homebrew/opt/ruby/bin"
-	lpath+="/opt/homebrew/lib/ruby/gems/3.0.0/bin"
+	lpath+="/opt/homebrew/lib/ruby/gems/3.2.0/bin"
 
 	# Python
 	# lpath+="/Users/ladislas/Library/Python/3.9/bin/"
