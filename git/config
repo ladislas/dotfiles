@@ -30,6 +30,9 @@
 	# View the current working tree status using the short format
 	s = status -s
 
+	# list stashes
+	sl = !"git stash list --pretty=format:\"%C(yellow)%h%C(reset) %C(yellow)(%C(red)%gd%C(yellow))%C(reset) %<(70,trunc)%s %C(green)(%cr)\""
+
 	# Show the diff between the latest commit and the current state
 	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
 
@@ -115,7 +118,19 @@
 		fi \
 	}; f"
 
-	patch = !git --no-pager diff --no-color
+	patch = !git --no-pager diff --no-colormessage(STATUS "")
+
+	# restore current changes
+	rdot = !git restore .
+
+	# restore current staged changes
+	rsdot = !git restore --staged .
+
+	# cherry-pick commit
+	cp = !git cherry-pick
+
+	# gh pr checkout
+	prc = !gh pr checkout
 
 [apply]
 
@@ -185,8 +200,8 @@
 
 [color "status"]
 
-	added = yellow
-	changed = green
+	added = green
+	changed = yellow
 	untracked = cyan
 
 [diff]
@@ -240,3 +255,7 @@
 [diff "plist"]
 
 	textconv = plutil -convert xml1 -o -
+
+[fetch]
+
+	prune = true

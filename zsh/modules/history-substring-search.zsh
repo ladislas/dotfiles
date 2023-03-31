@@ -9,8 +9,8 @@
 #
 
 # Load module files.
-if [ -f /usr/local/share/zsh-history-substring-search/zsh-history-substring-search.zsh ] ; then
-	source /usr/local/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+if [ -f /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh ] ; then
+	source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 fi
 
 #
