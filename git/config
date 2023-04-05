@@ -6,9 +6,13 @@
 	email = ladislas@detoldi.me
 	signingkey = C5241848279CD797
 
-[credential]
+[credential "https://github.com"]
 
-	helper = osxkeychain
+	helper = !/opt/homebrew/bin/gh auth git-credential
+
+[credential "https://gist.github.com"]
+
+	helper = !/opt/homebrew/bin/gh auth git-credential
 
 [commit]
 
