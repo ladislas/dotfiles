@@ -11,8 +11,8 @@
 # pmodload 'editor'
 
 # Source module files.
-if [ -f /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ] ; then
-	source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+if [ -f "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ] ; then
+	source "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
 
 #
