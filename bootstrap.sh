@@ -100,9 +100,15 @@ if ! is_dry_run ; then
 	fi
 fi
 
+if test -d "/opt/homebrew/bin"; then
+	export BREW_PREFIX="/opt/homebrew"
+elif test -d "/usr/local/bin"; then
+	export BREW_PREFIX="/usr/local"
+fi
+
 print_action "Add gnubin to path"
-fake_try "export PATH=\"/opt/homebrew/opt/coreutils/libexec/gnubin:\$PATH\""
-export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+fake_try "export PATH=\"$BREW_PREFIX/opt/coreutils/libexec/gnubin:\$PATH\""
+export PATH="$BREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
 
 #
 # Arg: --all
@@ -214,8 +220,8 @@ if args_contain "--zsh" ; then
 	try rm -f $DOTFILES_DIR/zsh/.zcompdump
 	try rm -f $DOTFILES_DIR/zsh/.zcompdump.zwc
 
-	print_action "chmod /opt/homebrew/share for completion"
-	try chmod go-w "/opt/homebrew/share"
+	print_action "chmod $BREW_PREFIX/share for completion"
+	try chmod -R go-w "$BREW_PREFIX/share"
 
 	print_action "Symlink config files"
 	try mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}

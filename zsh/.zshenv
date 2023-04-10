@@ -39,6 +39,16 @@ if [[ "$OSTYPE" == darwin* ]]; then
 fi
 
 #
+# Homebrew
+#
+
+if test -d "/opt/homebrew/bin"; then
+	export BREW_PREFIX="/opt/homebrew"
+elif test -d "/usr/local/bin"; then
+	export BREW_PREFIX="/usr/local"
+fi
+
+#
 # Manpage
 #
 
@@ -67,7 +77,7 @@ cdpath=(
 
 # Set the list of directories that Zsh searches for programs.
 path=(
-	/opt/homebrew/{bin,sbin}
+	$BREW_PREFIX/{bin,sbin}
 	$path
 )
 
@@ -92,4 +102,4 @@ fi
 export GPG_TTY=$(tty);
 
 # zsh-syntax-highlighting
-export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/opt/homebrew/share/zsh-syntax-highlighting/highlighters
+export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR="$BREW_PREFIX/share/zsh-syntax-highlighting/highlighters"

@@ -10,8 +10,8 @@
 #
 
 # Add zsh-completions to $fpath.
-if [ -d /opt/homebrew/share/zsh-completions ] ; then
-	fpath=(/opt/homebrew/share/zsh-completions $fpath)
+if [ -d "$BREW_PREFIX/share/zsh-completions" ] ; then
+	fpath=("$BREW_PREFIX/share/zsh-completions" $fpath)
 fi
 
 # Add local completions to $fpath

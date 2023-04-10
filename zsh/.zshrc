@@ -16,30 +16,30 @@
 
 if [[ "$OSTYPE" == darwin* ]]; then
 
-	eval "$(/opt/homebrew/bin/brew shellenv)"
+	eval "$($BREW_PREFIX/bin/brew shellenv)"
 
 	typeset -U lpath=() # set local path
 
 	# brew bin/sbin
-	lpath+="/opt/homebrew/bin /opt/homebrew/sbin"
+	lpath+="$BREW_PREFIX/bin $BREW_PREFIX/sbin"
 
 	# Use GNU Coreutils instead of Apple's
 	if which gwhoami >/dev/null 2>&1; then
-		lpath+="/opt/homebrew/opt/coreutils/libexec/gnubin"
+		lpath+="$BREW_PREFIX/opt/coreutils/libexec/gnubin"
 		eval $( gdircolors -b "$ZDOTDIR/lscolors/dircolors.ladislas" )
 		# Alias ls to use color output
 		alias ls="${aliases[ls]:-ls} --group-directories-first --color=auto"
 	fi
 
 	# GNU Tar
-	lpath+="/opt/homebrew/opt/gnu-tar/libexec/gnubin"
+	lpath+="$BREW_PREFIX/opt/gnu-tar/libexec/gnubin"
 
 	# GNU Find
-	lpath+="/opt/homebrew/opt/findutils/libexec/gnubin"
+	lpath+="$BREW_PREFIX/opt/findutils/libexec/gnubin"
 
 	# Ruby
-	lpath+="/opt/homebrew/opt/ruby/bin"
-	lpath+="/opt/homebrew/lib/ruby/gems/3.2.0/bin"
+	lpath+="$BREW_PREFIX/opt/ruby/bin"
+	lpath+="$BREW_PREFIX/lib/ruby/gems/3.2.0/bin"
 
 	# Python
 	# lpath+="/Users/ladislas/Library/Python/3.9/bin/"
@@ -60,8 +60,8 @@ zstyle ':module:editor' key-bindings 'vi'
 # Modules
 #
 
-if [ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] ; then
-	source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [ -f $BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] ; then
+	source $BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 . $ZMODULESDIR/editor.zsh
@@ -84,11 +84,21 @@ fi
 # 	compinit -C
 # fi
 
+# homebrew
+
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+  autoload -Uz compinit
+  compinit
+fi
+
 autoload -Uz compinit
 if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
 	compinit -d $ZDOTDIR/.zcompdump
 else
-	compinit -C
+	compinit
 fi
 
 # If zcompdump becomes a burden, check this out
