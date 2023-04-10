@@ -8,11 +8,11 @@
 
 [credential "https://github.com"]
 
-	helper = "!f() { $(brew --prefix)/bin/gh auth git-credential }; f"
+	helper = !"f() { BREW_PREFIX=$(brew --prefix); echo "$BREW_PREFIX/bin/gh auth git-credential"; }; f"
 
 [credential "https://gist.github.com"]
 
-	helper = "!f() { $(brew --prefix)/bin/gh auth git-credential }; f"
+	helper = !"f() { BREW_PREFIX=$(brew --prefix); echo "$BREW_PREFIX/bin/gh auth git-credential"; }; f"
 
 [commit]
 
