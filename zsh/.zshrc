@@ -84,11 +84,21 @@ fi
 # 	compinit -C
 # fi
 
+# homebrew
+
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+  autoload -Uz compinit
+  compinit
+fi
+
 autoload -Uz compinit
 if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
 	compinit -d $ZDOTDIR/.zcompdump
 else
-	compinit -C
+	compinit
 fi
 
 # If zcompdump becomes a burden, check this out
