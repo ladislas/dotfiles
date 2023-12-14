@@ -69,6 +69,18 @@
 
 	# Merge --no-ff
 	mnoff = "!f() { git merge --no-ff --no-edit $1 && export MESSAGE=\"$(git show -s --format=%s)\" && git commit --amend -m \":twisted_rightwards_arrows: $MESSAGE\"; }; f"
+	mmnoff = "!f() { true \
+					&& PR_BRANCH=$(git branch --show-current) \
+					&& DEFAULT_BRANCH=$(gh repo view --json defaultBranchRef --jq .defaultBranchRef.name) \
+					&& echo $PR_BRANCH | pbcopy \
+					&& git rebase $DEFAULT_BRANCH \
+					&& git push --force-with-lease \
+					&& git checkout $DEFAULT_BRANCH \
+					&& git merge --no-ff --no-edit $PR_BRANCH \
+					&& export MESSAGE=\"$(git show -s --format=%s)\" \
+					&& git commit --amend -m \":twisted_rightwards_arrows: $MESSAGE\" \
+					&& git gl -n 20 \
+				; }; f;"
 
 	# List aliases
 	aliases = config --get-regexp alias
