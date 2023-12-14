@@ -100,6 +100,9 @@
 	# Rebase on develop
 	rebdev = rebase develop
 
+	# Rebase on main
+	rebmain = rebase main
+
 	# Remove the old tag with this name and tag the latest commit with it.
 	retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
 
