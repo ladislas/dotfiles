@@ -282,3 +282,6 @@
 [fetch]
 
 	prune = true
+
+[rebase]
+	updateRefs = true
