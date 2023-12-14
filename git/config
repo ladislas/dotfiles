@@ -63,6 +63,10 @@
 	# Ack
 	ack = ! git ls-files --others --cached --exclude-standard | ack -x
 
+	# Log
+	gl = log -n 30 --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	gll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
 	# Merge --no-ff
 	mnoff = "!f() { git merge --no-ff --no-edit $1 && export MESSAGE=\"$(git show -s --format=%s)\" && git commit --amend -m \":twisted_rightwards_arrows: $MESSAGE\"; }; f"
 
