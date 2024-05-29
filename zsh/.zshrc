@@ -42,7 +42,22 @@ if [[ "$OSTYPE" == darwin* ]]; then
 	lpath+="$BREW_PREFIX/lib/ruby/gems/3.2.0/bin"
 
 	# Python
-	lpath+="$HOME/Library/Python/3.11/bin"
+	lpath+="$HOME/Library/Python/3.12/bin"
+
+	# Java
+	lpath+="$BREW_PREFIX/opt/openjdk/bin"
+
+	# mise
+	if which mise >/dev/null 2>&1; then
+		eval "$($BREW_PREFIX/bin/mise activate zsh)"
+	fi
+
+	# The next line updates PATH for the Google Cloud SDK.
+	if [ -f '/Users/ladislas/Desktop/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ladislas/Desktop/google-cloud-sdk/path.zsh.inc'; fi
+
+	# The next line enables shell command completion for gcloud.
+	if [ -f '/Users/ladislas/Desktop/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ladislas/Desktop/google-cloud-sdk/completion.zsh.inc'; fi
+
 
 	# Export $PATH
 	path=($lpath $path)
@@ -115,11 +130,11 @@ fi
 #
 
 # ls, the common ones I use a lot shortened for rapid fire usage
-alias l='ls -lFh'     #size,show type,human readable
-alias la='ls -lAFh'   #long list,show almost all,show type,human readable
-alias lr='ls -tRFh'   #sorted by date,recursive,show type,human readable
-alias lt='ls -ltFh'   #long list,sorted by date,show type,human readable
-alias ll='ls -l'      #long list
+alias l='ls -lFh'     # size,show type,human readable
+alias la='ls -lAFh'   # long list,show almost all,show type,human readable
+alias lr='ls -tRFh'   # sorted by date,recursive,show type,human readable
+alias lt='ls -ltFh'   # long list,sorted by date,show type,human readable
+alias ll='ls -l'      # long list
 alias ldot='ls -ld .*'
 alias lS='ls -1FSsh'
 alias lart='ls -1Fcart'
@@ -128,6 +143,13 @@ function lls {
 	LLS_PATH=$1
 	\ls -lAFh $LLS_PATH | awk "{k=0;for(i=0;i<=8;i++)k+=((substr(\$1,i+2,1)~/[rwx]/) \
 		*2^(8-i));if(k)printf(\"%0o \",k);print}"
+}
+
+# Finder
+function finder() {
+	if [[ -n "$1" ]] then
+		open -R $1
+	fi
 }
 
 # System info, history and help
