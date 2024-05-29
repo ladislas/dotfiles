@@ -68,7 +68,7 @@
 	gll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 
 	# Merge --no-ff
-	mnoff = "!f() { git merge --no-ff --no-edit $1 && export MESSAGE=\"$(git show -s --format=%s)\" && git commit --amend -m \":twisted_rightwards_arrows: $MESSAGE\"; }; f"
+	mnoff = "!f() { git merge --no-ff --no-edit $1 && export MESSAGE=\"$(git show -s --format=%s)\" && git commit --amend -m \"🔀️ $MESSAGE\"; }; f"
 	mmnoff = "!f() { true \
 					&& PR_BRANCH=$(git branch --show-current) \
 					&& DEFAULT_BRANCH=$(gh repo view --json defaultBranchRef --jq .defaultBranchRef.name) \
@@ -78,7 +78,7 @@
 					&& git checkout $DEFAULT_BRANCH \
 					&& git merge --no-ff --no-edit $PR_BRANCH \
 					&& export MESSAGE=\"$(git show -s --format=%s)\" \
-					&& git commit --amend -m \":twisted_rightwards_arrows: $MESSAGE\" \
+					&& git commit --amend -m \"🔀️ $MESSAGE\" \
 					&& git gl -n 20 \
 				; }; f;"
 
@@ -102,6 +102,9 @@
 
 	# Rebase on main
 	rebmain = rebase main
+
+	# Rebase on default
+	rebdef = "!r() { git rebase $(gh repo view --json defaultBranchRef --jq .defaultBranchRef.name); }; r"
 
 	# Remove the old tag with this name and tag the latest commit with it.
 	retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
