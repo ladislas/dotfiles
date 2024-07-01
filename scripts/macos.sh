@@ -52,7 +52,7 @@ echo "››› General UI/UX"
 echo "›››"
 
 DATE=$(date +"%Y%m%d")
-COMPUTER_NAME="LadBookPro$DATE"
+COMPUTER_NAME="$COMPUTER_NAME$DATE"
 
 print_action "Set computer name to $COMPUTER_NAME"
 try sudo scutil --set ComputerName "$COMPUTER_NAME"
