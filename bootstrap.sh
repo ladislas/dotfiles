@@ -217,6 +217,8 @@ fi
 if args_contain "--zsh" ; then
 	print_section "Starting zsh configuration script"
 
+	ask_for_sudo
+
 	# Switch to using brew-installed zsh as default shell
 	if ! fgrep -q "${BREW_PREFIX}/bin/zsh" /etc/shells ; then
 		print_action "Setting brew zsh as default shell"
