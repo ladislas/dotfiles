@@ -8,12 +8,9 @@ typeset -U user_apps
 user_apps=(
 	"AppCleaner"
 	"CoolTerm"
-	"Fantastical"
 	"iTerm"
 	"MacDown"
 	"Rectangle"
-	"Sublime Text"
-	"Transmission"
 	"Visual Studio Code"
 	"Xcode"
 )
