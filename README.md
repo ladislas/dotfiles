@@ -67,6 +67,9 @@ To instatll them, run the following:
 # Formulae
 brew install imagemagick
 
+# swiftlint needs xcode installed
+brew install swiftlint
+
 # Casks
 brew install --no-quarantine adoptopenjdk
 brew install --no-quarantine mactex-no-gui
