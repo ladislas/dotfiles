@@ -9,10 +9,6 @@ if ! is_ci ; then
 	try brew upgrade
 fi
 
-print_action "Tap homebrew/cask"
-try brew tap homebrew/cask
-
-# List already available casks
 print_action "List casks already installed"
 available_casks=$(brew list --cask)
 
