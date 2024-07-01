@@ -25,7 +25,7 @@ casks=(
 	# fantastical
 	# glance
 	# google-chrome
-	gpg-suite-no-mail
+	# gpg-suite-no-mail
 	iterm2
 	macdown
 	rectangle

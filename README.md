@@ -64,16 +64,18 @@ I've removed some of the heavy casks & formulae from the script as they were tak
 To instatll them, run the following:
 
 ```bash
-# Formulae
-brew install imagemagick
-
 # swiftlint needs xcode installed
 brew install swiftlint
+
+# mandatory for signing commits
+brew install --no-quarantine gpg-suite-no-mail
+
+# Formulae
+brew install imagemagick
 
 # Casks
 brew install --no-quarantine adoptopenjdk
 brew install --no-quarantine mactex-no-gui
-brew install --no-quarantine gpg-suite-no-mail
 ```
 
 ## Apps Settings
