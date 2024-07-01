@@ -74,7 +74,6 @@ formulae=(
 	ccache
 	fastlane
 	open-ocd
-	swiftlint
 	swiftformat
 	clang-format
 )

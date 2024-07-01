@@ -57,6 +57,25 @@ The rest is detailed here:
 
 > <https://github.com/ladislas/dotfiles/blob/master/bootstrap.sh>
 
+### Recommended Order
+
+```bash
+# check if things work
+zsh bootstrap.sh --hello
+
+# start with brew + apps
+zsh boostrap.sh --brew --apps-install
+
+# then zsh + git
+zsh bootstrap.sh --zsh --git
+
+# finally macos
+zsh bootstrap.sh --macos --computer_name=xxx
+
+# the rest is only needed if you are me
+zsh bootstrap.sh --apps-config --dev --data --nvim
+```
+
 ## Brew casks/formulae
 
 I've removed some of the heavy casks & formulae from the script as they were taking way too much time...
@@ -64,13 +83,18 @@ I've removed some of the heavy casks & formulae from the script as they were tak
 To instatll them, run the following:
 
 ```bash
+# swiftlint needs xcode installed
+brew install swiftlint
+
+# mandatory for signing commits
+brew install --no-quarantine gpg-suite-no-mail
+
 # Formulae
 brew install imagemagick
 
 # Casks
 brew install --no-quarantine adoptopenjdk
 brew install --no-quarantine mactex-no-gui
-brew install --no-quarantine gpg-suite-no-mail
 ```
 
 ## Apps Settings
