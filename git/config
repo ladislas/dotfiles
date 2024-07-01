@@ -2,25 +2,27 @@
 
 [user]
 
+	# ! Change according to who you are
 	name = Ladislas de Toldi
 	email = ladislas@detoldi.me
 	signingkey = C5241848279CD797
 
 [credential "https://github.com"]
 
-	helper = !/opt/homebrew/bin/gh auth git-credential
+	helper = !$BREW_PREFIX/bin/gh auth git-credential
 
 [credential "https://gist.github.com"]
 
-	helper = !/opt/homebrew/bin/gh auth git-credential
+	helper = !$BREW_PREFIX/bin/gh auth git-credential
 
 [commit]
 
-	# https://help.github.com/articles/signing-commits-using-gpg/
+	# ! Info: https://help.github.com/articles/signing-commits-using-gpg/
 	gpgsign = true
 
 [gpg]
 
+	# ! Install GPG Suite: https://gpgtools.org/ - brew install gpg-suite-no-mail
 	program = /usr/local/bin/gpg
 
 [alias]
