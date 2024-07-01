@@ -18,25 +18,26 @@ available_casks=$(brew list --cask)
 
 typeset -U casks
 casks=(
-	1password
+	# 1password
 	# adoptopenjdk
 	# aerial
 	alfred
 	appcleaner
 	brave-browser
 	coolterm
-	dropbox
-	fantastical
+	# dropbox
+	# fantastical
 	# glance
 	# google-chrome
-	# gpg-suite-no-mail
+	gpg-suite-no-mail
 	iterm2
 	macdown
 	rectangle
 	slack
 	# spotify
 	stats
-	sublime-text
+	# sublime-text
+	swiftformat-for-xcode
 	# transmission
 	visual-studio-code
 	# vlc
