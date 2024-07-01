@@ -31,7 +31,7 @@ git clone https://github.com/ladislas/dotfiles
 cd dotfiles
 ```
 
-or run the following:
+or run the following (only if you are me):
 
 ```console
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ladislas/dotfiles/master/install.sh)"
@@ -53,7 +53,7 @@ Available arguments are:
 
 The rest is detailed here:
 
-`--hello` `--zsh` `--git` `--nvim` `--data` `--macos` `--brew` `--apps-install` `--apps-config` `--dev`
+`--hello` `--zsh` `--git` `--nvim` `--data` `--macos --computer_name=xxx` `--brew` `--apps-install` `--apps-config` `--dev`
 
 > <https://github.com/ladislas/dotfiles/blob/master/bootstrap.sh>
 
@@ -76,5 +76,3 @@ brew install --no-quarantine gpg-suite-no-mail
 ## Apps Settings
 
 Apps must be launched first before syncronizing the settings. The script takes care of that but sometimes it might take a little longer or you might need to accept a dialog box.
-
-For VSCode, use [Settings Sync](https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync).
