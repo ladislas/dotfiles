@@ -39,8 +39,8 @@ fi
 
 qualifier_commands=( "-v" "-vv" "--verbose" "--force" )
      main_commands=( "--all"  "--ci" "--dry-run" )
-	   ci_commands=( "--hello" "--zsh" "--git" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config"                   )
-   script_commands=( "--hello" "--zsh" "--git" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config" "--dev" "--rsync" )
+	   ci_commands=( "--hello" "--zsh" "--git" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config"                                     )
+   script_commands=( "--hello" "--zsh" "--git" "--nvim" "--data" "--macos" "--brew" "--apps-install" "--apps-config" "--dev" "--rsync" "--computer_name=" )
 
 
 ARG_ARRAY=($@)
@@ -54,6 +54,15 @@ if array_is_empty $ARG_ARRAY ; then
 	echo "💥 No arguments have been passed."
 	echo "Please try again with one of those: $available_args"
 	exit 1
+fi
+
+#
+# Get computer name if provided
+#
+
+if [[ $ARG_ARRAY =~ "--computer_name=" ]]; then
+	COMPUTER_NAME=$(echo $ARG_ARRAY | ggrep -oP '(?<=--computer_name=)[^ ]+')
+	ARG_ARRAY=(${(@)ARG_ARRAY:#--computer_name=*})
 fi
 
 #
@@ -276,6 +285,11 @@ fi
 
 if args_contain "--macos" ; then
 	print_section "Starting macOS configuration script"
+	# abort if COMPUTER_NAME is not set
+	if [[ -z $COMPUTER_NAME ]]; then
+		echo "💥 --macos requires a computer name to be set with --computer_name=YOUR_NAME"
+		exit 1
+	fi
 	source $DOTFILES_DIR/scripts/macos.sh
 fi
 

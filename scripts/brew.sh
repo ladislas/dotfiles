@@ -75,6 +75,7 @@ formulae=(
 	fastlane
 	open-ocd
 	swiftlint
+	swiftformat
 	clang-format
 )
 
