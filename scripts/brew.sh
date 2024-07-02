@@ -34,6 +34,12 @@ formulae=(
 	zsh-syntax-highlighting
 	zsh-history-substring-search
 
+	# Install moder versions of system tools
+	curl
+	gnu-sed
+	make
+	wget
+
 	# Install git & co
 	gh
 	git
@@ -41,10 +47,6 @@ formulae=(
 	gitmoji
 	git-crypt
 	diff-so-fancy
-
-	# Install wget & curl
-	wget
-	curl
 
 	# Install scripting languagues
 	node
@@ -61,6 +63,7 @@ formulae=(
 
 	# Install useful tools
 	ack
+	jq
 	tree
 	neovim
 	pandoc
@@ -73,6 +76,7 @@ formulae=(
 	stlink
 	ccache
 	fastlane
+	mise
 	open-ocd
 	swiftformat
 	clang-format
