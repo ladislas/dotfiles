@@ -115,6 +115,10 @@ elif test -d "/usr/local/bin"; then
 	export BREW_PREFIX="/usr/local"
 fi
 
+print_action "Add brew to path"
+fake_try "export PATH=\"$BREW_PREFIX/bin/brew:\$PATH\""
+export PATH="$BREW_PREFIX/bin/brew:$PATH"
+
 print_action "Add gnubin to path"
 fake_try "export PATH=\"$BREW_PREFIX/opt/coreutils/libexec/gnubin:\$PATH\""
 export PATH="$BREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"

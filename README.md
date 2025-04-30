@@ -63,11 +63,11 @@ The rest is detailed here:
 # check if things work
 zsh bootstrap.sh --hello
 
-# start with brew + apps
-zsh boostrap.sh --brew --apps-install
-
 # then zsh + git
 zsh bootstrap.sh --zsh --git
+
+# start with brew + apps
+zsh bootstrap.sh --brew --apps-install
 
 # finally macos
 zsh bootstrap.sh --macos --computer_name=xxx
