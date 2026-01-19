@@ -44,6 +44,9 @@ if [[ "$OSTYPE" == darwin* ]]; then
 	# Python
 	lpath+="$HOME/Library/Python/3.12/bin"
 
+	# User local binaries (Claude Code, etc.)
+	lpath+="$HOME/.local/bin"
+
 	# Java
 	lpath+="$BREW_PREFIX/opt/openjdk/bin"
 
