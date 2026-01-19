@@ -37,3 +37,5 @@ Temporary Items
 
 # Compiled Python files
 *.pyc
+
+**/.claude/settings.local.json
