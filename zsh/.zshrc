@@ -37,10 +37,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
 	# GNU Find
 	lpath+="$BREW_PREFIX/opt/findutils/libexec/gnubin"
 
-	# Ruby
-	lpath+="$BREW_PREFIX/opt/ruby/bin"
-	lpath+="$BREW_PREFIX/lib/ruby/gems/3.3.5/bin"
-
 	# Python
 	lpath+="$HOME/Library/Python/3.12/bin"
 
