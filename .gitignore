@@ -55,3 +55,6 @@ oscrypto-ca-bundle.crt
 
 # Rsync backup directory
 _backup
+
+### OpenCode
+.opencode/node_modules/
