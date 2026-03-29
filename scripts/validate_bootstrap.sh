@@ -27,12 +27,22 @@ assert_symlink_target() {
 
 trap cleanup EXIT
 
-mkdir -p "$SANDBOX_HOME"
+mkdir -p "$SANDBOX_HOME/.config/git" "$SANDBOX_HOME/.local/share/pandoc"
+printf 'preexisting git config\n' >"$SANDBOX_HOME/.config/git/config"
+printf 'preexisting pandoc file\n' >"$SANDBOX_HOME/.local/share/pandoc/custom-reference.txt"
+printf 'root = true\n' >"$SANDBOX_HOME/.editorconfig"
 
 BOOTSTRAP_HOME="$SANDBOX_HOME" zsh "$ROOT_DIR/bootstrap.sh" --git --data --dev >"$WORK_DIR/first-run.log" 2>&1
 assert_symlink_target "$SANDBOX_HOME/.config/git" "$ROOT_DIR/git"
 assert_symlink_target "$SANDBOX_HOME/.local/share/pandoc" "$ROOT_DIR/data/pandoc"
 assert_symlink_target "$SANDBOX_HOME/.editorconfig" "$ROOT_DIR/symlink/.editorconfig"
+
+backup_dir="$SANDBOX_HOME/.config/.bootstrap-backup"
+find "$backup_dir" -name 'git.*' | grep -q . || fail 'missing backup for conflicting git target'
+backup_dir="$SANDBOX_HOME/.local/share/.bootstrap-backup"
+find "$backup_dir" -name 'pandoc.*' | grep -q . || fail 'missing backup for conflicting pandoc target'
+backup_dir="$SANDBOX_HOME/.bootstrap-backup"
+find "$backup_dir" -name '.editorconfig.*' | grep -q . || fail 'missing backup for conflicting editorconfig target'
 
 BOOTSTRAP_HOME="$SANDBOX_HOME" zsh "$ROOT_DIR/bootstrap.sh" --git --data --dev >"$WORK_DIR/second-run.log" 2>&1
 assert_symlink_target "$SANDBOX_HOME/.config/git" "$ROOT_DIR/git"

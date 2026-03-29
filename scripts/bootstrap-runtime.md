@@ -31,6 +31,9 @@ Sourced scripts may use these helpers from `scripts/helpers/include.sh`:
 - `is_dry_run`: true when bootstrap is running in dry-run mode
 - `in_sandbox`: true when bootstrap is running with redirected user-scoped paths
 - `args_contain <flag>`: true when the normalized execution plan includes a flag
+- `safe_link <source> <target>`: convergent symlink helper; conflicting real
+  targets are moved into a sibling `.bootstrap-backup/` directory before
+  linking
 
 Command execution goes through these helpers from `bootstrap.sh`:
 

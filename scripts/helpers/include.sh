@@ -86,6 +86,9 @@ function safe_link {
 	local source_path="$1"
 	local target_path="$2"
 	local target_parent
+	local backup_root
+	local backup_stamp
+	local backup_path
 
 	target_parent="$(dirname -- "$target_path")"
 	mkdir -p "$target_parent" || return 1
@@ -96,7 +99,11 @@ function safe_link {
 		fi
 		rm -f "$target_path" || return 1
 	elif [ -e "$target_path" ]; then
-		rm -rf "$target_path" || return 1
+		backup_root="$target_parent/.bootstrap-backup"
+		backup_stamp="$(date +%Y%m%d%H%M%S)"
+		backup_path="$backup_root/$(basename -- "$target_path").$backup_stamp"
+		mkdir -p "$backup_root" || return 1
+		mv "$target_path" "$backup_path" || return 1
 	fi
 
 	ln -s "$source_path" "$target_path"

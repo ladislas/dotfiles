@@ -47,6 +47,7 @@ To validate user-scoped bootstrap behavior safely against a temporary home targe
 
 ```console
 BOOTSTRAP_HOME=/tmp/dotfiles-bootstrap-test zsh bootstrap.sh --git --data --dev
+# conflicting real targets are preserved in sibling .bootstrap-backup/ directories
 ```
 
 ## Local Tooling
