@@ -6,9 +6,9 @@
 
 ## 2. Failure and helper semantics
 
-- [ ] 2.1 Refactor command execution helpers to distinguish fatal versus recoverable operations with transparent command attribution
-- [ ] 2.2 Update shared helper functions to remove implicit regex-based argument checks and align with the documented runtime contract
-- [ ] 2.3 Document the bootstrap runtime contract for sourced domain scripts, including environment, sudo expectations, logging, and dry-run behavior
+- [x] 2.1 Refactor command execution helpers to distinguish fatal versus recoverable operations with transparent command attribution
+- [x] 2.2 Update shared helper functions to remove implicit regex-based argument checks and align with the documented runtime contract
+- [x] 2.3 Document the bootstrap runtime contract for sourced domain scripts, including environment, sudo expectations, logging, and dry-run behavior
 
 ## 3. Rerun safety and verification
 

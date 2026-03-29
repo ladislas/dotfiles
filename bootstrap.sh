@@ -332,7 +332,7 @@ function run_bootstrap {
 
 		if [ -n "$BREW_PREFIX" ] && ! fgrep -q "${BREW_PREFIX}/bin/zsh" /etc/shells; then
 			print_action 'Setting brew zsh as default shell'
-			try echo "${BREW_PREFIX}/bin/zsh" | sudo tee -a /etc/shells
+			try sudo sh -c "printf '%s\\n' '${BREW_PREFIX}/bin/zsh' >> /etc/shells"
 			try chsh -s "${BREW_PREFIX}/bin/zsh"
 		fi
 
