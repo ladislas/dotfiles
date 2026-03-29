@@ -347,16 +347,14 @@ function run_bootstrap {
 		fi
 
 		print_action 'Symlink config files'
-		try mkdir -p "${XDG_CONFIG_HOME:-$HOME/.config}"
-		try ln -sr "$DOTFILES_DIR/symlink/.zshenv" "$HOME/.zshenv"
-		try ln -sr "$DOTFILES_DIR/zsh" "${XDG_CONFIG_HOME:-$HOME/.config}/"
+		try safe_link "$DOTFILES_DIR/symlink/.zshenv" "$HOME/.zshenv"
+		try safe_link "$DOTFILES_DIR/zsh" "${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 	fi
 
 	if args_contain '--git'; then
 		print_section 'Starting git configuration script'
 		print_action 'Symlink config files'
-		try mkdir -p "${XDG_CONFIG_HOME:-$HOME/.config}"
-		try ln -sr "$DOTFILES_DIR/git" "${XDG_CONFIG_HOME:-$HOME/.config}/"
+		try safe_link "$DOTFILES_DIR/git" "${XDG_CONFIG_HOME:-$HOME/.config}/git"
 	fi
 
 	if args_contain '--nvim'; then
@@ -368,8 +366,9 @@ function run_bootstrap {
 	if args_contain '--data'; then
 		print_section 'Starting XDG Data configuration script'
 		print_action 'Symlink config files'
-		try mkdir -p "${XDG_DATA_HOME:-$HOME/.local/share}"
-		try ln -sr "$DOTFILES_DIR"/data/* "${XDG_DATA_HOME:-$HOME/.local/share}"
+		for source_path in "$DOTFILES_DIR"/data/*; do
+			try safe_link "$source_path" "${XDG_DATA_HOME:-$HOME/.local/share}/$(basename -- "$source_path")"
+		done
 	fi
 
 	if args_contain '--dev'; then

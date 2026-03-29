@@ -43,6 +43,12 @@ Then run the bootstrap process:
 zsh bootstrap.sh [arguments]
 ```
 
+To validate user-scoped bootstrap behavior safely against a temporary home target:
+
+```console
+BOOTSTRAP_HOME=/tmp/dotfiles-bootstrap-test zsh bootstrap.sh --git --data --dev
+```
+
 ## Local Tooling
 
 This repository also defines repo-local tooling for docs and workflow validation.
@@ -52,6 +58,7 @@ mise trust
 mise install
 mise run hooks
 mise run lint
+mise run bootstrap:validate
 ```
 
 - `mise trust` marks the repo-local mise configuration as trusted on your machine
@@ -59,6 +66,7 @@ mise run lint
 - `mise run hooks` installs git hooks through `hk`
 - `mise run lint` runs the Markdown and YAML checks used locally and in CI
 - `mise run lint:fix` applies autofixable Markdown changes
+- `mise run bootstrap:validate` exercises bootstrap in a redirected-home sandbox without touching your real home directory
 
 OpenSpec artifacts live under `openspec/`, and opencode project-local overlays live under `.opencode/`.
 

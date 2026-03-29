@@ -2,7 +2,7 @@
 
 print_action "Symlink to $HOME"
 symlink=".editorconfig"
-try ln -sr ./symlink/$symlink $HOME/$symlink
+try safe_link "$DOTFILES_DIR/symlink/$symlink" "$HOME/$symlink"
 
 
 print_action "Create dev directory tree"

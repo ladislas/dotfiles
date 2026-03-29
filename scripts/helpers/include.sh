@@ -82,6 +82,26 @@ function in_sandbox {
 	return 1
 }
 
+function safe_link {
+	local source_path="$1"
+	local target_path="$2"
+	local target_parent
+
+	target_parent="$(dirname -- "$target_path")"
+	mkdir -p "$target_parent" || return 1
+
+	if [ -L "$target_path" ]; then
+		if [ "$(readlink "$target_path")" = "$source_path" ]; then
+			return 0
+		fi
+		rm -f "$target_path" || return 1
+	elif [ -e "$target_path" ]; then
+		rm -rf "$target_path" || return 1
+	fi
+
+	ln -s "$source_path" "$target_path"
+}
+
 function ask_for_sudo {
 	echo "Please enter your password."
 	sudo -v

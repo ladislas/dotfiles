@@ -12,7 +12,7 @@
 
 ## 3. Rerun safety and verification
 
-- [ ] 3.1 Introduce a shared rerun-safe linking helper and update bootstrap-managed symlink operations to use it
-- [ ] 3.2 Update affected domain scripts such as `scripts/dev.sh` to use the rerun-safe linking behavior where bootstrap manages links
-- [ ] 3.3 Add redirected-home validation coverage for user-scoped bootstrap flows and clearly reject or skip unsupported system-scoped domains in sandbox mode
-- [ ] 3.4 Verify the refactor with representative dry-run, invalid-input, fatal-failure, recoverable-failure, redirected-home, and rerun-safe link scenarios
+- [x] 3.1 Introduce a shared rerun-safe linking helper and update bootstrap-managed symlink operations to use it
+- [x] 3.2 Update affected domain scripts such as `scripts/dev.sh` to use the rerun-safe linking behavior where bootstrap manages links
+- [x] 3.3 Add redirected-home validation coverage for user-scoped bootstrap flows and clearly reject or skip unsupported system-scoped domains in sandbox mode
+- [x] 3.4 Verify the refactor with representative dry-run, invalid-input, fatal-failure, recoverable-failure, redirected-home, and rerun-safe link scenarios
