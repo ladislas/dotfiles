@@ -43,6 +43,25 @@ Then run the bootstrap process:
 zsh bootstrap.sh [arguments]
 ```
 
+## Local Tooling
+
+This repository also defines repo-local tooling for docs and workflow validation.
+
+```console
+mise trust
+mise install
+mise run hooks
+mise run lint
+```
+
+- `mise trust` marks the repo-local mise configuration as trusted on your machine
+- `mise install` installs the pinned local tools used by this repo
+- `mise run hooks` installs git hooks through `hk`
+- `mise run lint` runs the Markdown and YAML checks used locally and in CI
+- `mise run lint:fix` applies autofixable Markdown changes
+
+OpenSpec artifacts live under `openspec/`, and opencode project-local overlays live under `.opencode/`.
+
 Available arguments are:
 
 - `--all` - run all scripts
