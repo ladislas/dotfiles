@@ -48,7 +48,7 @@ zsh bootstrap.sh [arguments]
 
 ### XDG Configuration Flow
 
-```
+```text
 $HOME/.zshenv (symlink) → dotfiles/symlink/.zshenv
     ↓ sets ZDOTDIR
 $HOME/.config/zsh → dotfiles/zsh/
@@ -59,6 +59,7 @@ $HOME/.config/zsh → dotfiles/zsh/
 ### ZSH Module System
 
 Modular configuration in `zsh/modules/`:
+
 - `completion.zsh` - Advanced completion with fuzzy matching
 - `editor.zsh` - VI/Emacs keybindings
 - `directory.zsh` - Directory navigation (AUTO_CD, pushd/popd)
@@ -68,6 +69,7 @@ Modular configuration in `zsh/modules/`:
 - `history-substring-search.zsh` - History substring search
 
 Custom functions in `zsh/functions/`:
+
 - `git-info.zsh` - Git status for prompt
 - `git-dir.zsh` - Current git directory
 - `helper.zsh` - Utility functions (is-callable, profile, coalesce)
@@ -75,6 +77,7 @@ Custom functions in `zsh/functions/`:
 ### Bootstrap Error Handling
 
 The `try` function in `scripts/helpers/try.sh` wraps commands with:
+
 - Execution tracking
 - Timing information
 - Error collection (reported at end of run)
@@ -84,6 +87,7 @@ Use `try_can_fail` for non-critical operations.
 ## Git Configuration
 
 Git config in `git/config` includes 50+ aliases. Key ones:
+
 - `mnoff` - Merge with no-ff and emoji prefix
 - `mmnoff` - Complex PR merge workflow (rebase, force-with-lease)
 - `rebdef` - Rebase on default branch

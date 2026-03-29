@@ -12,6 +12,7 @@ This repository is about to grow a set of GitHub issue-driven changes, but it do
 ## Capabilities
 
 ### New Capabilities
+
 - `repository-tooling-baseline`: Define the required local tooling, lint configuration, hook integration, and OpenSpec/opencode scaffolding for this repository.
 
 ### Modified Capabilities

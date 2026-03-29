@@ -12,5 +12,5 @@
 ## 3. Document and verify the workflow
 
 - [x] 3.1 Update repository docs to explain tool installation, hooks, and lint commands
-- [ ] 3.2 Update CI to install the repo-local toolchain and run the lint workflow
-- [ ] 3.3 Run the lint tasks and relevant bootstrap checks to verify the new baseline
+- [x] 3.2 Update CI to install the repo-local toolchain and run the lint workflow
+- [x] 3.3 Run the lint tasks and relevant bootstrap checks to verify the new baseline

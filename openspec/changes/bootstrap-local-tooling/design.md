@@ -7,12 +7,14 @@ OpenSpec-generated Markdown and command/skill overlays are slightly different fr
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Define a repo-local tooling baseline that contributors can install and run with `mise`.
 - Enforce Markdown and YAML checks through both explicit tasks and pre-commit hooks.
 - Create the OpenSpec and opencode scaffolding needed for future spec-driven changes in this repository.
 - Keep the initial lint surface narrow so adoption does not require a broad shell-script cleanup.
 
 **Non-Goals:**
+
 - Add every possible linter for the repository, especially shell-focused tools that may require broad remediation.
 - Refactor the bootstrap scripts beyond what is necessary to document or expose the new workflow.
 - Replace existing Homebrew-based installation of `mise`.
