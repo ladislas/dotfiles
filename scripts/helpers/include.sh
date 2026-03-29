@@ -5,12 +5,39 @@
 #
 
 function array_is_empty {
-	arr=($@)
-	if [ ${#arr[@]} -eq 0 ] ; then
+	if [ $# -eq 0 ] || { [ $# -eq 1 ] && [ -z "$1" ]; }; then
 		return 0
-	else
-		return 1
 	fi
+
+	return 1
+}
+
+function dedupe_array {
+	local array_name="$1"
+	local -a unique_values=()
+	local value
+
+	for value in "${(@P)array_name}"; do
+		if ! array_contains "$value" "${unique_values[@]}"; then
+			unique_values+=("$value")
+		fi
+	done
+
+	eval "$array_name=(\"\${unique_values[@]}\")"
+}
+
+function array_contains {
+	local needle="$1"
+	shift
+
+	local value
+	for value in "$@"; do
+		if [ "$value" = "$needle" ]; then
+			return 0
+		fi
+	done
+
+	return 1
 }
 
 function print_section {
@@ -36,7 +63,7 @@ function is_ci {
 }
 
 function is_dry_run {
-	if [[ $ARG_ARRAY =~ "--dry-run" || -n $DRY_RUN ]]; then
+	if [[ "$DRY_RUN" == true ]]; then
 		return 0
 	else
 		return 1
@@ -44,11 +71,15 @@ function is_dry_run {
 }
 
 function args_contain {
-	if [[ $ARG_ARRAY =~ $@ ]]; then
+	array_contains "$1" "${ARG_ARRAY[@]}"
+}
+
+function in_sandbox {
+	if [ -n "$BOOTSTRAP_HOME" ]; then
 		return 0
-	else
-		return 1
 	fi
+
+	return 1
 }
 
 function ask_for_sudo {
@@ -64,19 +95,19 @@ function ask_for_sudo {
 function list_failed_commands {
 	ret=0
 	echo ""
-	if array_is_empty $FAILED_COMMANDS && array_is_empty $CAN_FAIL_COMMANDS ; then
+	if array_is_empty "${FAILED_COMMANDS[@]}" && array_is_empty "${CAN_FAIL_COMMANDS[@]}" ; then
 		echo "🎉 The bootstrap process completed successfully! 💪"
 	else
-		if ! array_is_empty $CAN_FAIL_COMMANDS ; then
+		if ! array_is_empty "${CAN_FAIL_COMMANDS[@]}" ; then
 			echo "⚠️ The following commands have failed but it's okay: ⚠️"
-			for cmd in $CAN_FAIL_COMMANDS; do
+			for cmd in "${CAN_FAIL_COMMANDS[@]}"; do
 				echo "\t- $cmd"
 			done
 		fi
 
-		if ! array_is_empty $FAILED_COMMANDS ; then
+		if ! array_is_empty "${FAILED_COMMANDS[@]}" ; then
 			echo "💥 The following commands have failed: 💥"
-			for cmd in $FAILED_COMMANDS; do
+			for cmd in "${FAILED_COMMANDS[@]}"; do
 				echo "\t- $cmd"
 			done
 			ret=1

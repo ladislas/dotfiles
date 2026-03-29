@@ -1,8 +1,8 @@
 ## 1. Bootstrap runtime cleanup
 
-- [ ] 1.1 Replace regex-based argument detection with an explicit parser that handles supported flags and `--computer_name=<value>` without external grep utilities
-- [ ] 1.2 Validate aggregate modes and required flag combinations before stateful bootstrap work begins
-- [ ] 1.3 Make dry-run, redirected-home sandboxing, and runtime setup behavior explicit, including brew prefix detection and prerequisite checks
+- [x] 1.1 Replace regex-based argument detection with an explicit parser that handles supported flags and `--computer_name=<value>` without external grep utilities
+- [x] 1.2 Validate aggregate modes and required flag combinations before stateful bootstrap work begins
+- [x] 1.3 Make dry-run, redirected-home sandboxing, and runtime setup behavior explicit, including brew prefix detection and prerequisite checks
 
 ## 2. Failure and helper semantics
 
