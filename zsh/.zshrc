@@ -35,13 +35,14 @@ if [[ "$OSTYPE" == darwin* ]]; then
 	fi
 
 	# GNU Tar
-	lpath+="$BREW_PREFIX/opt/gnu-tar/libexec/gnubin"
+	if [ -d "$BREW_PREFIX/opt/gnu-tar/libexec/gnubin" ] ; then
+		lpath+="$BREW_PREFIX/opt/gnu-tar/libexec/gnubin"
+	fi
 
 	# GNU Find
-	lpath+="$BREW_PREFIX/opt/findutils/libexec/gnubin"
-
-	# Python
-	lpath+="$HOME/Library/Python/3.12/bin"
+	if [ -d "$BREW_PREFIX/opt/findutils/libexec/gnubin" ] ; then
+		lpath+="$BREW_PREFIX/opt/findutils/libexec/gnubin"
+	fi
 
 	# User local binaries (Claude Code, etc.)
 	lpath+="$HOME/.local/bin"
@@ -54,11 +55,11 @@ if [[ "$OSTYPE" == darwin* ]]; then
 		eval "$($BREW_PREFIX/bin/mise activate zsh)"
 	fi
 
-	# The next line updates PATH for the Google Cloud SDK.
-	if [ -f '/Users/ladislas/Desktop/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ladislas/Desktop/google-cloud-sdk/path.zsh.inc'; fi
-
-	# The next line enables shell command completion for gcloud.
-	if [ -f '/Users/ladislas/Desktop/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ladislas/Desktop/google-cloud-sdk/completion.zsh.inc'; fi
+	# Load any machine-local path or SDK overrides outside the shared repo config.
+	local_zsh_hook="${ZSH_LOCAL_RC:-${XDG_CONFIG_HOME:-$HOME/.config}/zsh/local.zsh}"
+	if [ -f "$local_zsh_hook" ] ; then
+		. "$local_zsh_hook"
+	fi
 
 
 	# Export $PATH
@@ -88,14 +89,7 @@ fi
 # Set the key layout (vi or emacs)
 zstyle ':module:editor' key-bindings 'vi'
 
-#
-# Modules
-#
-
-if [ -f $BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] ; then
-	source $BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
-
+# Interactive modules.
 . $ZMODULESDIR/editor.zsh
 . $ZMODULESDIR/completion.zsh
 . $ZMODULESDIR/directory.zsh
@@ -104,43 +98,10 @@ fi
 . $ZMODULESDIR/history-substring-search.zsh
 . $ZMODULESDIR/prompt.zsh
 
-#
-# Completions, zcompdump & compinit
-#
-
-# Do not check .zcompdump each time
-# autoload -Uz compinit
-# if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' $ZDOTDIR/.zcompdump) ]; then
-# 	compinit $ZDOTDIR/.zcompdump
-# else
-# 	compinit -C
-# fi
-
-# homebrew
-
-if type brew &>/dev/null
-then
-  FPATH="$BREW_PREFIX/completions/zsh:${FPATH}"
-  FPATH="$BREW_PREFIX/opt/gh/share/zsh/site-functions:${FPATH}"
+# Load syntax highlighting last so widgets and completions are already set up.
+if [ -f "$BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] ; then
+	source "$BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
-
-autoload -Uz compinit
-if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
-	compinit -d $ZDOTDIR/.zcompdump
-else
-	compinit -C
-fi
-
-# If zcompdump becomes a burden, check this out
-# https://github.com/ladislas/prezto/blob/master/runcoms/zlogin
-# Execute code that does not affect the current session in the background.
-{
-	# Compile the completion dump to increase startup speed.
-	zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
-	if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
-		zcompile "$zcompdump"
-	fi
-} &!
 
 #
 # Aliases
@@ -192,7 +153,7 @@ alias gds='git diff --staged'
 alias gco='git checkout'
 alias gst='git status'
 alias gmnoff='git merge --no-ff'
-alias gri='git reabse -i'
+alias gri='git rebase -i'
 alias grdev='git rebase develop'
 alias gl="git log -n 30 --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias gll="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
@@ -228,7 +189,7 @@ alias qq='exit'
 alias launchservices_cleanup="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
 
 # chmod
-alias getchmod="stat --format '%a'"
+alias getchmod="/usr/bin/stat -f '%Lp'"
 alias makeexec="chmod +x"
 alias unexec="chmod -x"
 

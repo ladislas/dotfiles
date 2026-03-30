@@ -14,10 +14,10 @@
 
 ## 3. Portability and stale shell config cleanup
 
-- [ ] 3.1 Review `.zshrc` interactive load order and make module sequencing, completion setup, and syntax-highlighting placement explicit and maintainable
-- [ ] 3.2 Remove, isolate, or replace machine-specific path entries such as the local Python user bin path and Desktop Google Cloud SDK hooks so shared config stays portable
-- [ ] 3.3 Fix stale shell debt in the shared config, including the broken `git reabse -i` alias and any GNU-only assumptions or vendored completion paths that should not remain in the default shared path
-- [ ] 3.4 Verify interactive ergonomics after the cleanup with explicit checks for shell startup, completion initialization, syntax highlighting load, and representative aliases still behaving as expected
+- [x] 3.1 Review `.zshrc` interactive load order and make module sequencing, completion setup, and syntax-highlighting placement explicit and maintainable
+- [x] 3.2 Remove, isolate, or replace machine-specific path entries such as the local Python user bin path and Desktop Google Cloud SDK hooks so shared config stays portable
+- [x] 3.3 Fix stale shell debt in the shared config, including the broken `git reabse -i` alias and any GNU-only assumptions or vendored completion paths that should not remain in the default shared path
+- [x] 3.4 Verify interactive ergonomics after the cleanup with explicit checks for shell startup, completion initialization, syntax highlighting load, and representative aliases still behaving as expected
 
 ## 4. Verification and documentation
 

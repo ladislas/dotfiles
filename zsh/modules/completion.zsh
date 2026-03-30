@@ -9,6 +9,11 @@
 #   Ladislas de Toldi <ladislas at detoldi dot me>
 #
 
+# Add Homebrew completions to $fpath.
+if [ -d "$BREW_PREFIX/share/zsh/site-functions" ] ; then
+	fpath=("$BREW_PREFIX/share/zsh/site-functions" $fpath)
+fi
+
 # Add zsh-completions to $fpath.
 if [ -d "$BREW_PREFIX/share/zsh-completions" ] ; then
 	fpath=("$BREW_PREFIX/share/zsh-completions" $fpath)
@@ -108,3 +113,19 @@ zstyle ':completion:*:*:kill:*' insert-ids single
 # Man
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:manuals.(^1*)' insert-sections true
+
+# Initialize completion after fpath and styles are ready.
+autoload -Uz compinit
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+	compinit -d "$ZDOTDIR/.zcompdump"
+else
+	compinit -C
+fi
+
+# Compile the completion dump in the background to keep startup snappy.
+{
+	zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
+	if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
+		zcompile "$zcompdump"
+	fi
+} &!
