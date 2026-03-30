@@ -7,10 +7,10 @@
 
 ## 2. Prompt performance cleanup
 
-- [ ] 2.1 Redesign prompt git state so prompt redraw favors branch visibility and simple low-cost repository signals over exact detailed status accounting
-- [ ] 2.2 Update `zsh/modules/prompt.zsh` and any supporting functions so prompt redraw no longer performs the current expensive git-info work on every `precmd`
-- [ ] 2.3 Simplify or replace `zsh/functions/git-info.zsh` behavior as needed to align with the new low-latency prompt design while preserving useful git awareness
-- [ ] 2.4 Verify prompt behavior with explicit checks in and out of a git worktree, including repeated prompt redraw smoke tests and startup profiling evidence if needed to confirm the prompt path no longer does expensive status work per redraw
+- [x] 2.1 Redesign prompt git state so prompt redraw favors branch visibility and simple low-cost repository signals over exact detailed status accounting
+- [x] 2.2 Update `zsh/modules/prompt.zsh` and any supporting functions so prompt redraw no longer performs the current expensive git-info work on every `precmd`
+- [x] 2.3 Simplify or replace `zsh/functions/git-info.zsh` behavior as needed to align with the new low-latency prompt design while preserving useful git awareness
+- [x] 2.4 Verify prompt behavior with explicit checks in and out of a git worktree, including repeated prompt redraw smoke tests and startup profiling evidence if needed to confirm the prompt path no longer does expensive status work per redraw
 
 ## 3. Portability and stale shell config cleanup
 

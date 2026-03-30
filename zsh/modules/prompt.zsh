@@ -32,32 +32,40 @@ function prompt_precmd {
 	setopt LOCAL_OPTIONS;
 	unsetopt XTRACE KSH_ARRAYS;
 
-	# Get Git repository information.
-	# if (( $+functions[git-info] )); then
-		git-info;
-	# fi
+	if [[ "${prompt_git_pwd-}" == "$PWD" && "${prompt_git_refresh-1}" == "0" ]]; then
+		return 0;
+	fi
+
+	git-info;
+	prompt_git_pwd="$PWD";
+	prompt_git_refresh=0;
+}
+
+function prompt_preexec {
+	prompt_git_refresh=1;
+}
+
+function prompt_chpwd {
+	prompt_git_refresh=1;
 }
 
 # Load required functions.
 autoload -Uz add-zsh-hook;
 
-# Add hook for calling git-info before each command.
+# Refresh prompt git state only when shell state changes.
 add-zsh-hook precmd prompt_precmd;
+add-zsh-hook preexec prompt_preexec;
+add-zsh-hook chpwd prompt_chpwd;
 setopt prompt_subst
 
 # Set editor-info parameters.
 # zstyle ':prezto:module:editor:info:completing' format '${red}...%f%b';
 
 # Set git-info parameters.
-zstyle ':prezto:module:git:info' verbose 'yes';
-zstyle ':prezto:module:git:info:branch' format '${turquoise}%b%f${git_info[rprompt]}';
-zstyle ':prezto:module:git:info:added' format "${green}●%f";
-zstyle ':prezto:module:git:info:modified' format "${yellow}●%f";
-zstyle ':prezto:module:git:info:deleted' format "${red}●%f";
-zstyle ':prezto:module:git:info:renamed' format "${orange}●%f";
-zstyle ':prezto:module:git:info:stashed' format "${violet}●%f";
-zstyle ':prezto:module:git:info:untracked' format "${white}●%f";
-zstyle ':prezto:module:git:info:keys' format 'prompt' '(%b%S%a%d%m%r%U%u)'
+zstyle ':prezto:module:git:info:branch' format '${turquoise}%b%f';
+zstyle ':prezto:module:git:info:state' format ' ${yellow}*%f';
+zstyle ':prezto:module:git:info:action' format ' ${orange}%s%f';
+zstyle ':prezto:module:git:info:keys' format 'prompt' ' (%b%d%s)'
 
 # Define prompts.
 PROMPT=$'\n${turquoise}#%f ${orange}%n%f @ ${yellow}%m%f in ${green}%~%f ${(e)git_info[prompt]}\n%(?.${green}→.${red}→)%f ';
