@@ -1,9 +1,9 @@
 ## 1. Startup boundary cleanup
 
-- [ ] 1.1 Refactor `zsh/.zshenv` so it contains only non-interactive-safe environment setup, moving helper sourcing and command-based logic out of the always-loaded startup path
-- [ ] 1.2 Re-home editor detection, terminal-derived `GPG_TTY`, and any other interactive-only shell behavior into the appropriate interactive module or startup file while preserving the current modular structure
-- [ ] 1.3 Keep the existing exported path and environment behavior intact where it is still portable and appropriate for all zsh invocations
-- [ ] 1.4 Verify startup boundaries with explicit smoke checks: `zsh -fc 'exit 0'`, `zsh -ic 'exit 0'`, and a targeted check that non-interactive startup does not require terminal-only state
+- [x] 1.1 Refactor `zsh/.zshenv` so it contains only non-interactive-safe environment setup, moving helper sourcing and command-based logic out of the always-loaded startup path
+- [x] 1.2 Re-home editor detection, terminal-derived `GPG_TTY`, and any other interactive-only shell behavior into the appropriate interactive module or startup file while preserving the current modular structure
+- [x] 1.3 Keep the existing exported path and environment behavior intact where it is still portable and appropriate for all zsh invocations
+- [x] 1.4 Verify startup boundaries with explicit smoke checks: `zsh -fc 'exit 0'`, `zsh -ic 'exit 0'`, and a targeted check that non-interactive startup does not require terminal-only state
 
 ## 2. Prompt performance cleanup
 

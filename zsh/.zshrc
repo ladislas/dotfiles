@@ -10,6 +10,9 @@
 # ⚠️ Uncomment to profile
 # zmodload zsh/zprof
 
+# Load helper functions for interactive shells.
+. $ZFUNCTIONSDIR/helper.zsh
+
 #
 # macOS setup
 #
@@ -61,6 +64,21 @@ if [[ "$OSTYPE" == darwin* ]]; then
 	# Export $PATH
 	path=($lpath $path)
 
+fi
+
+# Prefer Neovim interactively when available.
+if command -v nvim >/dev/null 2>&1; then
+	export EDITOR='nvim'
+	export VISUAL='nvim'
+else
+	export EDITOR='vim'
+	export VISUAL='vim'
+fi
+
+# Avoid issues with `gpg` as installed via Homebrew.
+# https://stackoverflow.com/a/42265848/96656
+if [[ -t 0 ]]; then
+	export GPG_TTY="$(tty)"
 fi
 
 #
