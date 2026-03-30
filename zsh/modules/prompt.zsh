@@ -63,9 +63,14 @@ setopt prompt_subst
 
 # Set git-info parameters.
 zstyle ':prezto:module:git:info:branch' format '${turquoise}%b%f';
-zstyle ':prezto:module:git:info:state' format ' ${yellow}*%f';
-zstyle ':prezto:module:git:info:action' format ' ${orange}%s%f';
-zstyle ':prezto:module:git:info:keys' format 'prompt' ' (%b%d%s)'
+zstyle ':prezto:module:git:info:added' format '${green}●%f';
+zstyle ':prezto:module:git:info:modified' format '${yellow}●%f';
+zstyle ':prezto:module:git:info:deleted' format '${red}●%f';
+zstyle ':prezto:module:git:info:renamed' format '${orange}●%f';
+zstyle ':prezto:module:git:info:untracked' format '${white}●%f';
+zstyle ':prezto:module:git:info:stashed' format '${violet}●%f';
+zstyle ':prezto:module:git:info:action' format '${orange}%s%f';
+zstyle ':prezto:module:git:info:keys' format 'prompt' '(%b%s%a%m%d%r%u%S)'
 
 # Define prompts.
 PROMPT=$'\n${turquoise}#%f ${orange}%n%f @ ${yellow}%m%f in ${green}%~%f ${(e)git_info[prompt]}\n%(?.${green}→.${red}→)%f ';

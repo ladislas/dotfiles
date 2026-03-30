@@ -39,22 +39,39 @@ function _git-info-action {
   return 1
 }
 
-# Gets low-cost Git prompt information.
+# Gets cached Git prompt information.
 function git-info {
   setopt LOCAL_OPTIONS
+  setopt EXTENDED_GLOB
 
+  local added=0
+  local added_format
+  local added_formatted
   local branch
   local branch_format
   local branch_formatted
-  local dirty=0
+  local deleted=0
+  local deleted_format
+  local deleted_formatted
   local git_dir
   local -A info_formats
   local info_format
+  local modified=0
+  local modified_format
+  local modified_formatted
+  local renamed=0
+  local renamed_format
+  local renamed_formatted
   local action
   local action_format
   local action_formatted
-  local state_format
-  local state_formatted
+  local stashed=0
+  local stashed_format
+  local stashed_formatted
+  local status_cmd
+  local untracked=0
+  local untracked_format
+  local untracked_formatted
 
   unset git_info
   typeset -gA git_info
@@ -91,22 +108,59 @@ function git-info {
     zformat -f action_formatted "$action_format" "s:$action"
   fi
 
-  command git diff --no-ext-diff --quiet --ignore-submodules --cached 2> /dev/null || dirty=1
-  if (( ! dirty )); then
-    command git diff --no-ext-diff --quiet --ignore-submodules 2> /dev/null || dirty=1
+  status_cmd="command git status --porcelain --ignore-submodules"
+  while IFS=$'\n' read line; do
+    [[ "$line" == ([ACDMT][\ MT]|[ACMT]D)\ * ]] && (( added++ ))
+    [[ "$line" == [\ ACMRT]D\ * ]] && (( deleted++ ))
+    [[ "$line" == ?[MT]\ * ]] && (( modified++ ))
+    [[ "$line" == R?\ * ]] && (( renamed++ ))
+    [[ "$line" == \?\?\ * ]] && (( untracked++ ))
+  done < <(${(z)status_cmd} 2> /dev/null)
+
+  if (( added > 0 )); then
+    zstyle -s ':prezto:module:git:info:added' format 'added_format'
+    zformat -f added_formatted "$added_format" "a:$added"
   fi
 
-  zstyle -s ':prezto:module:git:info:state' format 'state_format'
-  if (( dirty )) && [[ -n "$state_format" ]]; then
-    zformat -f state_formatted "$state_format" "d:dirty"
+  if (( deleted > 0 )); then
+    zstyle -s ':prezto:module:git:info:deleted' format 'deleted_format'
+    zformat -f deleted_formatted "$deleted_format" "d:$deleted"
+  fi
+
+  if (( modified > 0 )); then
+    zstyle -s ':prezto:module:git:info:modified' format 'modified_format'
+    zformat -f modified_formatted "$modified_format" "m:$modified"
+  fi
+
+  if (( renamed > 0 )); then
+    zstyle -s ':prezto:module:git:info:renamed' format 'renamed_format'
+    zformat -f renamed_formatted "$renamed_format" "r:$renamed"
+  fi
+
+  if (( untracked > 0 )); then
+    zstyle -s ':prezto:module:git:info:untracked' format 'untracked_format'
+    zformat -f untracked_formatted "$untracked_format" "u:$untracked"
+  fi
+
+  if [[ -f "${git_dir}/refs/stash" ]]; then
+    stashed="$(command git rev-list --walk-reflogs --count refs/stash 2> /dev/null)"
+    if [[ -n "$stashed" && "$stashed" != 0 ]]; then
+      zstyle -s ':prezto:module:git:info:stashed' format 'stashed_format'
+      zformat -f stashed_formatted "$stashed_format" "S:$stashed"
+    fi
   fi
 
   zstyle -a ':prezto:module:git:info:keys' format 'info_formats'
   for info_format in ${(k)info_formats}; do
     zformat -f REPLY "$info_formats[$info_format]" \
+      "a:$added_formatted" \
       "b:$branch_formatted" \
-      "d:$state_formatted" \
-      "s:$action_formatted"
+      "d:$deleted_formatted" \
+      "m:$modified_formatted" \
+      "r:$renamed_formatted" \
+      "s:$action_formatted" \
+      "S:$stashed_formatted" \
+      "u:$untracked_formatted"
     git_info[$info_format]="$REPLY"
   done
 
