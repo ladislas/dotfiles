@@ -24,13 +24,6 @@ export LC_ALL='en_US.UTF-8'
 export LC_COLLATE='C' # Show dotfiles first with ls -al
 
 #
-# Functions
-#
-
-# Load helper functions
-. $ZFUNCTIONSDIR/helper.zsh
-
-#
 # Browser
 #
 
@@ -82,24 +75,8 @@ path=(
 )
 
 #
-# Editors
-#
-
-if which nvim >/dev/null 2>&1; then
-	export EDITOR="nvim"
-	export VISUAL='nvim'
-else
-	export EDITOR="vim"
-	export VISUAL='vim'
-fi
-
-#
 # Misc
 #
-
-# Avoid issues with `gpg` as installed via Homebrew.
-# https://stackoverflow.com/a/42265848/96656
-export GPG_TTY=$(tty);
 
 # zsh-syntax-highlighting
 export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR="$BREW_PREFIX/share/zsh-syntax-highlighting/highlighters"
