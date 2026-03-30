@@ -74,6 +74,12 @@ Custom functions in `zsh/functions/`:
 - `git-dir.zsh` - Current git directory
 - `helper.zsh` - Utility functions (is-callable, profile, coalesce)
 
+### Local Zsh Overrides
+
+- Keep shared zsh defaults in-repo under `zsh/`
+- Put machine-local shell overrides in `${XDG_CONFIG_HOME:-$HOME/.config}/zsh/local.zsh`
+- Override that path with `ZSH_LOCAL_RC` when a machine needs a different local hook file
+
 ### Bootstrap Error Handling
 
 The `try` function in `scripts/helpers/try.sh` wraps commands with:

@@ -21,7 +21,7 @@
 
 ## 4. Verification and documentation
 
-- [ ] 4.1 Run `mise run lint:markdown` to validate the OpenSpec artifact updates and any Markdown touched during the change
-- [ ] 4.2 Run `mise run lint` as the smallest relevant repo-wide validation task for the zsh config changes
-- [ ] 4.3 Update any contributor-facing shell documentation only if the implementation changes a supported local override pattern or expected zsh workflow behavior
-- [ ] 4.4 Confirm the final change matches issue #41 scope only: startup modernization, prompt performance, and machine-specific shell config cleanup
+- [x] 4.1 Run `mise run lint:markdown` to validate the OpenSpec artifact updates and any Markdown touched during the change
+- [x] 4.2 Run `mise run lint` as the smallest relevant repo-wide validation task for the zsh config changes
+- [x] 4.3 Update any contributor-facing shell documentation only if the implementation changes a supported local override pattern or expected zsh workflow behavior
+- [x] 4.4 Confirm the final change matches issue #41 scope only: startup modernization, prompt performance, and machine-specific shell config cleanup
