@@ -138,9 +138,9 @@ try rsync -av --backup --backup-dir="$rsync_backup_path/Xcode" $dotf_xcode_userd
 # Sublime Text
 #
 
-print_action "Rsync Sublime Text settings to $user_sublimetext_settings_path"
-try mkdir -p $user_sublimetext_settings_path
-try rsync -av --backup --backup-dir="$rsync_backup_path/ST3" $dotf_sublimetext_settings_path/ $user_sublimetext_settings_path
+# print_action "Rsync Sublime Text settings to $user_sublimetext_settings_path"
+# try mkdir -p $user_sublimetext_settings_path
+# try rsync -av --backup --backup-dir="$rsync_backup_path/ST3" $dotf_sublimetext_settings_path/ $user_sublimetext_settings_path
 
 #
 # Dock
@@ -167,8 +167,8 @@ try rsync -av --backup --backup-dir="$rsync_backup_path/ST3" $dotf_sublimetext_s
 print_action "Kill Dock for changes to take effect"
 try_can_fail killall Dock
 
-if ! is_ci ; then
-	print_action "Kill Touch Bar for changes to take effect"
-	try_can_fail sudo pkill "Touch Bar agent";
-	try_can_fail sudo killall "ControlStrip";
-fi
+	# if ! is_ci ; then
+	# 	print_action "Kill Touch Bar for changes to take effect"
+	# 	try_can_fail sudo pkill "Touch Bar agent";
+	# 	try_can_fail sudo killall "ControlStrip";
+	# fi

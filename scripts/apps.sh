@@ -17,23 +17,23 @@ casks=(
 	# 1password
 	# adoptopenjdk
 	# aerial
-	alfred
+	#alfred
 	appcleaner
-	brave-browser
-	coolterm
+	#brave-browser
+	#coolterm
 	# dropbox
 	# fantastical
 	# glance
 	# google-chrome
 	# gpg-suite-no-mail
-	iterm2
+	#iterm2
 	macdown
 	rectangle
-	slack
+	#slack
 	# spotify
-	stats
+	#stats
 	# sublime-text
-	swiftformat-for-xcode
+	#swiftformat-for-xcode
 	# transmission
 	visual-studio-code
 	# vlc

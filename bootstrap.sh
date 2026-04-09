@@ -61,7 +61,7 @@ fi
 #
 
 if [[ $ARG_ARRAY =~ "--computer_name=" ]]; then
-	COMPUTER_NAME=$(echo $ARG_ARRAY | ggrep -oP '(?<=--computer_name=)[^ ]+')
+	export COMPUTER_NAME=$(echo $ARG_ARRAY | ggrep -oP '(?<=--computer_name=)[^ ]+')
 	ARG_ARRAY=(${(@)ARG_ARRAY:#--computer_name=*})
 fi
 

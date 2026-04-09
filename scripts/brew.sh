@@ -49,9 +49,9 @@ formulae=(
 	diff-so-fancy
 
 	# Install scripting languagues
-	node
-	ruby
-	python
+	#node
+	#ruby
+	#python
 
 	# Install more recent versions of some macOS tools
 	vim
@@ -71,15 +71,15 @@ formulae=(
 	the_silver_searcher
 
 	# Install dev tools
-	lcov
-	gcovr
-	stlink
-	ccache
-	fastlane
+	#lcov
+	#gcovr
+	#stlink
+	#ccache
+	#fastlane
 	mise
-	open-ocd
-	swiftformat
-	clang-format
+	#open-ocd
+	#swiftformat
+	#clang-format
 )
 
 print_action "Install formulae"
