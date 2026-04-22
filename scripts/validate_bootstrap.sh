@@ -110,4 +110,13 @@ zsh "$ROOT_DIR/bootstrap.sh" --hello >"$WORK_DIR/hello.log" 2>&1
 grep -q 'The following commands have failed but it' "$WORK_DIR/hello.log" || fail 'recoverable failure summary missing for --hello'
 pass 'recoverable failure summary present → ok'
 
+section 'Dry-run mode'
+check '--dry-run --git --data --dev creates no symlinks'
+DRY_HOME="$WORK_DIR/dry-home"
+BOOTSTRAP_HOME="$DRY_HOME" zsh "$ROOT_DIR/bootstrap.sh" --dry-run --git --data --dev >"$WORK_DIR/dry-run.log" 2>&1
+[ ! -L "$DRY_HOME/.config/git" ]           || fail '.config/git was created despite --dry-run'
+[ ! -L "$DRY_HOME/.local/share/pandoc" ]   || fail '.local/share/pandoc was created despite --dry-run'
+[ ! -L "$DRY_HOME/.editorconfig" ]         || fail '.editorconfig was created despite --dry-run'
+pass 'no symlinks created in dry-run mode → ok'
+
 printf '\n── All checks passed ✓\n'

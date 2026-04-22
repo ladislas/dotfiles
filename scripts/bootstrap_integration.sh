@@ -37,15 +37,17 @@ assert_symlink_target() {
 
 section 'Setup: pre-seeding conflicting files in real home'
 check 'creating conflicting files at bootstrap target locations'
-mkdir -p "$HOME/.config/git" "$HOME/.local/share/pandoc"
+mkdir -p "$HOME/.config/git" "$HOME/.config/zsh" "$HOME/.local/share/pandoc"
 printf 'preexisting git config\n'                >"$HOME/.config/git/config"
 printf 'preexisting pandoc file\n'               >"$HOME/.local/share/pandoc/custom-reference.txt"
 printf 'root = true\n'                           >"$HOME/.editorconfig"
+printf 'preexisting zshenv\n'                    >"$HOME/.zshenv"
+printf 'preexisting zsh config\n'                >"$HOME/.config/zsh/zshrc"
 pass 'conflicting files created'
 
 section 'Symlink creation and conflict backup (first run)'
-check 'running bootstrap --git --data --dev against real home'
-zsh "$ROOT_DIR/bootstrap.sh" --git --data --dev >"$WORK_DIR/first-run.log" 2>&1
+check 'running bootstrap --git --data --dev --zsh against real home'
+zsh "$ROOT_DIR/bootstrap.sh" --git --data --dev --zsh >"$WORK_DIR/first-run.log" 2>&1
 pass 'bootstrap exited successfully'
 
 check '.config/git is a symlink to the repo git dir'
@@ -60,6 +62,14 @@ check '.editorconfig is a symlink to the repo symlink/.editorconfig'
 assert_symlink_target "$HOME/.editorconfig" "$ROOT_DIR/symlink/.editorconfig"
 pass '.editorconfig → ok'
 
+check '.zshenv is a symlink to the repo symlink/.zshenv'
+assert_symlink_target "$HOME/.zshenv" "$ROOT_DIR/symlink/.zshenv"
+pass '.zshenv → ok'
+
+check '.config/zsh is a symlink to the repo zsh dir'
+assert_symlink_target "$HOME/.config/zsh" "$ROOT_DIR/zsh"
+pass '.config/zsh → ok'
+
 check 'conflicting git target was backed up'
 find "$HOME/.config/.bootstrap-backup" -name 'git.*' | grep -q . || fail 'missing backup for conflicting git target'
 pass 'git backup → ok'
@@ -72,15 +82,25 @@ check 'conflicting .editorconfig was backed up'
 find "$HOME/.bootstrap-backup" -name '.editorconfig.*' | grep -q . || fail 'missing backup for conflicting editorconfig target'
 pass '.editorconfig backup → ok'
 
+check 'conflicting .zshenv was backed up'
+find "$HOME/.bootstrap-backup" -name '.zshenv.*' | grep -q . || fail 'missing backup for conflicting .zshenv target'
+pass '.zshenv backup → ok'
+
+check 'conflicting .config/zsh was backed up'
+find "$HOME/.config/.bootstrap-backup" -name 'zsh.*' | grep -q . || fail 'missing backup for conflicting .config/zsh target'
+pass '.config/zsh backup → ok'
+
 section 'Idempotency (second run)'
-check 'running bootstrap --git --data --dev again on already-linked home'
-zsh "$ROOT_DIR/bootstrap.sh" --git --data --dev >"$WORK_DIR/second-run.log" 2>&1
+check 'running bootstrap --git --data --dev --zsh again on already-linked home'
+zsh "$ROOT_DIR/bootstrap.sh" --git --data --dev --zsh >"$WORK_DIR/second-run.log" 2>&1
 pass 'second run exited successfully'
 
 check 'symlinks still correct after second run'
 assert_symlink_target "$HOME/.config/git" "$ROOT_DIR/git"
 assert_symlink_target "$HOME/.local/share/pandoc" "$ROOT_DIR/data/pandoc"
 assert_symlink_target "$HOME/.editorconfig" "$ROOT_DIR/symlink/.editorconfig"
+assert_symlink_target "$HOME/.zshenv" "$ROOT_DIR/symlink/.zshenv"
+assert_symlink_target "$HOME/.config/zsh" "$ROOT_DIR/zsh"
 pass 'all symlinks stable → ok'
 
 section 'Sandbox blocking'
