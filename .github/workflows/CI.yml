@@ -9,50 +9,21 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Setup mise
-        uses: jdx/mise-action@v2
+        uses: jdx/mise-action@v4
       - name: Run lint
         run: |
           mise run lint
 
-  bootstrap_all_dry_run:
-    name: Bootstrap --all --dry-run --force
+  validate_bootstrap:
+    name: Validate bootstrap contract
     runs-on: macos-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.0.0
-      - name: Test script
+        uses: actions/checkout@v6
+      - name: Setup mise
+        uses: jdx/mise-action@v4
+      - name: Run bootstrap validation
         run: |
-          zsh ./bootstrap.sh -v --dry-run --all --force
-
-  bootstrap_quick:
-    name: Bootstrap quick
-    runs-on: macos-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2.0.0
-      - name: Test script
-        run: |
-          zsh ./bootstrap.sh -v --hello --zsh --git --nvim --data --macos
-
-  bootstrap_all:
-    name: Bootstrap --ci
-    runs-on: macos-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2.0.0
-      - name: Test script
-        run: |
-          zsh ./bootstrap.sh -v --ci
-
-  bootstrap_rsync_back:
-    name: Bootstrap --rsync
-    runs-on: macos-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2.0.0
-      - name: Test script
-        run: |
-          zsh ./bootstrap.sh --hello --apps-config --rsync
-          git status
+          zsh scripts/validate_bootstrap.sh
