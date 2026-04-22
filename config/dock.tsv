@@ -1,0 +1,9 @@
+section	type	condition	path	arrangement	displayas	showas
+apps	app	if-installed	/Applications/Brave Browser.app
+apps	app	always	/System/Applications/Music.app
+apps	app	if-installed	/Applications/Slack.app
+apps	app	if-installed	/Applications/iTerm.app
+apps	app	if-installed	/Applications/Xcode.app
+apps	app	always	/System/Applications/System Settings.app
+others	folder	always	/Applications	1	1	2
+others	folder	always	~/Downloads	2	1	0

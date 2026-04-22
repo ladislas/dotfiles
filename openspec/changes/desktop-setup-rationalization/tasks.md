@@ -12,18 +12,17 @@
 
 ## 3. Replace Dock plist sync with canonical Dock management
 
-- [ ] 3.1 Add `dockutil` to the managed app/tooling flow and define the repository Dock manifest format
-- [ ] 3.2 Implement Dock export from the current machine into the canonical manifest
-- [ ] 3.3 Implement convergent Dock apply for the desired baseline and conditional Brave/iTerm items
+- [x] 3.1 Add `dockutil` to the managed app/tooling flow and define the repository Dock manifest format
+- [x] 3.2 Implement Dock export from the current machine into the canonical manifest
+- [x] 3.3 Implement convergent Dock apply for the desired baseline and conditional Brave/iTerm items
 
 ## 4. Modernize macOS 26 defaults automation
 
-- [ ] 4.1 Remove Dashboard-era and Touch Bar-era macOS writes and keep only supported explicit macOS 26 settings
-- [ ] 4.2 Preserve the desired hot corners and Mission Control behavior through explicit macOS settings writes
-- [ ] 4.3 Make machine naming stable by applying the provided name exactly without appending a date suffix
+- [x] 4.1 Remove Dashboard-era and Touch Bar-era macOS writes and keep only supported explicit macOS 26 settings
+- [x] 4.2 Preserve the desired hot corners and Mission Control behavior through explicit macOS settings writes
+- [x] 4.3 Make machine naming stable by applying the provided name exactly without appending a date suffix
 
 ## 5. Validate and document the new workflow
 
-- [ ] 5.1 Verify export from the main machine captures newly created retained files such as Xcode user data changes
-- [ ] 5.2 Verify apply on another macOS 26 machine converges desktop state and Dock layout on rerun
-- [ ] 5.3 Update repo guidance so the export-from-main / apply-on-other-machine workflow and source-of-truth rules are explicit
+- [x] 5.1 Verify export from the main machine captures newly created retained files such as Xcode user data changes
+- [x] 5.2 Update repo guidance so the export-from-main / apply-on-other-machine workflow and source-of-truth rules are explicit

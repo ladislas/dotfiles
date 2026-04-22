@@ -63,6 +63,7 @@ formulae=(
 
 	# Install useful tools
 	ack
+	dockutil
 	jq
 	tree
 	neovim

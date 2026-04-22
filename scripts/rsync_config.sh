@@ -4,6 +4,7 @@
 set +e
 
 source "$DOTFILES_DIR/scripts/desktop_state.sh"
+source "$DOTFILES_DIR/scripts/dock.sh"
 
 user_library_path="$HOME/Library"
 dotf_library_path="$DOTFILES_DIR/Library"
@@ -13,3 +14,5 @@ export MANAGED_DESKTOP_DELETE_EXCLUDED=true
 
 print_action "Export managed desktop state to $dotf_library_path"
 managed_desktop_sync_roots "$user_library_path" "$dotf_library_path" "$rsync_backup_path"
+
+export_dock_manifest
