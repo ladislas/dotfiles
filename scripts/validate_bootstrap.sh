@@ -19,10 +19,7 @@ assert_symlink_target() {
   local expected_target="$2"
 
   [ -L "$path" ] || fail "$path is not a symlink"
-
-  local actual_target
-  actual_target="$(readlink "$path")"
-  [ "$actual_target" = "$expected_target" ] || fail "$path points to $actual_target instead of $expected_target"
+  [ "$path" -ef "$expected_target" ] || fail "$path does not resolve to $expected_target"
 }
 
 trap cleanup EXIT
