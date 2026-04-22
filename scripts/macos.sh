@@ -1,9 +1,9 @@
 #!/usr/bin/env zsh
 
-# Close any open System Preferences panes, to prevent them from overriding
+# Close any open System Settings panes, to prevent them from overriding
 # settings we’re about to change
-print_action "Quit System Preferences"
-try osascript -e 'tell application "System Preferences" to quit'
+print_action "Quit System Settings"
+try osascript -e 'tell application "System Settings" to quit'
 
 # Ask for the administrator password upfront
 # sudo -v
@@ -50,9 +50,6 @@ echo ""
 echo "›››"
 echo "››› General UI/UX"
 echo "›››"
-
-DATE=$(date +"%Y%m%d")
-COMPUTER_NAME="$COMPUTER_NAME$DATE"
 
 print_action "Set computer name to $COMPUTER_NAME"
 try sudo scutil --set ComputerName "$COMPUTER_NAME"
@@ -266,12 +263,12 @@ try sudo chflags nohidden /Volumes
 
 
 ###############################################################################
-# Dock, Dashboard & Mission Control
+# Dock & Mission Control
 ###############################################################################
 
 echo ""
 echo "›››"
-echo "››› Dock, Dashboard & Mission Control"
+echo "››› Dock & Mission Control"
 echo "›››"
 
 print_action "Change position of the Dock to right" # Available options: "left" "right" or "bottom"
@@ -300,12 +297,6 @@ print_action "Remove the auto-hiding Dock delay"
 try defaults write com.apple.dock autohide -bool true
 try defaults write com.apple.dock autohide-delay -float 0
 try defaults write com.apple.dock autohide-time-modifier -float 0
-
-print_action "Disable Dashboard"
-try defaults write com.apple.dashboard mcx-disabled -bool true
-
-print_action "Don’t show Dashboard as a Space"
-try defaults write com.apple.dock dashboard-in-overlay -bool true
 
 print_action "Don’t automatically rearrange Spaces based on most recent use"
 try defaults write com.apple.dock mru-spaces -bool false

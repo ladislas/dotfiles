@@ -128,3 +128,21 @@ brew install --no-quarantine mactex-no-gui
 ## Apps Settings
 
 Apps must be launched first before syncronizing the settings. The script takes care of that but sometimes it might take a little longer or you might need to accept a dialog box.
+
+## Desktop State Workflow
+
+The desktop setup now has an explicit source-of-truth workflow:
+
+1. Make desktop preference and Dock changes on the main machine.
+2. Run `zsh bootstrap.sh --rsync` on the main machine to export the managed desktop roots back into the repo.
+3. Review and commit the resulting `Library/**` updates plus `config/dock.tsv`.
+4. Run `zsh bootstrap.sh --apps-config` on another machine to apply the managed desktop state and Dock manifest.
+5. Run `zsh bootstrap.sh --macos --computer_name=<name>` to apply the explicit macOS defaults and stable machine name.
+
+### Source-of-Truth Rules
+
+- The main machine is the source of truth for managed desktop state.
+- `Library/**` tracked desktop files and directories are exported from the main machine with `--rsync`, then applied elsewhere with `--apps-config`.
+- `config/dock.tsv` is the canonical Dock manifest. Do not treat `com.apple.dock.plist` as a tracked source of truth.
+- `com.apple.symbolichotkeys.plist` remains part of the managed desktop export/apply flow.
+- Brave Browser and iTerm Dock entries are conditional and are only applied when those apps are installed.
