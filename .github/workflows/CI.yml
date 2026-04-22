@@ -9,50 +9,102 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Setup mise
-        uses: jdx/mise-action@v2
+        uses: jdx/mise-action@v4
       - name: Run lint
         run: |
           mise run lint
 
-  bootstrap_all_dry_run:
-    name: Bootstrap --all --dry-run --force
+  validate_bootstrap:
+    name: Validate bootstrap contract
     runs-on: macos-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.0.0
-      - name: Test script
+        uses: actions/checkout@v6
+      - name: Setup mise
+        uses: jdx/mise-action@v4
+      - name: Run bootstrap validation
         run: |
-          zsh ./bootstrap.sh -v --dry-run --all --force
+          zsh scripts/validate_bootstrap.sh
 
-  bootstrap_quick:
-    name: Bootstrap quick
+  bootstrap_integration:
+    name: Bootstrap integration (real home)
     runs-on: macos-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.0.0
-      - name: Test script
-        run: |
-          zsh ./bootstrap.sh -v --hello --zsh --git --nvim --data --macos
+        uses: actions/checkout@v6
+      - name: Setup mise
+        uses: jdx/mise-action@v4
 
-  bootstrap_all:
-    name: Bootstrap --ci
-    runs-on: macos-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2.0.0
-      - name: Test script
+      - name: Pre-seed conflicting files in real home
         run: |
-          zsh ./bootstrap.sh -v --ci
+          grep -qF '/opt/homebrew/bin/zsh' /etc/shells \
+            || echo '/opt/homebrew/bin/zsh' | sudo tee -a /etc/shells
+          mkdir -p "$HOME/.config/git" "$HOME/.config/zsh" "$HOME/.local/share/pandoc"
+          printf 'preexisting git config\n'  >"$HOME/.config/git/config"
+          printf 'preexisting pandoc file\n' >"$HOME/.local/share/pandoc/custom-reference.txt"
+          printf 'root = true\n'             >"$HOME/.editorconfig"
+          printf 'preexisting zshenv\n'      >"$HOME/.zshenv"
+          printf 'preexisting zsh config\n'  >"$HOME/.config/zsh/zshrc"
 
-  bootstrap_rsync_back:
-    name: Bootstrap --rsync
-    runs-on: macos-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2.0.0
-      - name: Test script
+      - name: First run — symlink creation and conflict backup
+        run: zsh bootstrap.sh --git --data --dev --zsh
+
+      - name: Assert symlinks point to repo
         run: |
-          zsh ./bootstrap.sh --hello --apps-config --rsync
-          git status
+          [ "$HOME/.config/git"         -ef "$GITHUB_WORKSPACE/git"                ] || { echo "FAIL: .config/git"; exit 1; }
+          [ "$HOME/.local/share/pandoc" -ef "$GITHUB_WORKSPACE/data/pandoc"        ] || { echo "FAIL: .local/share/pandoc"; exit 1; }
+          [ "$HOME/.editorconfig"       -ef "$GITHUB_WORKSPACE/symlink/.editorconfig" ] || { echo "FAIL: .editorconfig"; exit 1; }
+          [ "$HOME/.zshenv"             -ef "$GITHUB_WORKSPACE/symlink/.zshenv"    ] || { echo "FAIL: .zshenv"; exit 1; }
+          [ "$HOME/.config/zsh"         -ef "$GITHUB_WORKSPACE/zsh"               ] || { echo "FAIL: .config/zsh"; exit 1; }
+
+      - name: Assert conflicting files were backed up
+        run: |
+          find "$HOME/.config/.bootstrap-backup"      -name 'git.*'          | grep -q . || { echo "FAIL: missing git backup"; exit 1; }
+          find "$HOME/.local/share/.bootstrap-backup" -name 'pandoc.*'       | grep -q . || { echo "FAIL: missing pandoc backup"; exit 1; }
+          find "$HOME/.bootstrap-backup"              -name '.editorconfig.*' | grep -q . || { echo "FAIL: missing .editorconfig backup"; exit 1; }
+          find "$HOME/.bootstrap-backup"              -name '.zshenv.*'       | grep -q . || { echo "FAIL: missing .zshenv backup"; exit 1; }
+          find "$HOME/.config/.bootstrap-backup"      -name 'zsh.*'          | grep -q . || { echo "FAIL: missing .config/zsh backup"; exit 1; }
+
+      - name: Second run — idempotency
+        run: zsh bootstrap.sh --git --data --dev --zsh
+
+      - name: Assert symlinks stable after second run
+        run: |
+          [ "$HOME/.config/git"         -ef "$GITHUB_WORKSPACE/git"                ] || { echo "FAIL: .config/git changed"; exit 1; }
+          [ "$HOME/.local/share/pandoc" -ef "$GITHUB_WORKSPACE/data/pandoc"        ] || { echo "FAIL: .local/share/pandoc changed"; exit 1; }
+          [ "$HOME/.editorconfig"       -ef "$GITHUB_WORKSPACE/symlink/.editorconfig" ] || { echo "FAIL: .editorconfig changed"; exit 1; }
+          [ "$HOME/.zshenv"             -ef "$GITHUB_WORKSPACE/symlink/.zshenv"    ] || { echo "FAIL: .zshenv changed"; exit 1; }
+          [ "$HOME/.config/zsh"         -ef "$GITHUB_WORKSPACE/zsh"               ] || { echo "FAIL: .config/zsh changed"; exit 1; }
+
+      - name: Sandbox blocking — brew rejected when BOOTSTRAP_HOME is set
+        run: |
+          tmpdir="$(mktemp -d)"
+          if BOOTSTRAP_HOME="$tmpdir" zsh bootstrap.sh --brew >/tmp/sandbox-block.log 2>&1; then
+            echo "FAIL: sandbox run unexpectedly allowed --brew"; exit 1
+          fi
+          grep -q 'Unsupported args: --brew' /tmp/sandbox-block.log \
+            || { echo "FAIL: sandbox rejection message missing"; exit 1; }
+
+      - name: Argument validation — unknown flag rejected
+        run: |
+          if zsh bootstrap.sh --wat >/tmp/wat.log 2>&1; then
+            echo "FAIL: --wat unexpectedly succeeded"; exit 1
+          fi
+          grep -q 'Unrecognized argument: --wat' /tmp/wat.log \
+            || { echo "FAIL: --wat error message missing"; exit 1; }
+
+      - name: Argument validation — macos requires computer name
+        run: |
+          if zsh bootstrap.sh --dry-run --macos >/tmp/macos.log 2>&1; then
+            echo "FAIL: --macos without name unexpectedly succeeded"; exit 1
+          fi
+          grep -q -- '--macos requires a computer name' /tmp/macos.log \
+            || { echo "FAIL: --macos validation message missing"; exit 1; }
+
+      - name: Recoverable failure reporting
+        run: |
+          zsh bootstrap.sh --hello >/tmp/hello.log 2>&1
+          grep -q 'The following commands have failed but it' /tmp/hello.log \
+            || { echo "FAIL: recoverable failure summary missing"; exit 1; }

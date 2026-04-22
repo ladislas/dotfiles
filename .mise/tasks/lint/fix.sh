@@ -2,7 +2,10 @@
 #MISE description="Fix Markdown lint issues"
 set -euo pipefail
 
-mapfile -t files < <(git ls-files '*.md')
+files=()
+while IFS= read -r line; do
+  files+=("$line")
+done < <(git ls-files '*.md')
 existing_files=()
 
 for file in "${files[@]}"; do
