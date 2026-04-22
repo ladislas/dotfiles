@@ -1,7 +1,7 @@
 ## 1. Remove broken aliases
 
-- [ ] 1.1 Remove the `patch` alias (malformed body)
-- [ ] 1.2 Remove the `p` alias (non-shell pull alias that expands incorrectly)
+- [x] 1.1 Remove the `patch` alias (malformed body)
+- [x] 1.2 Remove the `p` alias (non-shell pull alias that expands incorrectly)
 
 ## 2. Remove superseded and stale aliases
 
