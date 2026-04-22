@@ -5,8 +5,8 @@
 
 ## 2. Remove superseded and stale aliases
 
-- [ ] 2.1 Remove the `mpr` alias (superseded by `gh pr checkout` / `gh pr merge`)
-- [ ] 2.2 Remove the `ack` alias (external `ack` binary dependency)
+- [x] 2.1 Remove the `mpr` alias (superseded by `gh pr checkout` / `gh pr merge`)
+- [x] 2.2 Remove the `ack` alias (external `ack` binary dependency)
 
 ## 3. Improve reblc
 
