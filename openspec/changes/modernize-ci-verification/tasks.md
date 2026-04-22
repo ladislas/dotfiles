@@ -13,4 +13,4 @@
 
 ## 3. Verify
 
-- [ ] 3.1 Push the updated workflow and confirm both CI jobs (`lint_content` and `validate_bootstrap`) pass
+- [x] 3.1 Push the updated workflow and confirm both CI jobs (`lint_content` and `validate_bootstrap`) pass
