@@ -27,11 +27,11 @@ section() {
 }
 
 assert_symlink_target() {
-  local path="$1"
+  local target="$1"
   local expected_target="$2"
 
-  [ -L "$path" ] || fail "$path is not a symlink"
-  [ "$path" -ef "$expected_target" ] || fail "$path does not resolve to $expected_target"
+  [ -L "$target" ] || fail "$target is not a symlink"
+  [ "$target" -ef "$expected_target" ] || fail "$target does not resolve to $expected_target"
 }
 
 trap cleanup EXIT
@@ -114,6 +114,7 @@ section 'Dry-run mode'
 check '--dry-run --git --data --dev creates no symlinks'
 DRY_HOME="$WORK_DIR/dry-home"
 BOOTSTRAP_HOME="$DRY_HOME" zsh "$ROOT_DIR/bootstrap.sh" --dry-run --git --data --dev >"$WORK_DIR/dry-run.log" 2>&1
+pass 'bootstrap exited cleanly in dry-run mode'
 [ ! -L "$DRY_HOME/.config/git" ]           || fail '.config/git was created despite --dry-run'
 [ ! -L "$DRY_HOME/.local/share/pandoc" ]   || fail '.local/share/pandoc was created despite --dry-run'
 [ ! -L "$DRY_HOME/.editorconfig" ]         || fail '.editorconfig was created despite --dry-run'
