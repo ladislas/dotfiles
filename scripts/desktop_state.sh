@@ -88,6 +88,7 @@ function managed_desktop_sync_file_root {
 	if [ -e "$source_path" ]; then
 		try rsync -a --backup --backup-dir="$backup_dir" "$source_path" "$destination_path"
 	elif [ -e "$destination_path" ]; then
+		try cp -a "$destination_path" "$backup_dir/"
 		try rm -rf "$destination_path"
 	fi
 }
@@ -151,6 +152,7 @@ function managed_desktop_sync_directory_root {
 		try mkdir -p "$destination_path"
 		try rsync "${rsync_args[@]}" "$source_path/" "$destination_path/"
 	elif [ -e "$destination_path" ]; then
+		try rsync -a "$destination_path/" "$backup_dir/"
 		try rm -rf "$destination_path"
 	fi
 }

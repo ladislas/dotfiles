@@ -2,19 +2,6 @@
 
 typeset -gr dock_manifest_path="$DOTFILES_DIR/config/dock.tsv"
 
-function dock_manifest_condition_for_path {
-	local path="$1"
-
-	case "$path" in
-		"/Applications/Brave Browser.app"|"/Applications/Slack.app"|"/Applications/iTerm.app"|"/Applications/Xcode.app")
-			print -r -- "if-installed"
-			;;
-		*)
-			print -r -- "always"
-			;;
-	esac
-}
-
 function dock_manifest_expand_path {
 	local path="$1"
 
@@ -94,7 +81,17 @@ function apply_dock_manifest {
 	local expanded_path
 
 	print_action "Apply Dock manifest from $dock_manifest_path"
-	try dockutil --version
+
+	if ! command -v dockutil > /dev/null 2>&1; then
+		print_error "dockutil not found — run bootstrap with --brew first"
+		return 1
+	fi
+
+	if [[ ! -f "$dock_manifest_path" ]]; then
+		print_error "Dock manifest not found: $dock_manifest_path"
+		return 1
+	fi
+
 	try dockutil --no-restart --remove all
 
 	while IFS=$'\t' read -r section type condition item_path arrangement displayas showas; do
