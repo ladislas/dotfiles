@@ -20,7 +20,6 @@ casks=(
 	alfred
 	appcleaner
 	brave-browser
-	coolterm
 	# dropbox
 	# fantastical
 	# glance

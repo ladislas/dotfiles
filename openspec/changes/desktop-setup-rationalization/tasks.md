@@ -1,14 +1,14 @@
 ## 1. Prune and redefine the managed desktop state surface
 
-- [ ] 1.1 Remove retired tracked artifacts and script references for Sublime Text 3, Transmission, Touch Bar preferences, Visual Studio Code sync, and Dock plist sync
-- [ ] 1.2 Define the retained managed desktop roots for app-owned state, symbolic hotkeys, Xcode user data, spelling, colors, and Services
-- [ ] 1.3 Run an initial export from the main machine to identify newly discovered files under retained roots and decide any needed exclusions
+- [x] 1.1 Remove retired tracked artifacts and script references for Sublime Text 3, Transmission, Touch Bar preferences, Visual Studio Code sync, and Dock plist sync
+- [x] 1.2 Define the retained managed desktop roots for app-owned state, symbolic hotkeys, Xcode user data, spelling, colors, and Services
+- [x] 1.3 Run an initial export from the main machine to identify newly discovered files under retained roots and decide any needed exclusions
 
 ## 2. Rebuild desktop state export/apply around managed roots
 
-- [ ] 2.1 Replace tracked-file-based export logic with managed-root-based export that can add new files under retained roots
-- [ ] 2.2 Update apply logic to bootstrap-launch managed apps when needed, quit them before sync, and use robust app detection instead of `ls /Applications | grep`
-- [ ] 2.3 Add retained Rectangle plist sync and ensure `com.apple.symbolichotkeys.plist` remains part of export/apply
+- [x] 2.1 Replace tracked-file-based export logic with managed-root-based export that can add new files under retained roots
+- [x] 2.2 Update apply logic to bootstrap-launch managed apps when needed, quit them before sync, and use robust app detection instead of `ls /Applications | grep`
+- [x] 2.3 Add retained Rectangle plist sync and ensure `com.apple.symbolichotkeys.plist` remains part of export/apply
 
 ## 3. Replace Dock plist sync with canonical Dock management
 
