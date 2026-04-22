@@ -19,15 +19,15 @@ fi
 
 # Guard: refuse to run on a home that already has bootstrap symlinks.
 # Pre-seeding writes through existing symlinks into the repo itself.
-for path in \
+for target in \
   "$HOME/.config/git" \
   "$HOME/.config/zsh" \
   "$HOME/.local/share/pandoc" \
   "$HOME/.editorconfig" \
   "$HOME/.zshenv"
 do
-  if [ -L "$path" ]; then
-    printf 'ERROR: %s is already a symlink.\n' "$path" >&2
+  if [ -L "$target" ]; then
+    printf 'ERROR: %s is already a symlink.\n' "$target" >&2
     printf 'bootstrap_integration.sh must run on a clean home (CI only).\n' >&2
     exit 1
   fi
