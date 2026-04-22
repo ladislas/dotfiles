@@ -1,0 +1,20 @@
+## 1. Remove broken aliases
+
+- [ ] 1.1 Remove the `patch` alias (malformed body)
+- [ ] 1.2 Remove the `p` alias (non-shell pull alias that expands incorrectly)
+
+## 2. Remove superseded and stale aliases
+
+- [ ] 2.1 Remove the `mpr` alias (superseded by `gh pr checkout` / `gh pr merge`)
+- [ ] 2.2 Remove the `ack` alias (external `ack` binary dependency)
+
+## 3. Improve reblc
+
+- [ ] 3.1 Add a guard that exits with `error: no merge commit found in history` when `git log --merges -n 1` returns empty
+- [ ] 3.2 Add a status line that prints the selected merge commit (`git log --oneline -n 1`) before opening the rebase editor
+- [ ] 3.3 Clean up the stray tab character in the alias body
+
+## 4. Portability fixes
+
+- [ ] 4.1 Change `gpg.program` from `/usr/local/bin/gpg` to `gpg`
+- [ ] 4.2 Update the `dm` alias comment — replace "merged with master" with "merged with the default branch"
