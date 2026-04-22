@@ -94,7 +94,15 @@
 	reb = "!r() { git rebase -i HEAD~$1; }; r"
 
 	# Interactive rebase from last merge commit
-	reblc = "!r() { git rebase -i $(git log --pretty=format:"%H" --merges -n 1	); }; r"
+	reblc = "!r() { \
+		MERGE=$(git log --format='%H' --merges -n 1); \
+		if [ -z \"$MERGE\" ]; then \
+			echo 'error: no merge commit found in history'; \
+			exit 1; \
+		fi; \
+		echo \"rebasing from: $(git log --oneline -n 1 $MERGE)\"; \
+		git rebase -i \"$MERGE\"; \
+	}; r"
 
 	# Rebase on develop
 	rebdev = rebase --rebase-merges develop
