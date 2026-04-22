@@ -58,3 +58,6 @@ _backup
 
 ### OpenCode
 .opencode/node_modules/
+
+### Pi
+/.pi/
