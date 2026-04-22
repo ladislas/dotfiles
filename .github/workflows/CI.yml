@@ -39,6 +39,8 @@ jobs:
 
       - name: Pre-seed conflicting files in real home
         run: |
+          grep -qF '/opt/homebrew/bin/zsh' /etc/shells \
+            || echo '/opt/homebrew/bin/zsh' | sudo tee -a /etc/shells
           mkdir -p "$HOME/.config/git" "$HOME/.config/zsh" "$HOME/.local/share/pandoc"
           printf 'preexisting git config\n'  >"$HOME/.config/git/config"
           printf 'preexisting pandoc file\n' >"$HOME/.local/share/pandoc/custom-reference.txt"
