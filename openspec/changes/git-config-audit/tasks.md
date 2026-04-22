@@ -16,5 +16,5 @@
 
 ## 4. Portability fixes
 
-- [ ] 4.1 Change `gpg.program` from `/usr/local/bin/gpg` to `gpg`
-- [ ] 4.2 Update the `dm` alias comment — replace "merged with master" with "merged with the default branch"
+- [x] 4.1 Change `gpg.program` from `/usr/local/bin/gpg` to `gpg`
+- [x] 4.2 Update the `dm` alias comment — replace "merged with master" with "merged with the default branch"
