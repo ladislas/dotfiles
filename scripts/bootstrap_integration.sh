@@ -10,6 +10,13 @@ cleanup() {
 
 trap cleanup EXIT
 
+# Guard: CI environments only.
+if [ -z "${CI:-}" ]; then
+  printf 'ERROR: CI environment variable is not set.\n' >&2
+  printf 'bootstrap_integration.sh must run in CI only.\n' >&2
+  exit 1
+fi
+
 # Guard: refuse to run on a home that already has bootstrap symlinks.
 # Pre-seeding writes through existing symlinks into the repo itself.
 for path in \
