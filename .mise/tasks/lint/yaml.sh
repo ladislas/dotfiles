@@ -2,7 +2,10 @@
 #MISE description="Lint YAML files"
 set -euo pipefail
 
-mapfile -t files < <(git ls-files '*.yml' '*.yaml')
+files=()
+while IFS= read -r line; do
+  files+=("$line")
+done < <(git ls-files '*.yml' '*.yaml')
 existing_files=()
 
 for file in "${files[@]}"; do
