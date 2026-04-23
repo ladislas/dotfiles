@@ -358,9 +358,15 @@ function run_bootstrap {
 	fi
 
 	if args_contain '--nvim'; then
+		nvim_config_path="${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
+
 		print_section 'Starting neovim configuration script'
-		print_action 'Git clone neovim config'
-		try git clone --recursive https://github.com/ladislas/nvim "${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
+		if [ -e "$nvim_config_path" ]; then
+			print_action "Neovim config already exists at $nvim_config_path, skipping clone"
+		else
+			print_action 'Git clone neovim config'
+			try git clone --recursive https://github.com/ladislas/nvim "$nvim_config_path"
+		fi
 	fi
 
 	if args_contain '--data'; then

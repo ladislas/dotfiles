@@ -81,6 +81,35 @@ assert_symlink_target "$SANDBOX_HOME/.local/share/pandoc" "$ROOT_DIR/data/pandoc
 assert_symlink_target "$SANDBOX_HOME/.editorconfig" "$ROOT_DIR/symlink/.editorconfig"
 pass 'all symlinks stable → ok'
 
+section 'Neovim bootstrap rerun safety'
+check 'running bootstrap --nvim twice with a stubbed git clone'
+NVIM_HOME="$WORK_DIR/nvim-home"
+GIT_STUB_DIR="$WORK_DIR/git-stub"
+GIT_STUB_LOG="$WORK_DIR/git-stub.log"
+mkdir -p "$GIT_STUB_DIR"
+cat >"$GIT_STUB_DIR/.zshenv" <<'EOF'
+function git {
+  print -r -- "$*" >>"${GIT_STUB_LOG:?}"
+
+  if [ "$1" = "clone" ]; then
+    mkdir -p "$4"
+    return 0
+  fi
+
+  print -u2 -- "unexpected git invocation: $*"
+  return 1
+}
+EOF
+ZDOTDIR="$GIT_STUB_DIR" GIT_STUB_LOG="$GIT_STUB_LOG" BOOTSTRAP_HOME="$NVIM_HOME" zsh "$ROOT_DIR/bootstrap.sh" --nvim >"$WORK_DIR/nvim-first-run.log" 2>&1
+ZDOTDIR="$GIT_STUB_DIR" GIT_STUB_LOG="$GIT_STUB_LOG" BOOTSTRAP_HOME="$NVIM_HOME" zsh "$ROOT_DIR/bootstrap.sh" --nvim >"$WORK_DIR/nvim-second-run.log" 2>&1
+pass '--nvim succeeded twice → ok'
+
+check 'neovim clone runs only once and second run skips cleanly'
+[ -d "$NVIM_HOME/.config/nvim" ] || fail 'missing neovim checkout after first run'
+[ "$(grep -c '^clone ' "$GIT_STUB_LOG")" -eq 1 ] || fail 'expected exactly one git clone invocation for --nvim'
+grep -q 'Neovim config already exists' "$WORK_DIR/nvim-second-run.log" || fail 'missing skip message on second --nvim run'
+pass '--nvim rerun safety → ok'
+
 section 'Sandbox blocking'
 check '--brew is rejected when BOOTSTRAP_HOME is set'
 if BOOTSTRAP_HOME="$SANDBOX_HOME" zsh "$ROOT_DIR/bootstrap.sh" --brew >"$WORK_DIR/sandbox-block.log" 2>&1; then
