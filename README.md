@@ -34,7 +34,7 @@ cd dotfiles
 or run the following (only if you are me):
 
 ```console
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ladislas/dotfiles/master/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ladislas/dotfiles/main/install.sh)"
 ```
 
 Then run the bootstrap process:
@@ -83,7 +83,7 @@ The rest is detailed here:
 
 `--hello` `--zsh` `--git` `--nvim` `--data` `--macos --computer_name=xxx` `--brew` `--apps-install` `--apps-config` `--dev`
 
-> <https://github.com/ladislas/dotfiles/blob/master/bootstrap.sh>
+> <https://github.com/ladislas/dotfiles/blob/main/bootstrap.sh>
 
 ### Recommended Order
 
