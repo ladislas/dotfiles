@@ -83,12 +83,12 @@ function apply_dock_manifest {
 	print_action "Apply Dock manifest from $dock_manifest_path"
 
 	if ! command -v dockutil > /dev/null 2>&1; then
-		print_error "dockutil not found — run bootstrap with --brew first"
+		echo "💥 dockutil not found — run bootstrap with --brew first" >&2
 		return 1
 	fi
 
 	if [[ ! -f "$dock_manifest_path" ]]; then
-		print_error "Dock manifest not found: $dock_manifest_path"
+		echo "💥 Dock manifest not found: $dock_manifest_path" >&2
 		return 1
 	fi
 
