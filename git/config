@@ -28,7 +28,12 @@
 [alias]
 
 	# Edit all modified files
-	edit = !code $(git status --short | awk '$1 ~ /^M|A|U/ {print $2}' )
+	edit = "!f() { \
+		{ \
+			git diff --name-only -z --diff-filter=MU; \
+			git diff --cached --name-only -z --diff-filter=AMU; \
+		} | perl -0ne 'print unless $seen{$_}++' | xargs -0 sh -c '[ \"$#\" -gt 0 ] && code \"$@\"' sh; \
+	}; f"
 
 	# View abbreviated SHA, description, and history graph of the latest 20 commits
 	l = log --pretty=oneline -n 20 --graph --abbrev-commit
@@ -128,9 +133,46 @@
 	# Find commits by commit message
 	fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
 
-	# Remove branches that have already been merged with the default branch
+	# Remove branches that have already been merged into the default branch
 	# a.k.a. ‘delete merged’
-	dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+	dm = "!f() { \
+		DEFAULT_BRANCH=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2> /dev/null | sed 's#^origin/##'); \
+		if [ -z \"$DEFAULT_BRANCH\" ]; then \
+			if git show-ref --verify --quiet refs/heads/main; then \
+				DEFAULT_BRANCH=main; \
+			elif git show-ref --verify --quiet refs/heads/master; then \
+				DEFAULT_BRANCH=master; \
+			else \
+				echo 'error: could not determine default branch (expected origin/HEAD, main, or master)' >&2; \
+				exit 1; \
+			fi; \
+		fi; \
+		if ! git show-ref --verify --quiet \"refs/heads/$DEFAULT_BRANCH\"; then \
+			echo \"error: local default branch '$DEFAULT_BRANCH' not found\" >&2; \
+			exit 1; \
+		fi; \
+		CURRENT_BRANCH=$(git branch --show-current); \
+		if [ \"$CURRENT_BRANCH\" != \"$DEFAULT_BRANCH\" ]; then \
+			echo \"error: switch to '$DEFAULT_BRANCH' before running git dm\" >&2; \
+			exit 1; \
+		fi; \
+		BRANCHES=$(git for-each-ref --format='%(refname:short)' --merged \"$DEFAULT_BRANCH\" refs/heads | grep -vx \"$DEFAULT_BRANCH\" || true); \
+		if [ -z \"$BRANCHES\" ]; then \
+			echo \"No branches merged into '$DEFAULT_BRANCH' to delete.\"; \
+			exit 0; \
+		fi; \
+		echo \"Branches merged into '$DEFAULT_BRANCH':\"; \
+		printf '%s\\n' \"$BRANCHES\"; \
+		printf 'Delete these branches? [y/N] '; \
+		read ANSWER; \
+		case \"$ANSWER\" in \
+			y|Y|yes|YES) ;; \
+			*) echo 'Aborted.'; exit 1 ;; \
+		esac; \
+		printf '%s\\n' \"$BRANCHES\" | while IFS= read -r BRANCH; do \
+			git branch -d \"$BRANCH\" || exit 1; \
+		done; \
+	}; f"
 
 	# List contributors with number of commits
 	contributors = shortlog --summary --numbered
