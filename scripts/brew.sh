@@ -10,7 +10,8 @@ if ! is_ci ; then
 fi
 
 # List already available formulae
-available_formulae=$(brew list)
+typeset -a available_formulae
+available_formulae=("${(f)$(brew list --formula)}")
 
 typeset -U formulae
 formulae=(
@@ -85,7 +86,7 @@ formulae=(
 
 print_action "Install formulae"
 for formula in $formulae ; do
-	if [[ ! $available_formulae =~ $formula ]]; then
+	if ! array_contains "$formula" "${available_formulae[@]}"; then
 		try_can_fail brew install $formula
 	fi
 done
