@@ -110,6 +110,52 @@ zsh "$ROOT_DIR/bootstrap.sh" --hello >"$WORK_DIR/hello.log" 2>&1
 grep -q 'The following commands have failed but it' "$WORK_DIR/hello.log" || fail 'recoverable failure summary missing for --hello'
 pass 'recoverable failure summary present → ok'
 
+section 'Dock manifest failure reporting'
+check 'apps_config reports missing Dock manifest failures clearly'
+DOCK_TEST_ROOT="$WORK_DIR/dock-test"
+mkdir -p "$DOCK_TEST_ROOT/scripts/helpers" "$DOCK_TEST_ROOT/scripts" "$DOCK_TEST_ROOT/bin"
+ln -s "$ROOT_DIR/scripts/apps_config.sh" "$DOCK_TEST_ROOT/scripts/apps_config.sh"
+ln -s "$ROOT_DIR/scripts/dock.sh" "$DOCK_TEST_ROOT/scripts/dock.sh"
+ln -s "$ROOT_DIR/scripts/helpers/include.sh" "$DOCK_TEST_ROOT/scripts/helpers/include.sh"
+ln -s "$ROOT_DIR/scripts/helpers/try.sh" "$DOCK_TEST_ROOT/scripts/helpers/try.sh"
+cat >"$DOCK_TEST_ROOT/scripts/desktop_state.sh" <<'EOF'
+#!/usr/bin/env zsh
+typeset -ga managed_desktop_bootstrap_apps=()
+function managed_desktop_has_app { return 1 }
+function managed_desktop_bootstrap_root_missing { return 1 }
+function managed_desktop_quit_app { return 0 }
+function managed_desktop_sync_roots { return 0 }
+EOF
+cat >"$DOCK_TEST_ROOT/bin/dockutil" <<'EOF'
+#!/usr/bin/env bash
+exit 0
+EOF
+chmod +x "$DOCK_TEST_ROOT/bin/dockutil"
+cat >"$DOCK_TEST_ROOT/run.zsh" <<EOF
+#!/usr/bin/env zsh
+typeset -gx DOTFILES_DIR="$DOCK_TEST_ROOT"
+typeset -gx HOME="$WORK_DIR/dock-home"
+typeset -gx TEMP_FILE="\$(mktemp)"
+typeset -ga FAILED_COMMANDS=()
+typeset -ga CAN_FAIL_COMMANDS=()
+source "\$DOTFILES_DIR/scripts/helpers/include.sh"
+function try {
+  . "\$DOTFILES_DIR/scripts/helpers/try.sh" "\$@"
+}
+alias try_can_fail='try -x'
+export PATH="$DOCK_TEST_ROOT/bin:/usr/bin:/bin"
+mkdir -p "\$HOME"
+source "\$DOTFILES_DIR/scripts/apps_config.sh"
+EOF
+if zsh "$DOCK_TEST_ROOT/run.zsh" >"$WORK_DIR/dock-failure.log" 2>&1; then
+  fail 'apps_config unexpectedly succeeded without a Dock manifest'
+fi
+grep -q 'Dock manifest not found' "$WORK_DIR/dock-failure.log" || fail 'missing Dock manifest error output'
+grep -q 'The following commands have failed' "$WORK_DIR/dock-failure.log" || fail 'missing failed command summary for Dock manifest failure'
+grep -q 'apply_dock_manifest' "$WORK_DIR/dock-failure.log" || fail 'missing apply_dock_manifest failure entry'
+! grep -q 'command not found: print_error' "$WORK_DIR/dock-failure.log" || fail 'unexpected print_error shell failure present'
+pass 'Dock manifest failure is explicit and summarized → ok'
+
 section 'Dry-run mode'
 check '--dry-run --git --data --dev creates no symlinks'
 DRY_HOME="$WORK_DIR/dry-home"

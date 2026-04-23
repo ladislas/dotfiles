@@ -60,7 +60,7 @@ fi
 print_action "Sync managed desktop state to $user_library_path"
 managed_desktop_sync_roots "$dotf_library_path" "$user_library_path" "$rsync_backup_path"
 
-apply_dock_manifest
+try -v apply_dock_manifest
 
 print_action "Kill Dock for changes to take effect"
 try_can_fail killall Dock
