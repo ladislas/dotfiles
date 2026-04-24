@@ -353,8 +353,12 @@ function run_bootstrap {
 
 	if args_contain '--git'; then
 		print_section 'Starting git configuration script'
-		print_action 'Symlink config files'
+		print_action 'Symlink git config'
 		try safe_link "$DOTFILES_DIR/git" "${XDG_CONFIG_HOME:-$HOME/.config}/git"
+		print_action 'Symlink GPG agent config'
+		try mkdir -p "$HOME/.gnupg"
+		try chmod 700 "$HOME/.gnupg"
+		try safe_link "$DOTFILES_DIR/gnupg/gpg-agent.conf" "$HOME/.gnupg/gpg-agent.conf"
 	fi
 
 	if args_contain '--nvim'; then
