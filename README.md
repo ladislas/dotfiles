@@ -114,7 +114,7 @@ To instatll them, run the following:
 # swiftlint needs xcode installed
 brew install swiftlint
 
-# mandatory for signing commits
+# mandatory for signing commits — also provides pinentry-mac for Keychain passphrase storage
 brew install --no-quarantine gpg-suite-no-mail
 
 # Formulae

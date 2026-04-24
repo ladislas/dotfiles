@@ -36,10 +36,11 @@ assert_symlink_target() {
 
 trap cleanup EXIT
 
-mkdir -p "$SANDBOX_HOME/.config/git" "$SANDBOX_HOME/.local/share/pandoc"
+mkdir -p "$SANDBOX_HOME/.config/git" "$SANDBOX_HOME/.local/share/pandoc" "$SANDBOX_HOME/.gnupg"
 printf 'preexisting git config\n' >"$SANDBOX_HOME/.config/git/config"
 printf 'preexisting pandoc file\n' >"$SANDBOX_HOME/.local/share/pandoc/custom-reference.txt"
 printf 'root = true\n' >"$SANDBOX_HOME/.editorconfig"
+printf 'default-cache-ttl 600\n' >"$SANDBOX_HOME/.gnupg/gpg-agent.conf"
 
 section 'Symlink creation and conflict backup (first run)'
 check 'running bootstrap --git --data --dev with pre-existing files'
@@ -57,6 +58,14 @@ pass '.local/share/pandoc → ok'
 check '.editorconfig is a symlink to the repo symlink/.editorconfig'
 assert_symlink_target "$SANDBOX_HOME/.editorconfig" "$ROOT_DIR/symlink/.editorconfig"
 pass '.editorconfig → ok'
+
+check '.gnupg/gpg-agent.conf is a symlink to the repo gnupg/gpg-agent.conf'
+assert_symlink_target "$SANDBOX_HOME/.gnupg/gpg-agent.conf" "$ROOT_DIR/gnupg/gpg-agent.conf"
+pass '.gnupg/gpg-agent.conf → ok'
+
+check 'conflicting gpg-agent.conf target was backed up'
+find "$SANDBOX_HOME/.gnupg/.bootstrap-backup" -name 'gpg-agent.conf.*' | grep -q . || fail 'missing backup for conflicting gpg-agent.conf target'
+pass 'gpg-agent.conf backup → ok'
 
 check 'conflicting git target was backed up'
 find "$SANDBOX_HOME/.config/.bootstrap-backup" -name 'git.*' | grep -q . || fail 'missing backup for conflicting git target'
@@ -79,6 +88,7 @@ check 'symlinks still correct after second run'
 assert_symlink_target "$SANDBOX_HOME/.config/git" "$ROOT_DIR/git"
 assert_symlink_target "$SANDBOX_HOME/.local/share/pandoc" "$ROOT_DIR/data/pandoc"
 assert_symlink_target "$SANDBOX_HOME/.editorconfig" "$ROOT_DIR/symlink/.editorconfig"
+assert_symlink_target "$SANDBOX_HOME/.gnupg/gpg-agent.conf" "$ROOT_DIR/gnupg/gpg-agent.conf"
 pass 'all symlinks stable → ok'
 
 section 'Neovim bootstrap rerun safety'
