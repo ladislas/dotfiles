@@ -23,7 +23,7 @@
 [gpg]
 
 	# ! Install GPG Suite: https://gpgtools.org/ - brew install gpg-suite-no-mail
-	program = gpg
+	program = /usr/local/bin/gpg
 
 [alias]
 
