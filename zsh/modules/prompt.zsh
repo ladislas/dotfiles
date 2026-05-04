@@ -31,31 +31,14 @@ limegreen="%F{118}";
 function prompt_precmd {
 	setopt LOCAL_OPTIONS;
 	unsetopt XTRACE KSH_ARRAYS;
-
-	if [[ "${prompt_git_pwd-}" == "$PWD" && "${prompt_git_refresh-1}" == "0" ]]; then
-		return 0;
-	fi
-
 	git-info;
-	prompt_git_pwd="$PWD";
-	prompt_git_refresh=0;
-}
-
-function prompt_preexec {
-	prompt_git_refresh=1;
-}
-
-function prompt_chpwd {
-	prompt_git_refresh=1;
 }
 
 # Load required functions.
 autoload -Uz add-zsh-hook;
 
-# Refresh prompt git state only when shell state changes.
+# Refresh prompt git state before every prompt.
 add-zsh-hook precmd prompt_precmd;
-add-zsh-hook preexec prompt_preexec;
-add-zsh-hook chpwd prompt_chpwd;
 setopt prompt_subst
 
 # Set editor-info parameters.
