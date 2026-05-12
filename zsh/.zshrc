@@ -151,6 +151,30 @@ alias gc='git commit'
 alias gd='git diff'
 alias gds='git diff --staged'
 alias gco='git checkout'
+function gcod() {
+	local default_branch
+
+	default_branch=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null)
+	default_branch=${default_branch#origin/}
+
+	if [[ -z "$default_branch" ]]; then
+		for branch in main master develop; do
+			if git show-ref --verify --quiet "refs/heads/$branch" \
+				|| git show-ref --verify --quiet "refs/remotes/origin/$branch"; then
+				default_branch=$branch
+				break
+			fi
+		done
+	fi
+
+	if [[ -z "$default_branch" ]]; then
+		echo "gcod: could not determine default branch (expected origin/HEAD, main, master, or develop)" >&2
+		return 1
+	fi
+
+	git checkout "$default_branch"
+}
+alias gcop='git checkout -'
 alias gst='git status'
 alias gmnoff='git merge --no-ff'
 alias gri='git rebase -i'
