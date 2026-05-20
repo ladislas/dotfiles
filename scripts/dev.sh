@@ -1,5 +1,9 @@
 #!/usr/bin/env zsh
 
+print_action "Import gh aliases"
+try gh alias import "$DOTFILES_DIR/config/gh/aliases.yml" --clobber
+
+
 print_action "Symlink to $HOME"
 symlink=".editorconfig"
 try safe_link "$DOTFILES_DIR/symlink/$symlink" "$HOME/$symlink"

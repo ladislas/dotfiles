@@ -188,9 +188,6 @@
 	# cherry-pick commit
 	cp = !git cherry-pick
 
-	# gh pr checkout
-	prc = !gh pr checkout
-
 [apply]
 
 	# Detect whitespace errors when applying a patch
