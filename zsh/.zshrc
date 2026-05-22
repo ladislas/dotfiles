@@ -92,6 +92,7 @@ zstyle ':module:editor' key-bindings 'vi'
 # Interactive modules.
 . $ZMODULESDIR/editor.zsh
 . $ZMODULESDIR/completion.zsh
+. $ZMODULESDIR/worktrunk.zsh
 . $ZMODULESDIR/directory.zsh
 . $ZMODULESDIR/history.zsh
 . $ZMODULESDIR/autosuggestions.zsh

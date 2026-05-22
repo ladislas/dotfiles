@@ -1,4 +1,5 @@
 worktree-path = "~/dev/worktrees/{{ owner }}/{{ repo }}/{{ branch | sanitize }}"
+skip-commit-generation-prompt = true
 
 [merge]
 squash = false     # DO NOT squash commits into one
@@ -7,3 +8,8 @@ rebase = true      # Rebase onto target before merge (--no-rebase to skip)
 remove = true      # Remove worktree after merge (--no-remove to keep)
 verify = true      # Run project hooks (--no-hooks to skip)
 ff = false         # DO NOT fast-forward merge, create merge commit
+
+[aliases]
+mmnoff = 'wt merge {{ args }} && cd "{{ primary_worktree_path }}" && MESSAGE="$(git show -s --format=%s)" && git commit --amend -m "🔀️ $MESSAGE" --no-verify && git gl -n 20'
+
+[projects]
