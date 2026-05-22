@@ -36,8 +36,9 @@ assert_symlink_target() {
 
 trap cleanup EXIT
 
-mkdir -p "$SANDBOX_HOME/.config/git" "$SANDBOX_HOME/.local/share/pandoc" "$SANDBOX_HOME/.gnupg"
+mkdir -p "$SANDBOX_HOME/.config/git" "$SANDBOX_HOME/.config/worktrunk" "$SANDBOX_HOME/.local/share/pandoc" "$SANDBOX_HOME/.gnupg"
 printf 'preexisting git config\n' >"$SANDBOX_HOME/.config/git/config"
+printf 'preexisting worktrunk config\n' >"$SANDBOX_HOME/.config/worktrunk/config.toml"
 printf 'preexisting pandoc file\n' >"$SANDBOX_HOME/.local/share/pandoc/custom-reference.txt"
 printf 'root = true\n' >"$SANDBOX_HOME/.editorconfig"
 printf 'default-cache-ttl 600\n' >"$SANDBOX_HOME/.gnupg/gpg-agent.conf"
@@ -59,6 +60,10 @@ check '.editorconfig is a symlink to the repo symlink/.editorconfig'
 assert_symlink_target "$SANDBOX_HOME/.editorconfig" "$ROOT_DIR/symlink/.editorconfig"
 pass '.editorconfig → ok'
 
+check '.config/worktrunk/config.toml is a symlink to the repo Worktrunk config'
+assert_symlink_target "$SANDBOX_HOME/.config/worktrunk/config.toml" "$ROOT_DIR/config/worktrunk/config.toml"
+pass '.config/worktrunk/config.toml → ok'
+
 check '.gnupg/gpg-agent.conf is a symlink to the repo gnupg/gpg-agent.conf'
 assert_symlink_target "$SANDBOX_HOME/.gnupg/gpg-agent.conf" "$ROOT_DIR/gnupg/gpg-agent.conf"
 pass '.gnupg/gpg-agent.conf → ok'
@@ -79,6 +84,10 @@ check 'conflicting .editorconfig was backed up'
 find "$SANDBOX_HOME/.bootstrap-backup" -name '.editorconfig.*' | grep -q . || fail 'missing backup for conflicting editorconfig target'
 pass '.editorconfig backup → ok'
 
+check 'conflicting Worktrunk config target was backed up'
+find "$SANDBOX_HOME/.config/worktrunk/.bootstrap-backup" -name 'config.toml.*' | grep -q . || fail 'missing backup for conflicting Worktrunk config target'
+pass 'Worktrunk config backup → ok'
+
 section 'Idempotency (second run)'
 check 'running bootstrap --git --data --dev again on already-linked home'
 BOOTSTRAP_HOME="$SANDBOX_HOME" zsh "$ROOT_DIR/bootstrap.sh" --git --data --dev >"$WORK_DIR/second-run.log" 2>&1
@@ -88,6 +97,7 @@ check 'symlinks still correct after second run'
 assert_symlink_target "$SANDBOX_HOME/.config/git" "$ROOT_DIR/git"
 assert_symlink_target "$SANDBOX_HOME/.local/share/pandoc" "$ROOT_DIR/data/pandoc"
 assert_symlink_target "$SANDBOX_HOME/.editorconfig" "$ROOT_DIR/symlink/.editorconfig"
+assert_symlink_target "$SANDBOX_HOME/.config/worktrunk/config.toml" "$ROOT_DIR/config/worktrunk/config.toml"
 assert_symlink_target "$SANDBOX_HOME/.gnupg/gpg-agent.conf" "$ROOT_DIR/gnupg/gpg-agent.conf"
 pass 'all symlinks stable → ok'
 
@@ -200,9 +210,10 @@ check '--dry-run --git --data --dev creates no symlinks'
 DRY_HOME="$WORK_DIR/dry-home"
 BOOTSTRAP_HOME="$DRY_HOME" zsh "$ROOT_DIR/bootstrap.sh" --dry-run --git --data --dev >"$WORK_DIR/dry-run.log" 2>&1
 pass 'bootstrap exited cleanly in dry-run mode'
-[ ! -L "$DRY_HOME/.config/git" ]           || fail '.config/git was created despite --dry-run'
-[ ! -L "$DRY_HOME/.local/share/pandoc" ]   || fail '.local/share/pandoc was created despite --dry-run'
-[ ! -L "$DRY_HOME/.editorconfig" ]         || fail '.editorconfig was created despite --dry-run'
+[ ! -L "$DRY_HOME/.config/git" ]                    || fail '.config/git was created despite --dry-run'
+[ ! -L "$DRY_HOME/.local/share/pandoc" ]            || fail '.local/share/pandoc was created despite --dry-run'
+[ ! -L "$DRY_HOME/.editorconfig" ]                  || fail '.editorconfig was created despite --dry-run'
+[ ! -L "$DRY_HOME/.config/worktrunk/config.toml" ]  || fail '.config/worktrunk/config.toml was created despite --dry-run'
 pass 'no symlinks created in dry-run mode → ok'
 
 printf '\n── All checks passed ✓\n'

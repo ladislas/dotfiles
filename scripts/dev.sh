@@ -9,6 +9,10 @@ symlink=".editorconfig"
 try safe_link "$DOTFILES_DIR/symlink/$symlink" "$HOME/$symlink"
 
 
+print_action "Symlink Worktrunk config"
+try safe_link "$DOTFILES_DIR/config/worktrunk/config.toml" "${XDG_CONFIG_HOME:-$HOME/.config}/worktrunk/config.toml"
+
+
 print_action "Create dev directory tree"
 try mkdir -p $HOME/dev/{ladislas,leka,osx-cross,tmp}
 

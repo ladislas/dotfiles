@@ -48,6 +48,7 @@ formulae=(
 	gitmoji
 	git-crypt
 	diff-so-fancy
+	worktrunk
 
 	# Install scripting languagues
 	node
