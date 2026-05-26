@@ -1,5 +1,6 @@
 worktree-path = "~/dev/worktrees/{{ owner }}/{{ repo }}/{{ branch | sanitize }}"
 skip-commit-generation-prompt = true
+pre-merge = 'if [ "${WT_MMNOFF_PUSH:-}" = 1 ]; then git push --force-with-lease {{ remote }} HEAD:refs/heads/{{ branch }}; fi'
 
 [merge]
 squash = false     # DO NOT squash commits into one
@@ -10,6 +11,6 @@ verify = true      # Run project hooks (--no-hooks to skip)
 ff = false         # DO NOT fast-forward merge, create merge commit
 
 [aliases]
-mmnoff = 'wt merge {{ args }} && cd "{{ primary_worktree_path }}" && MESSAGE="$(git show -s --format=%s)" && git commit --amend -m "🔀️ $MESSAGE" --no-verify && git gl -n 20'
+mmnoff = 'WT_MMNOFF_PUSH=1 wt merge main {{ args }} && cd "{{ primary_worktree_path }}" && MESSAGE="$(git show -s --format=%s)" && git commit --amend -m "🔀️ $MESSAGE" --no-verify && git gl -n 20'
 
 [projects]
