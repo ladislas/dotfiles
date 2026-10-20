@@ -40,6 +40,9 @@ zsh/.zsh_sessions**
 
 ### Preferences
 
+# iTerm2 local notes
+/Library/Preferences/Data/notes.rtfd/
+
 # Rsync backup directory
 _backup
 
