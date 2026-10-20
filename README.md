@@ -129,6 +129,16 @@ brew install --no-quarantine mactex-no-gui
 
 Apps must be launched first before syncronizing the settings. The script takes care of that but sometimes it might take a little longer or you might need to accept a dialog box.
 
+## App Switcher Display
+
+To keep the app switcher (`⌘Tab`) on the Dock's display instead of following the active window:
+
+```sh
+defaults write com.apple.dock appswitcher-dock-display -bool true && killall Dock
+```
+
+Keep the Dock on the main display to show the app switcher there. This is a manual setting; the bootstrap does not apply it.
+
 ## Desktop State Workflow
 
 The desktop setup now has an explicit source-of-truth workflow:
