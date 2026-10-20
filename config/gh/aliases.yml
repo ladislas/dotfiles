@@ -1,2 +1,3 @@
 prc: '!git push -u origin HEAD && gh pr create --fill -a @me'
 prco: pr checkout
+prvw: pr view --web
